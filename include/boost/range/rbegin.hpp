@@ -35,10 +35,12 @@ rbegin( C& c )
 #else
 
 template< class C >
-inline BOOST_DEDUCED_TYPENAME range_reverse_iterator<C>::type 
+inline BOOST_DEDUCED_TYPENAME range_reverse_iterator< 
+								typename remove_const<C>::type >::type 
 rbegin( C& c )
 {
-    typedef BOOST_DEDUCED_TYPENAME range_reverse_iterator<C>::type
+    typedef BOOST_DEDUCED_TYPENAME range_reverse_iterator< 
+								typename remove_const<C>::type >::type
         iter_type;
     return iter_type( end( c ) );
 }
