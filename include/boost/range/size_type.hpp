@@ -16,6 +16,7 @@
 #endif
 
 #include <boost/range/config.hpp>
+/*
 #include <boost/range/difference_type.hpp>
 
 namespace boost
@@ -62,8 +63,8 @@ namespace boost
 			type;
 	};
 }
+*/
 
-/*
 #ifdef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
 #include <boost/range/detail/size_type.hpp>
 #else
@@ -170,6 +171,6 @@ namespace boost
 } // namespace boost
 
 #endif // BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
-*/
+
 
 #endif

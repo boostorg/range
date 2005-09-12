@@ -62,10 +62,12 @@ namespace Foo
 		return x.vec.begin();
 	}
 
+	
 	inline X::const_iterator boost_range_begin( const X& x )
 	{
 		return x.vec.begin();
 	}
+	
 
     inline X::iterator boost_range_end( X& x )
 	{ 

@@ -22,11 +22,13 @@ namespace boost
 	// Specialize metafunctions. We must include the range.hpp header.
 	// We must open the 'boost' namespace.
 	//
+	/*
 	template< class T >
 	struct range_value< Foo::Pair<T> >
 	{
 		typedef typename std::iterator_traits<T>::value_type type;
 	};
+	*/
 
 	template< class T >
 	struct range_iterator< Foo::Pair<T> >
@@ -45,11 +47,13 @@ namespace boost
 		typedef T type;
 	};
 
+	/*
     template< class T >
 	struct range_difference< Foo::Pair<T> >
 	{
 		typedef typename std::iterator_traits<T>::difference_type type;
 	};
+	*/
 
 	template< class T >
     struct range_size< Foo::Pair<T> >
@@ -108,7 +112,8 @@ int main()
 {
 	typedef std::vector<int>::iterator  iter;
 	std::vector<int>                    vec;
-	Foo::Pair<iter>                     pair = { vec.begin(), vec.end() };
+	vec.push_back( 42 );
+	Foo::Pair<iter>                     pair  = { vec.begin(), vec.end() };
 	const Foo::Pair<iter>&              cpair = pair; 
 	//
 	// Notice that we call 'begin' etc with qualification. 
@@ -122,4 +127,15 @@ int main()
 	boost::range_const_reverse_iterator< Foo::Pair<iter> >::type
 	ri     = boost::rbegin( cpair ),
 	re	   = boost::rend( cpair );
+	
+	//
+	// Test metafunctions
+	//
+
+	boost::range_value< Foo::Pair<iter> >::type 
+	v = *boost::begin(pair);
+
+	boost::range_difference< Foo::Pair<iter> >::type 
+	d = boost::end(pair) - boost::begin(pair);
 }
+
