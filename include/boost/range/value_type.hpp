@@ -16,7 +16,7 @@
 #endif
 
 #include <boost/range/config.hpp>
-#include <boost/range/const_iterator.hpp>
+#include <boost/range/iterator.hpp>
 
 //#ifdef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
 //#include <boost/range/detail/value_type.hpp>
@@ -30,7 +30,7 @@ namespace boost
     struct range_value
 	{
 		typedef BOOST_DEDUCED_TYPENAME iterator_value< 
-			BOOST_DEDUCED_TYPENAME range_const_iterator<T>::type >::type
+			BOOST_DEDUCED_TYPENAME range_iterator<T>::type >::type
 				type;
 	};
 }
