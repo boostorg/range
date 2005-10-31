@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
-		<title>Boost.Range Range Implementation </title>
+		<title>Boost.Range Reference </title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		<link rel="stylesheet" href="style.css" type="text/css">
 	</head>
@@ -256,7 +256,7 @@ class=identifier>T</span><span class=special>&amp; </span><span class=identifier
 					<a name="range_value"></a>
 					<td><code>range_value&lt;X&gt;::type</code></td>
 					<td><code>T::value_type</code><br>
-						<code>boost::iterator_value&lt;P::first_type&gt;::type</code><br>
+						<code>boost::iterator_value&lt;P::first_type&gt;::type</code> <!--if <code>P</code> is an instantiation of <code>std::pair</code>--><br>
 						<code>A</code><br>
 						<code>Char</code>
 					<td>compile time</td>
@@ -351,25 +351,28 @@ class=identifier>T</span><span class=special>&amp; </span><span class=identifier
 					<a name="begin"></a>
 					<td><code>begin(x)</code></td>
 					<td><code>range_result_iterator&lt;X&gt;::type</code></td>
-					<td><code>t.begin()</code><br>
-						<code>p.first</code><br>
-						<code>a</code><br>
-						<code>s</code><br>
-						<code>boost_range_begin(x)</code> otherwise
+					<td>
+						<code>p.first</code> if <code>p</code> is of type <code>std::pair&ltT&gt;<code><br>
+						<code>a</code> if <code>a</code> is an array <br>
+						<code>s</code> if <code>s</code> is a string literal<br>
+						<code>boost_range_begin(x)</code> if that expression would invoke a function found by ADL <br>
+						<code>t.begin()</code> otherwise
+   
 					<td>constant time</td>
 				</tr>
 				<tr>
 					<a name="end"></a>
 					<td><code>end(x)</code></td>
 					<td><code>range_result_iterator&lt;X&gt;::type</code></td>
-					<td><code>t.end()</code><br>
-						<code>p.second</code><br>
-						<code>a + sz</code><br>
-						<code>s + std::char_traits&lt;X&gt;::length( s )</code> if <code>X</code> is <code>Char*</code>
+					<td>
+						<code>p.second</code> if <code>p</code> is of type <code>std::pair&ltT&gt;<code><br>
+						<code>a + sz</code> if <code>a</code> is an array of size <code>sz</code><br>
+						<code>s + std::char_traits&lt;X&gt;::length( s )</code> if <code>s</code> is a <code>Char*</code>
 						<br>
-						<code>s + sz - 1</code> if <code>X</code> is <code>Char[sz]</code>
+						<code>s + sz - 1</code> if <code>s</code> is a string literal of size <code>sz</code>
 						<br>
-					    <code>boost_range_end(x)</code> otherwise
+					    <code>boost_range_end(x)</code> if that expression would invoke a function found by ADL <br>
+						<code>t.end()</code> otherwise
 						
 					<td>linear if <code>X</code> is <code>Char*</code>
 						<br>
@@ -389,11 +392,12 @@ class=identifier>T</span><span class=special>&amp; </span><span class=identifier
 					<a name="size"></a>
 					<td><code>size(x)</code></td>
 					<td><code>range_size&lt;X&gt;::type</code></td>
-					<td><code>t.size()</code><br>
-						<code>std::distance(p.first,p.second)</code><br>
-						<code>sz</code><br>
-						<code>end(s) - s</code><br>
-						<code>boost_range_size(x)</code> otherwise
+					<td>
+						<code>std::distance(p.first,p.second)</code> if <code>p</code> is of type <code>std::pair&ltT&gt;<code><br>
+						<code>sz</code> if <code>a</code> is an array of size <code>sz</code><br>
+						<code>end(s) - s</code> if <code>s</code> is a string literal or a <code>Char*</code><br>
+						<code>boost_range_size(x)</code> if that expression would invoke a function found by ADL <br>
+						<code>t.size()</code> otherwise
 					<td>linear if <code>X</code> is <code>Char*</code>
 						<br>
 						or if <code>std::distance()</code> is linear
@@ -461,7 +465,10 @@ class=identifier>T</span><span class=special>&amp; </span><span class=identifier
 		<li><a href="#method1">Method 1: provide member functions and nested types</a></li>
     	<li><a href="#method2">Method 2: provide free-standing functions and specialize metafunctions</a></li>
 		</ul>
-		
+
+		<!--<b>Warning:</b><i> If possible, then prefer method 1 if you want to be absolutely sure your code is forward compatible. 
+					   </i>-->
+
 		<a name="method1"></a>
 		<h4>Method 1: provide member functions and nested types</h4>
 		
@@ -514,20 +521,12 @@ class=identifier>T</span><span class=special>&amp; </span><span class=identifier
 						Related concept</th>
 				<tr>
 				<tr>
-					<td><code>value_type</code></td>
-					<td><a href="range.html#single_pass_range">Single Pass Range</a></td>
-				</tr>
-				<tr>
 					<td><code>iterator</code></td>
 					<td><a href="range.html#single_pass_range">Single Pass Range</a></td>
 				</tr>
 				<tr>
 					<td><code>const_iterator</code></td>
 					<td><a href="range.html#single_pass_range">Single Pass Range</a></td>
-				</tr>
-				<tr>
-					<td><code>difference_type</code></td>
-					<td><a href="range.html#forward_range">Forward Range</a></td>
 				</tr>
 				<tr>
 					<td><code>size_type</code></td>
@@ -572,7 +571,7 @@ class=identifier>T</span><span class=special>&amp; </span><span class=identifier
 					<td><a href="range.html#single_pass_range">Single Pass Range</a></td>
 				</tr>
 				<tr>
-					<td><code>boos_range_size(x)</code></td>
+					<td><code>boost_range_size(x)</code></td>
 					<td><a href="range.html#forward_range">Forward Range</a></td>
 				</tr>
 			</table>		
@@ -582,7 +581,7 @@ class=identifier>T</span><span class=special>&amp; </span><span class=identifier
 		</p>
 		
 		<p>
-		You must also specialize 3-5 metafunctions for your type <code>X</code>:
+		You must also specialize 3 metafunctions for your type <code>X</code>:
 		</p>
 		<p>
 			<table cellpadding="5" border="1" ID="Table2">
@@ -592,21 +591,12 @@ class=identifier>T</span><span class=special>&amp; </span><span class=identifier
 					<th>
 						Related concept</th>
 				<tr>
-				<tr>
-					<td><code>boost::range_value</code></td>
-					<td><a href="range.html#single_pass_range">Single Pass Range</a></td>
-				</tr>
-				<tr>
 					<td><code>boost::range_iterator</code></td>
 					<td><a href="range.html#single_pass_range">Single Pass Range</a></td>
 				</tr>
 				<tr>
 					<td><code>boost::range_const_iterator</code></td>
 					<td><a href="range.html#single_pass_range">Single Pass Range</a></td>
-				</tr>
-				<tr>
-					<td><code>boost::range_difference</code></td>
-					<td><a href="range.html#forward_range">Forward Range</a></td>
 				</tr>
 				<tr>
 					<td><code>boost::range_size</code></td>
@@ -643,11 +633,6 @@ class=identifier>T</span><span class=special>&amp; </span><span class=identifier
 	// Specialize metafunctions. We must include the range.hpp header.
 	// We must open the 'boost' namespace.
 	//</span>
-	<span class=keyword>template</span><span class=special>&lt;</span> <span class=keyword>class</span> <span class=identifier>T</span> <span class=special>&gt;</span>
-	<span class=keyword>struct</span> <span class=identifier>range_value</span><span class=special>&lt;</span> <span class=identifier>Foo</span><span class=special>::</span><span class=identifier>Pair</span><span class=special>&lt;</span><span class=identifier>T</span><span class=special>&gt;</span> <span class=special>&gt;</span>
-	<span class=special>{</span>
-		<span class=keyword>typedef</span> <span class=keyword>typename</span> <span class=identifier>std</span><span class=special>::</span><span class=identifier>iterator_traits</span><span class=special>&lt;</span><span class=identifier>T</span><span class=special>&gt;::</span><span class=identifier>value_type</span> <span class=identifier>type</span><span class=special>;</span>
-	<span class=special>};</span>
 
 	<span class=keyword>template</span><span class=special>&lt;</span> <span class=keyword>class</span> <span class=identifier>T</span> <span class=special>&gt;</span>
 	<span class=keyword>struct</span> <span class=identifier>range_iterator</span><span class=special>&lt;</span> <span class=identifier>Foo</span><span class=special>::</span><span class=identifier>Pair</span><span class=special>&lt;</span><span class=identifier>T</span><span class=special>&gt;</span> <span class=special>&gt;</span>
@@ -667,16 +652,9 @@ class=identifier>T</span><span class=special>&amp; </span><span class=identifier
 	<span class=special>};</span>
 
 	<span class=keyword>template</span><span class=special>&lt;</span> <span class=keyword>class</span> <span class=identifier>T</span> <span class=special>&gt;</span>
-	<span class=keyword>struct</span> <span class=identifier>range_difference</span><span class=special>&lt;</span> <span class=identifier>Foo</span><span class=special>::</span><span class=identifier>Pair</span><span class=special>&lt;</span><span class=identifier>T</span><span class=special>&gt;</span> <span class=special>&gt;</span>
-	<span class=special>{</span>
-		<span class=keyword>typedef</span> <span class=keyword>typename</span> <span class=identifier>std</span><span class=special>::</span><span class=identifier>iterator_traits</span><span class=special>&lt;</span><span class=identifier>T</span><span class=special>&gt;::</span><span class=identifier>difference_type</span> <span class=identifier>type</span><span class=special>;</span>
-	<span class=special>};</span>
-
-	<span class=keyword>template</span><span class=special>&lt;</span> <span class=keyword>class</span> <span class=identifier>T</span> <span class=special>&gt;</span>
 	<span class=keyword>struct</span> <span class=identifier>range_size</span><span class=special>&lt;</span> <span class=identifier>Foo</span><span class=special>::</span><span class=identifier>Pair</span><span class=special>&lt;</span><span class=identifier>T</span><span class=special>&gt;</span> <span class=special>&gt;</span>
 	<span class=special>{</span>
-		<span class=keyword>int</span> <span class=identifier>static_assertion</span><span class=special>[</span> <span class=keyword>sizeof</span><span class=special>(</span> <span class=identifier>std</span><span class=special>::</span><span class=identifier>size_t</span> <span class=special>)</span> <span class=special>&gt;=</span> 
-			  <span class=keyword>sizeof</span><span class=special>(</span> <span class=keyword>typename</span> <span class=identifier>range_difference</span><span class=special>&lt;</span> <span class=identifier>Foo</span><span class=special>::</span><span class=identifier>Pair</span><span class=special>&lt;</span><span class=identifier>T</span><span class=special>&gt;</span> <span class=special>&gt;::</span><span class=identifier>type</span> <span class=special>)</span> <span class=special>];</span>
+
 		<span class=keyword>typedef</span> <span class=identifier>std</span><span class=special>::</span><span class=identifier>size_t</span> <span class=identifier>type</span><span class=special>;</span>
 	<span class=special>};</span>
 
