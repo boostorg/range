@@ -21,13 +21,13 @@
 
 namespace boost
 {
-	template< class T >
-	struct range_difference
-	{
-		typedef BOOST_DEDUCED_TYPENAME iterator_difference<
-			BOOST_DEDUCED_TYPENAME range_const_iterator<T>::type >::type 
-				type;
-	};
+        template< class T >
+        struct range_difference
+        {
+                typedef BOOST_DEDUCED_TYPENAME iterator_difference<
+                        BOOST_DEDUCED_TYPENAME range_const_iterator<T>::type >::type
+                                type;
+        };
 }
 
 //#ifdef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
@@ -43,13 +43,13 @@ namespace boost
     //////////////////////////////////////////////////////////////////////////
     // default
     //////////////////////////////////////////////////////////////////////////
-    
+
     template< typename C >
     struct range_difference
     {
         typedef BOOST_DEDUCED_TYPENAME C::difference_type type;
     };
-    
+
     //////////////////////////////////////////////////////////////////////////
     // pair
     //////////////////////////////////////////////////////////////////////////
@@ -57,14 +57,14 @@ namespace boost
     template< typename Iterator >
     struct range_difference< std::pair<Iterator,Iterator> >
     {
-        typedef BOOST_DEDUCED_TYPENAME 
+        typedef BOOST_DEDUCED_TYPENAME
             iterator_difference<Iterator>::type type;
     };
-    
+
     template< typename Iterator >
     struct range_difference< const std::pair<Iterator,Iterator> >
     {
-        typedef BOOST_DEDUCED_TYPENAME 
+        typedef BOOST_DEDUCED_TYPENAME
             iterator_difference<Iterator>::type type;
     };
 

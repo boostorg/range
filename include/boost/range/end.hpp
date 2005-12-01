@@ -26,35 +26,35 @@
 #include <boost/range/iterator.hpp>
 #include <boost/range/const_iterator.hpp>
 
-namespace boost 
+namespace boost
 {
-    
+
 #if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564)) && \
     !BOOST_WORKAROUND(__GNUC__, < 3) \
-    /**/ 
+    /**/
 namespace range_detail
 {
-#endif   
+#endif
 
         //////////////////////////////////////////////////////////////////////
         // primary template
         //////////////////////////////////////////////////////////////////////
-        
+
         template< typename C >
         inline BOOST_DEDUCED_TYPENAME range_const_iterator<C>::type
         boost_range_end( const C& c )
         {
             return c.end();
         }
-                
+
         template< typename C >
-		inline BOOST_DEDUCED_TYPENAME range_iterator< 
-					typename remove_const<C>::type >::type
+                inline BOOST_DEDUCED_TYPENAME range_iterator<
+                                        typename remove_const<C>::type >::type
         boost_range_end( C& c )
         {
             return c.end();
         }
-      
+
         //////////////////////////////////////////////////////////////////////
         // pair
         //////////////////////////////////////////////////////////////////////
@@ -64,13 +64,13 @@ namespace range_detail
         {
             return p.second;
         }
-        
+
         template< typename Iterator >
         inline Iterator boost_range_end( std::pair<Iterator,Iterator>& p )
         {
             return p.second;
         }
-        
+
         //////////////////////////////////////////////////////////////////////
         // array
         //////////////////////////////////////////////////////////////////////
@@ -78,13 +78,13 @@ namespace range_detail
         template< typename T, std::size_t sz >
         inline const T* boost_range_end( const T (&array)[sz] )
         {
-            return range_detail::array_end<T,sz>( array ); 
+            return range_detail::array_end<T,sz>( array );
         }
-        
+
         template< typename T, std::size_t sz >
         inline T* boost_range_end( T (&array)[sz] )
         {
-            return range_detail::array_end<T,sz>( array ); 
+            return range_detail::array_end<T,sz>( array );
         }
 
         //////////////////////////////////////////////////////////////////////
@@ -136,19 +136,19 @@ namespace range_detail
 
 #if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564)) && \
     !BOOST_WORKAROUND(__GNUC__, < 3) \
-    /**/  
+    /**/
 } // namespace 'range_detail'
 #endif
 
 template< class T >
-inline BOOST_DEDUCED_TYPENAME range_iterator< 
-		typename remove_const<T>::type >::type end( T& r )
+inline BOOST_DEDUCED_TYPENAME range_iterator<
+                typename remove_const<T>::type >::type end( T& r )
 {
 #if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564)) && \
     !BOOST_WORKAROUND(__GNUC__, < 3) \
     /**/
     using namespace range_detail;
-#endif        
+#endif
     return boost_range_end( r );
 }
 
@@ -159,7 +159,7 @@ inline BOOST_DEDUCED_TYPENAME range_const_iterator<T>::type end( const T& r )
     !BOOST_WORKAROUND(__GNUC__, < 3) \
     /**/
     using namespace range_detail;
-#endif        
+#endif
     return boost_range_end( r );
 }
 

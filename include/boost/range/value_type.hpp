@@ -26,13 +26,13 @@
 
 namespace boost
 {
-	template< class T >
+        template< class T >
     struct range_value
-	{
-		typedef BOOST_DEDUCED_TYPENAME iterator_value< 
-			BOOST_DEDUCED_TYPENAME range_iterator<T>::type >::type
-				type;
-	};
+        {
+                typedef BOOST_DEDUCED_TYPENAME iterator_value<
+                        BOOST_DEDUCED_TYPENAME range_iterator<T>::type >::type
+                                type;
+        };
 }
 
 /*
@@ -45,13 +45,13 @@ namespace boost
     //////////////////////////////////////////////////////////////////////////
     // default
     //////////////////////////////////////////////////////////////////////////
-    
+
     template< typename C >
     struct range_value
     {
         typedef BOOST_DEDUCED_TYPENAME C::value_type type;
     };
-    
+
     //////////////////////////////////////////////////////////////////////////
     // pair
     //////////////////////////////////////////////////////////////////////////
@@ -59,15 +59,15 @@ namespace boost
     template< typename Iterator >
     struct range_value< std::pair<Iterator,Iterator> >
     {
-        typedef BOOST_DEDUCED_TYPENAME 
+        typedef BOOST_DEDUCED_TYPENAME
             iterator_value<Iterator>::type type;
     };
-    
-    
+
+
     template< typename Iterator >
     struct range_value< const std::pair<Iterator,Iterator> >
     {
-        typedef BOOST_DEDUCED_TYPENAME 
+        typedef BOOST_DEDUCED_TYPENAME
             iterator_value<Iterator>::type type;
     };
 
@@ -86,7 +86,7 @@ namespace boost
     {
         typedef const T type;
     };
-    
+
     //////////////////////////////////////////////////////////////////////////
     // string
     //////////////////////////////////////////////////////////////////////////

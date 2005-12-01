@@ -27,72 +27,72 @@
 template< class Rng >
 typename boost::range_result_iterator<Rng>::type foo_algo( Rng& r )
 {
-	//
-	// This will only compile for Rng = UDT if the qualified calls
-	// find boost_range_XXX via ADL.
-	//
-	return boost::size(r) == 0u ? boost::begin(r) : boost::end(r);
+        //
+        // This will only compile for Rng = UDT if the qualified calls
+        // find boost_range_XXX via ADL.
+        //
+        return boost::size(r) == 0u ? boost::begin(r) : boost::end(r);
 }
 
 namespace Foo
 {
-	//
-	// Our sample UDT
-	//
-	struct X
-	{
-		typedef std::vector<int>       data_t;
-		typedef data_t::iterator       iterator;
-		typedef data_t::const_iterator const_iterator;
-		typedef data_t::size_type      size_type;
+        //
+        // Our sample UDT
+        //
+        struct X
+        {
+                typedef std::vector<int>       data_t;
+                typedef data_t::iterator       iterator;
+                typedef data_t::const_iterator const_iterator;
+                typedef data_t::size_type      size_type;
 
-		data_t vec;
+                data_t vec;
 
-		void push_back( int i )
-		{ vec.push_back(i); }
-	};
+                void push_back( int i )
+                { vec.push_back(i); }
+        };
 
-	//
-	// The required functions. No type-traits need
-	// to be defined because X defines the proper set of
-	// nested types. 
-	//
-	inline X::iterator boost_range_begin( X& x )
-	{ 
-		return x.vec.begin();
-	}
+        //
+        // The required functions. No type-traits need
+        // to be defined because X defines the proper set of
+        // nested types.
+        //
+        inline X::iterator boost_range_begin( X& x )
+        {
+                return x.vec.begin();
+        }
 
-	
-	inline X::const_iterator boost_range_begin( const X& x )
-	{
-		return x.vec.begin();
-	}
-	
+
+        inline X::const_iterator boost_range_begin( const X& x )
+        {
+                return x.vec.begin();
+        }
+
 
     inline X::iterator boost_range_end( X& x )
-	{ 
-		return x.vec.end();
-	}
+        {
+                return x.vec.end();
+        }
 
-	inline X::const_iterator boost_range_end( const X& x )
-	{
-		return x.vec.end();
-	}
+        inline X::const_iterator boost_range_end( const X& x )
+        {
+                return x.vec.end();
+        }
 
-	inline X::size_type boost_range_size( const X& x )
-	{
-		return x.vec.size();
-	}
+        inline X::size_type boost_range_size( const X& x )
+        {
+                return x.vec.size();
+        }
 }
 
 void check_extension()
 {
-	Foo::X x;
-	x.push_back(3);
-	const Foo::X x2;
+        Foo::X x;
+        x.push_back(3);
+        const Foo::X x2;
 
-	foo_algo( x );
-	foo_algo( x2 );
+        foo_algo( x );
+        foo_algo( x2 );
 }
 
 using boost::unit_test::test_suite;

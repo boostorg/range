@@ -47,8 +47,8 @@ namespace range_detail
     }
 
     template< typename C >
-    inline BOOST_DEDUCED_TYPENAME range_iterator< 
-									typename remove_const<C>::type >::type
+    inline BOOST_DEDUCED_TYPENAME range_iterator<
+                                                                        typename remove_const<C>::type >::type
     boost_range_begin( C& c )
     {
         return c.begin();
@@ -142,8 +142,8 @@ namespace range_detail
 
 
 template< class T >
-inline BOOST_DEDUCED_TYPENAME range_iterator< 
-			typename remove_const<T>::type >::type begin( T& r )
+inline BOOST_DEDUCED_TYPENAME range_iterator<
+                        typename remove_const<T>::type >::type begin( T& r )
 {
 #if !BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564)) && \
     !BOOST_WORKAROUND(__GNUC__, < 3) \
