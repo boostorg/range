@@ -261,8 +261,12 @@ namespace boost
             { 
                 if( singular )
                     return 0;
-                
+
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582))
+                return std::distance<IteratorT>( m_Begin, m_End );
+#else                
                 return std::distance( m_Begin, m_End );
+#endif                
             }
             
             bool empty() const
