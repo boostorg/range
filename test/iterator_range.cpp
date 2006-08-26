@@ -26,7 +26,7 @@
 
 using namespace boost;
 using namespace std;
-	
+
 void check_reference_type();
 
 void check_iterator_range()
@@ -94,7 +94,7 @@ void check_iterator_range()
     rrr = make_iterator_range( rrr, -1, 1 );
     BOOST_CHECK( rrr == str );
 
-	check_reference_type();
+    check_reference_type();
 }
 
 
@@ -124,10 +124,10 @@ int test_iter_range( Container& a_cont )
     typedef BOOST_DEDUCED_TYPENAME range_result_iterator<Container>::type citer_type;
     typedef iterator_range<citer_type> riter_type;
     riter_type a_riter( make_iterator_range( a_cont ) );
-	a_riter.front();
-	a_riter.back();
-	int i = a_riter[0];
-	return i;
+    a_riter.front();
+    a_riter.back();
+    int i = a_riter[0];
+    return i;
 }
 
 
