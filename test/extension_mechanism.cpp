@@ -69,7 +69,7 @@ namespace Foo
         }
 
 
-    inline X::iterator boost_range_end( X& x )
+        inline X::iterator boost_range_end( X& x )
         {
                 return x.vec.end();
         }
