@@ -36,6 +36,9 @@
 #endif
 #include <cstddef>
 
+#if BOOST_WORKAROUND(BOOST_MSVC, == 1310) || BOOST_WORKAROUND(BOOST_MSVC, == 1400) 
+    #pragma warning( disable : 4996 )
+#endif
 
 /*! \file
     Defines the \c iterator_class and related functions. 
@@ -348,10 +351,21 @@ namespace boost
                return *--last;
            }
     
-           reference operator[]( size_type sz ) const
+           reference operator[]( size_type at ) const
            {
-               BOOST_ASSERT( sz < size() );
-               return m_Begin[sz];
+               BOOST_ASSERT( at < size() );
+               return m_Begin[at];
+           }
+
+           //
+           // When storing transform iterators, operator[]()
+           // fails because it returns by reference. Therefore
+           // operator()() is provided for these cases.
+           //
+           value_type operator()( size_type at ) const
+           {
+               BOOST_ASSERT( at < size() );
+               return m_Begin[at];               
            }
 
            iterator_range& advance_begin( difference_type n )
