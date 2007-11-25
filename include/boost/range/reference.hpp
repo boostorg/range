@@ -8,8 +8,8 @@
 // For more information, see http://www.boost.org/libs/range/
 //
 
-#ifndef BOOST_RANGE_DIFFERENCE_TYPE_HPP
-#define BOOST_RANGE_DIFFERENCE_TYPE_HPP
+#ifndef BOOST_RANGE_REFERENCE_TYPE_HPP
+#define BOOST_RANGE_REFERENCE_TYPE_HPP
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -22,7 +22,7 @@
 namespace boost
 {
     template< class T >
-    struct range_difference : iterator_difference< typename range_iterator<T>::type >
+    struct range_reference : iterator_reference< typename range_iterator<T>::type >
     { };
 }
 
