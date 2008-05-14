@@ -25,17 +25,17 @@
 [def __implementation_of_metafunctions__ [link boost.range.reference.semantics.metafunctions implementation of metafunctions]]
 [def __implementation_of_functions__     [link boost.range.reference.semantics.functions implementation of functions]]
 
-[def __single_pass_iterator__   [@../../libs/iterator/doc/new-iter-concepts.html#singls-pass-iterators-lib-single-pass-iterators Single Pass Iterator]]
-[def __forward_traversal_iterator__ [@../../libs/iterator/doc/new-iter-concepts.html#forward-traversal-iterators-lib-forward-traversal-iterators Forward Traversal Iterator]]
-[def __bidirectional_traversal_iterator__ [@../../libs/iterator/doc/new-iter-concepts.html#bidirectional-traversal-iterators-lib-bidirectional-traversal-iterators Bidirectional Traversal Iterator]]
-[def __random_access_traversal_iterator__ [@../../libs/iterator/doc/new-iter-concepts.html#random-access-traversal-iterators-lib-random-access-traversal-iterators Random Access Traversal Iterator]]
-[def __new_style_iterators__    [@../../libs/iterator/doc/new-iter-concepts.html new style iterators]]
-[def __iterator_concepts__      [@../../libs/iterator/doc/iterator_concepts.html Iterator concepts]]
+[def __single_pass_iterator__   [@/libs/iterator/doc/new-iter-concepts.html#singls-pass-iterators-lib-single-pass-iterators Single Pass Iterator]]
+[def __forward_traversal_iterator__ [@/libs/iterator/doc/new-iter-concepts.html#forward-traversal-iterators-lib-forward-traversal-iterators Forward Traversal Iterator]]
+[def __bidirectional_traversal_iterator__ [@/libs/iterator/doc/new-iter-concepts.html#bidirectional-traversal-iterators-lib-bidirectional-traversal-iterators Bidirectional Traversal Iterator]]
+[def __random_access_traversal_iterator__ [@/libs/iterator/doc/new-iter-concepts.html#random-access-traversal-iterators-lib-random-access-traversal-iterators Random Access Traversal Iterator]]
+[def __new_style_iterators__    [@/libs/iterator/doc/new-iter-concepts.html new style iterators]]
+[def __iterator_concepts__      [@/libs/iterator/doc/iterator_concepts.html Iterator concepts]]
 
 [def __container__              [@http://www.sgi.com/Technology/STL/Container.html Container]]
-[def __metafunctions__          [@../../libs/mpl/doc/refmanual/metafunction.html metafunctions]]
-[def __concept_check__          [@../../libs/concept_check/index.html Boost Concept Check library]]
-[def __boost_array__            [@../../libs/array/index.html boost::array]]
+[def __metafunctions__          [@/libs/mpl/doc/refmanual/metafunction.html metafunctions]]
+[def __concept_check__          [@/libs/concept_check/index.html Boost Concept Check library]]
+[def __boost_array__            [@/libs/array/index.html boost::array]]
 [def __the_forwarding_problem__ [@http://std.dkuug.dk/jtc1/sc22/wg21/docs/papers/2002/n1385.htm The Forwarding Problem]]
 
 
@@ -134,9 +134,9 @@ The motivation for the Range concept is that there are many useful Container-lik
 
 Because of the second requirement, a Range object must be passed by (const or non-const) reference in generic code.
 
-The operations that can be performed on a Range is dependent on the [@../../iterator/doc/new-iter-concepts.html#iterator-traversal-concepts-lib-iterator-traversal traversal category] of the underlying iterator type. Therefore the range concepts are named to reflect which traversal category its iterators support. See also terminology and style guidelines. for more information about naming of ranges.
+The operations that can be performed on a Range is dependent on the [@/libs/range/iterator/doc/new-iter-concepts.html#iterator-traversal-concepts-lib-iterator-traversal traversal category] of the underlying iterator type. Therefore the range concepts are named to reflect which traversal category its iterators support. See also terminology and style guidelines. for more information about naming of ranges.
 
-The concepts described below specifies associated types as [@../../libs/mpl/doc/refmanual/metafunction.html metafunctions] and all functions as free-standing functions to allow for a layer of indirection.
+The concepts described below specifies associated types as [@/libs/mpl/doc/refmanual/metafunction.html metafunctions] and all functions as free-standing functions to allow for a layer of indirection.
 
 [endsect]
 
@@ -332,7 +332,7 @@ __bidirectional_range__
 
 [section Concept Checking]
 
-Each of the range concepts has a corresponding concept checking class in the file [@../../boost/range/concepts.hpp `boost/range/concepts.hpp`]. These classes may be used in conjunction with the __concept_check__ to insure that the type of a template parameter is compatible with a range concept. If not, a meaningful compile time error is generated. Checks are provided for the range concepts related to iterator traversal categories. For example, the following line checks that the type `T` models the __forward_range__ concept.
+Each of the range concepts has a corresponding concept checking class in the file [@/boost/range/concepts.hpp `boost/range/concepts.hpp`]. These classes may be used in conjunction with the __concept_check__ to insure that the type of a template parameter is compatible with a range concept. If not, a meaningful compile time error is generated. Checks are provided for the range concepts related to iterator traversal categories. For example, the following line checks that the type `T` models the __forward_range__ concept.
 
 ``
 function_requires<ForwardRangeConcept<T> >();
