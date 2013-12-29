@@ -5,21 +5,18 @@
 /]
 [section:utilities Utilities]
 
-Having an abstraction that encapsulates a pair of iterators is very useful. The standard library uses `std::pair` in some circumstances, but that class is cumbersome to use because we need to specify two template arguments, and for all range algorithm purposes we must enforce the two template arguments to be the same. Moreover, `std::pair<iterator,iterator>` is hardly self-documenting whereas more domain specific class names are. Therefore these two classes are provided:
+Having abstractions which encapsulate a pair of iterators and fulfill a Range concept is very useful. An existing candidate for such an abstraction is std::pair; but that class is cumbersome to use because we need to specify two template arguments and for all range algorithm purposes we must then enforce the two template arguments to be the same. Moreover, `std::pair<iterator,iterator>` is hardly self-documenting whereas more domain specific class names are. Therefore these two classes are provided as alternatives:
 
 * Class `iterator_range`
 * Class `sub_range`
-* Function `join`
 
-The `iterator_range` class is templated on an __forward_traversal_iterator__ and should be used whenever fairly general code is needed. The `sub_range` class is templated on an __forward_range__ and it is less general, but a bit easier to use since its template argument is easier to specify. The biggest difference is, however, that a `sub_range` can propagate constness because it knows what a corresponding `const_iterator` is.
-
-Both classes can be used as ranges since they implement the __minimal_interface__ required for this to work automatically.
+The `iterator_range` class is templated on a __forward_traversal_iterator__ and should be used whenever fairly general code is needed. The `sub_range` class is templated on a __forward_range__ and it is less general, but a bit easier to use since its template argument is easier to specify. The biggest difference is, however, that a `sub_range` can propagate constness because it knows what a corresponding `const_iterator` is.
 
 [section:iterator_range Class `iterator_range`]
 
-The intention of the `iterator_range` class is to encapsulate two iterators so they fulfill the __forward_range__ concept. A few other functions are also provided for convenience.
+The intention of the `iterator_range` class is to encapsulate two iterators so they fulfill the __forward_range__ concept, or any refinements thereof. A few other functions are also provided for convenience. To this end, the class template argument must be a model of __forward_traversal_iterator__, or, respectively, any refinements thereof.
 
-If the template argument is not a model of __forward_traversal_iterator__, one can still use a subset of the interface. In particular, `size()` requires Random Access Traversal Iterators whereas `empty()` only requires Single Pass Iterators.
+If the template argument is not a model of __forward_traversal_iterator__, one can still use a subset of the interface. In particular, `empty()` only requires Single Pass Iterators.
 
 Recall that many default constructed iterators are [*/singular/] and hence can only be assigned, but not compared or incremented or anything. However, if one creates a default constructed `iterator_range`, then one can still call all its member functions. This design decision avoids the `iterator_range` imposing limitations upon ranges of iterators that are not singular. Any singularity limitation is simply propagated from the underlying iterator type.
 
@@ -199,7 +196,7 @@ iterator_range make_iterator_range( Range& r,
 
 [section:sub_range Class `sub_range`]
 
-The `sub_range` class inherits all its functionality from the __iterator_range__ class. The `sub_range` class is often easier to use because one must specify the __forward_range__ template argument instead of an iterator. Moreover, the `sub_range` class can propagate constness since it knows what a corresponding `const_iterator` is.
+The `sub_range` class inherits all its functionality from the __iterator_range__ class. The `sub_range` class is often easier to use because one must specify a __forward_range__ template argument, or a refinement thereof, instead of an iterator. Moreover, the `sub_range` class can propagate constness since it knows what a corresponding `const_iterator` is. The instantiated `sub_range` class will model whichever range concept its template argument models.
 
 [h4 Synopsis]
 
@@ -252,7 +249,7 @@ namespace boost
 } // namespace 'boost'
 ``
 
-The class should be trivial to use as seen below. Imagine that we have an algorithm that searches for a sub-string in a string. The result is an iterator_range, that delimits the match. We need to store the result from this algorithm. Here is an example of how we can do it with and without `sub_range`
+The class should be trivial to use, as seen below. Imagine that we have an algorithm that searches for a sub-string in a string. The result is an iterator_range, that delimits the match. We need to store the result from this algorithm. Here is an example of how we can do it with and without `sub_range`
 
 ``
 std::string str("hello");
