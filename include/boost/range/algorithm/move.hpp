@@ -24,7 +24,7 @@ namespace range {
 
 /// \brief template function move
 ///
-/// range-based version of the C++11 move std algorithm
+/// range-based version of the move std algorithm
 ///
 /// \pre SinglePassRange is a model of the SinglePassRangeConcept
 /// \pre OutputIterator is a model of the OutputIteratorConcept
@@ -32,6 +32,19 @@ template< class SinglePassRange, class OutputIterator >
 inline OutputIterator move(SinglePassRange & rng, OutputIterator out)
 {
     BOOST_RANGE_CONCEPT_ASSERT(( SinglePassRangeConcept<SinglePassRange> ));
+    return ::boost::move(::boost::begin(rng), ::boost::end(rng), out);
+}
+
+/// \brief template function move
+///
+/// range-based version of the move std algorithm
+///
+/// \pre SinglePassRange is a model of the SinglePassRangeConcept
+/// \pre OutputIterator is a model of the OutputIteratorConcept
+template< class SinglePassRange, class OutputIterator >
+inline OutputIterator move(SinglePassRange const& rng, OutputIterator out)
+{
+    BOOST_RANGE_CONCEPT_ASSERT(( SinglePassRangeConcept<SinglePassRange const> ));
     return ::boost::move(::boost::begin(rng), ::boost::end(rng), out);
 }
 

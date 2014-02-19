@@ -63,6 +63,13 @@ operator|( InputRange & r, move_forwarder )
     return moved_range<InputRange>( r );
 }
 
+template< class InputRange >
+inline moved_range<InputRange const>
+operator|( InputRange const& r, move_forwarder )
+{
+    return moved_range<InputRange const>( r );
+}
+
 } // namespace range_detail
 
 // Unusual use of 'using' is intended to bring filter_range into the boost namespace
@@ -85,6 +92,13 @@ inline moved_range<InputRange>
 move(InputRange & rng)
 {
     return moved_range<InputRange>(rng);
+}
+
+template<class InputRange>
+inline moved_range<InputRange const>
+move(InputRange const& rng)
+{
+    return moved_range<InputRange const>(rng);
 }
 
 } // namespace adaptors

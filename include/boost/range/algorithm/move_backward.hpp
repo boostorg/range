@@ -23,7 +23,7 @@ namespace range {
 
 /// \brief template function copy_backward
 ///
-/// range-based version of the C++11 move_backwards std algorithm
+/// range-based version of the move_backwards std algorithm
 ///
 /// \pre BidirectionalRange is a model of the BidirectionalRangeConcept
 /// \pre BidirectionalTraversalWriteableIterator is a model of the BidirectionalIteratorConcept
@@ -34,6 +34,22 @@ move_backward(BidirectionalRange & rng,
               BidirectionalTraversalWriteableIterator out)
 {
     BOOST_RANGE_CONCEPT_ASSERT(( BidirectionalRangeConcept<BidirectionalRange> ));
+    return ::boost::move_backward(::boost::begin(rng), ::boost::end(rng), out);
+}
+
+/// \brief template function copy_backward
+///
+/// range-based version of the move_backwards std algorithm
+///
+/// \pre BidirectionalRange is a model of the BidirectionalRangeConcept
+/// \pre BidirectionalTraversalWriteableIterator is a model of the BidirectionalIteratorConcept
+/// \pre BidirectionalTraversalWriteableIterator is a model of the WriteableIteratorConcept
+template< class BidirectionalRange, class BidirectionalTraversalWriteableIterator >
+inline BidirectionalTraversalWriteableIterator
+move_backward(BidirectionalRange const& rng,
+              BidirectionalTraversalWriteableIterator out)
+{
+    BOOST_RANGE_CONCEPT_ASSERT(( BidirectionalRangeConcept<BidirectionalRange const> ));
     return ::boost::move_backward(::boost::begin(rng), ::boost::end(rng), out);
 }
 
