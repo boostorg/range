@@ -13,7 +13,6 @@
 #include <boost/range/adaptor/argument_fwd.hpp>
 #include <boost/range/iterator_range.hpp>
 
-#include <boost/range/detail/move_iterator.hpp>
 #include <boost/move.hpp>
 
 namespace boost {
@@ -23,34 +22,21 @@ namespace range_detail {
 template< class R >
 struct moved_range :
     boost::iterator_range<
-#ifdef BOOST_RANGE_MOVE_USE_BOOST_MOVE_ITERATOR
         boost::move_iterator<
-#else
-        range_detail::move_iterator<
-#endif
             BOOST_DEDUCED_TYPENAME range_iterator<R>::type
         >
     >
 {
 private:
     typedef boost::iterator_range<
-#ifdef BOOST_RANGE_MOVE_USE_BOOST_MOVE_ITERATOR
                 boost::move_iterator<
-#else
-                range_detail::move_iterator<
-#endif
                     BOOST_DEDUCED_TYPENAME range_iterator<R>::type
                 >
             > base;
 public:
     moved_range( R & r )
-#ifdef BOOST_RANGE_MOVE_USE_BOOST_MOVE_ITERATOR
         : base( boost::make_move_iterator(boost::begin(r)),
                 boost::make_move_iterator(boost::end(r)) )
-#else
-        : base( range_detail::make_move_iterator(boost::begin(r)),
-                range_detail::make_move_iterator(boost::end(r)) )
-#endif
     { }
 };
 
