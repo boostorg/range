@@ -13,7 +13,7 @@
 #include <boost/range/adaptor/argument_fwd.hpp>
 #include <boost/range/iterator_range.hpp>
 
-#include <boost/move.hpp>
+#include <boost/move/iterator.hpp>
 
 namespace boost {
 
