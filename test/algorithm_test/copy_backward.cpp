@@ -27,22 +27,28 @@ namespace boost
         template< class Container >
         void test_copy_backward_impl()
         {
-            Container source;
+            std::vector<int> input;
+            input.push_back(1);
+            input.push_back(2);
+            input.push_back(3);
+
+            Container source(input.begin(), input.end());
             typedef BOOST_DEDUCED_TYPENAME Container::value_type value_t;
 
             std::vector<value_t> target;
             target.resize(source.size());
 
             typedef BOOST_DEDUCED_TYPENAME range_iterator< std::vector<value_t> >::type iterator_t;
-            iterator_t it = boost::copy_backward(source, target.begin());
+            iterator_t it = boost::copy_backward(source, target.end());
 
-            BOOST_CHECK( it == target.end() );
-            BOOST_CHECK_EQUAL_COLLECTIONS( target.begin(), target.end(),
-                source.rbegin(), source.rend() );
+            BOOST_CHECK( it == target.begin() );
+            BOOST_CHECK_EQUAL_COLLECTIONS(
+                target.begin(), target.end(),
+                source.begin(), source.end() );
                 
-            BOOST_CHECK( it == boost::copy_backward(boost::make_iterator_range(source), target.begin()) );
+            BOOST_CHECK( it == boost::copy_backward(boost::make_iterator_range(source), target.end()) );
             BOOST_CHECK_EQUAL_COLLECTIONS( target.begin(), target.end(),
-                                           source.rbegin(), source.rend() );
+                                           source.begin(), source.end() );
         }
 
         void test_copy_backward()
