@@ -54,7 +54,7 @@ class copy_movable
    {  return l.value_ < r.value_; }
 
    friend std::ostream & operator<<(std::ostream & os, copy_movable const& r)
-   {  return os << (r.moved() ? " moved" : " not moved"); }
+   {  return os << r.value_; }
 };
 
 //]

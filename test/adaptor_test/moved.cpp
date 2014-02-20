@@ -20,7 +20,6 @@
 
 #include <algorithm>
 #include <list>
-#include <set>
 #include <vector>
 
 #include "../copymovable.hpp"
@@ -37,27 +36,27 @@ namespace boost
     }
 
     template< class Container >
-    void moved_test_impl( Container& c, bool expect_move)
+    void moved_test_impl( Container& c)
     {
         using namespace boost::adaptors;
 
         {
-            Container source = c;
+            Container source(c.begin(), c.end());
             check_moved(source.begin(), source.end(), false);
             std::vector< copy_movable > test_result1;
             boost::push_back(test_result1, source | moved);
-            check_moved(source.begin(), source.end(), expect_move);
+            check_moved(source.begin(), source.end(), true);
 
             BOOST_CHECK_EQUAL_COLLECTIONS( c.begin(), c.end(),
                 test_result1.begin(), test_result1.end() );
         }
         
         {
-            Container source = c;
+            Container source(c.begin(), c.end());
             check_moved(source.begin(), source.end(), false);
             std::vector< copy_movable > test_result2;
-            boost::push_back(test_result2, adaptors::move(c));
-            check_moved(source.begin(), source.end(), expect_move);
+            boost::push_back(test_result2, adaptors::move(source));
+            check_moved(source.begin(), source.end(), true);
 
             BOOST_CHECK_EQUAL_COLLECTIONS( c.begin(), c.end(),
                 test_result2.begin(), test_result2.end() );
@@ -65,30 +64,31 @@ namespace boost
     }
 
     template< class Container >
-    void moved_test_impl(bool expect_move)
+    void moved_test_impl()
     {
         using namespace boost::assign;
 
         Container c;
 
         // Test empty
-        moved_test_impl(c, expect_move);
+        moved_test_impl(c);
 
         // Test one
-        c += copy_movable(1);
-        moved_test_impl(c, expect_move);
+        copy_movable c1(1);
+        c += c1;
+        moved_test_impl(c);
 
         // Test many
-        c += copy_movable(1),copy_movable(2),copy_movable(3);
-        moved_test_impl(c, expect_move);
+        copy_movable c2(2);
+        copy_movable c3(3);
+        c += c2, c3;
+        moved_test_impl(c);
     }
 
     void moved_test()
     {
-        moved_test_impl< std::vector< copy_movable > >(true);
-        moved_test_impl< std::list< copy_movable > >(true);
-        moved_test_impl< std::set< copy_movable > >(false);
-        moved_test_impl< std::multiset< copy_movable > >(false);
+        moved_test_impl< std::vector< copy_movable > >();
+        moved_test_impl< std::list< copy_movable > >();
     }
 }
 
