@@ -16,7 +16,7 @@
 #include <boost/range/concepts.hpp>
 //#include <boost/range/iterator_range.hpp>
 
-#include <boost/move.hpp>
+#include <boost/move/algorithm.hpp>
 
 namespace boost {
 

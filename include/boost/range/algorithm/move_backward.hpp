@@ -15,7 +15,7 @@
 #include <boost/range/end.hpp>
 #include <boost/range/concepts.hpp>
 
-#include <boost/move.hpp>
+#include <boost/move/algorithm.hpp>
 
 namespace boost {
 
@@ -55,7 +55,7 @@ move_backward(BidirectionalRange const& rng,
 
 } // namespace range
 
-using range::copy_backward;
+using range::move_backward;
 
 } // namespace boost
 
