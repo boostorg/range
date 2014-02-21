@@ -14,6 +14,7 @@
 #include <boost/range/algorithm/fill.hpp>
 #include <boost/assign.hpp>
 #include <boost/array.hpp>
+#include <boost/cstdint.hpp>
 
 #include <algorithm>
 #include <list>
@@ -30,12 +31,12 @@ namespace boost_range_adaptor_type_erased_test
         {
         }
 
-        MockType(int x)
+        MockType(boost::int32_t x)
             : m_x(x)
         {
         }
 
-        int get() const { return m_x; }
+        boost::int32_t get() const { return m_x; }
 
         inline bool operator==(const MockType& other) const
         {
@@ -48,7 +49,15 @@ namespace boost_range_adaptor_type_erased_test
         }
 
     private:
-        int m_x;
+        boost::int32_t m_x;
+    };
+    
+    class MockType2 : public MockType
+    {
+    public:
+        MockType2() {}
+        MockType2(boost::int32_t x) : MockType(x) { }
+        MockType2(const MockType& other) : MockType(other) { }
     };
 
     inline std::ostream& operator<<(std::ostream& out, const MockType& obj)
@@ -418,15 +427,12 @@ namespace boost_range_adaptor_type_erased_test
     template<class Traversal>
     void test_type_erased_mix_values_driver()
     {
-        test_type_erased_mix_values_impl< Traversal, int, char, const int&, short, const int& >();
-        test_type_erased_mix_values_impl< Traversal, int, int*, const int&, char, const int& >();
-        test_type_erased_mix_values_impl< Traversal, MockType, char, const MockType&, short, const MockType& >();
-
-        // In fact value type should have no effect in the eligibility
-        // for conversion, hence we should be able to convert it
-        // completely backwards!
-        test_type_erased_mix_values_impl< Traversal, int, short, const int&, char, const int& >();
-        test_type_erased_mix_values_impl< Traversal, int, char, const int&, int*, const int& >();
+        test_type_erased_mix_values_impl<
+            Traversal,
+            MockType,
+            MockType2, const MockType&,
+            MockType, const MockType&
+        >();
     }
 
     void test_type_erased_mix_values()
