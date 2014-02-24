@@ -12,6 +12,7 @@
 
 #include <boost/range/algorithm_ext.hpp>
 #include <boost/range/algorithm/fill.hpp>
+#include <boost/range/value_type.hpp>
 #include <boost/assign.hpp>
 #include <boost/array.hpp>
 #include <boost/cstdint.hpp>
@@ -166,8 +167,6 @@ namespace boost_range_adaptor_type_erased_test
     void test_type_erased_impl()
     {
         using namespace boost::adaptors;
-
-        typedef Buffer buffer_type;
 
         typedef typename boost::range_value<Container>::type value_type;
 
@@ -451,13 +450,24 @@ namespace boost_range_adaptor_type_erased_test
         for (int i = 0; i < 10; ++i)
             c.push_back(i);
 
-        typedef boost::any_range<
-            int
-          , boost::random_access_traversal_tag
-          , int
-          , boost::range_difference< std::vector<int> >::type
-          , boost::use_default
-        > any_range_type;
+        typedef boost::any_range_type_generator<
+                            std::vector<int> >::type any_range_type;
+
+        BOOST_STATIC_ASSERT(
+                boost::is_same<
+                    int,
+                    boost::range_value<any_range_type>::type
+                >::value
+        );
+
+        BOOST_STATIC_ASSERT(
+                boost::is_same<
+                    boost::random_access_traversal_tag,
+                    boost::iterator_traversal<
+                        boost::range_iterator<any_range_type>::type
+                    >::type
+                >::value
+        );
 
         any_range_type rng = c | type_erased_t();
 
