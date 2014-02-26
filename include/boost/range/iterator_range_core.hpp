@@ -371,13 +371,13 @@ public:
         template<class IteratorT>
         class iterator_range
             : public iterator_range_detail::iterator_range_base<
-                            IteratorT,
-                            typename iterator_traversal<IteratorT>::type
+                    IteratorT,
+                    BOOST_DEDUCED_TYPENAME iterator_traversal<IteratorT>::type
                 >
         {
             typedef iterator_range_detail::iterator_range_base<
-                        IteratorT,
-                        typename iterator_traversal<IteratorT>::type
+                    IteratorT,
+                    BOOST_DEDUCED_TYPENAME iterator_traversal<IteratorT>::type
             > base_type;
 
         protected:

@@ -137,8 +137,15 @@ namespace boost
             boost::ignore_unused_variable_warning(rng);
             typedef BOOST_DEDUCED_TYPENAME boost::range_iterator<strided_range_t>::type iter_t;
 
-            iter_t first(boost::begin(c), boost::begin(c), boost::end(c), 0);
-            iter_t last(boost::begin(c), boost::end(c), boost::end(c), 0);
+            typedef BOOST_DEDUCED_TYPENAME boost::iterator_traversal<
+                        BOOST_DEDUCED_TYPENAME Container::const_iterator
+            >::type container_traversal_tag;
+
+            iter_t first = boost::range_detail::make_begin_strided_iterator(
+                c, 0, container_traversal_tag());
+
+            iter_t last = boost::range_detail::make_end_strided_iterator(
+                c, 0, container_traversal_tag());
 
             iter_t it = first;
             for (int i = 0; i < 10; ++i, ++it)
