@@ -117,7 +117,8 @@ public:
         return *m_it;
     }
 
-    bool equal(const join_iterator_union& other, unsigned int selected) const
+    bool equal(const join_iterator_union& other,
+               unsigned int /*selected*/) const
     {
         return m_it == other.m_it;
     }
