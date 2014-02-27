@@ -30,8 +30,10 @@
 #include <boost/assert.hpp>
 #include <boost/range/begin.hpp>
 #include <boost/range/end.hpp>
+#include <boost/range/category.hpp>
 #include <boost/range/concepts.hpp>
 #include <boost/range/distance.hpp>
+#include <boost/range/size.hpp>
 #include <numeric>
 
 
@@ -51,13 +53,41 @@ namespace boost
         return std::accumulate( boost::begin(rng), boost::end(rng), init, op );
     }
 
+    namespace range_detail
+    {
+        template<class SinglePassRange1, class SinglePassRange2>
+        inline bool inner_product_precondition(
+            const SinglePassRange1&,
+            const SinglePassRange2&,
+            std::input_iterator_tag,
+            std::input_iterator_tag)
+        {
+            return true;
+        }
+
+        template<class SinglePassRange1, class SinglePassRange2>
+        inline bool inner_product_precondition(
+            const SinglePassRange1& rng1,
+            const SinglePassRange2& rng2,
+            std::forward_iterator_tag,
+            std::forward_iterator_tag)
+        {
+            return boost::size(rng2) >= boost::size(rng1);
+        }
+
+    } // namespace range_detail
 
     template< class SinglePassRange1, class SinglePassRange2, class Value >
     inline Value inner_product( const SinglePassRange1& rng1, const SinglePassRange2& rng2, Value init )
     {
         BOOST_RANGE_CONCEPT_ASSERT(( SinglePassRangeConcept<const SinglePassRange1> ));
         BOOST_RANGE_CONCEPT_ASSERT(( SinglePassRangeConcept<const SinglePassRange2> ));
-        BOOST_ASSERT( boost::distance(rng2) >= boost::distance(rng1) );
+        BOOST_ASSERT(
+            range_detail::inner_product_precondition(
+                    rng1, rng2,
+                    typename range_category<const SinglePassRange1>::type(),
+                    typename range_category<const SinglePassRange2>::type()));
+
         return std::inner_product( boost::begin(rng1), boost::end(rng1),
             boost::begin(rng2), init );
     }
@@ -72,7 +102,11 @@ namespace boost
     {
         BOOST_RANGE_CONCEPT_ASSERT(( SinglePassRangeConcept<const SinglePassRange1> ));
         BOOST_RANGE_CONCEPT_ASSERT(( SinglePassRangeConcept<const SinglePassRange2> ));
-        BOOST_ASSERT( boost::distance(rng2) >= boost::distance(rng1) );
+        BOOST_ASSERT(
+            range_detail::inner_product_precondition(
+                rng1, rng2,
+                typename range_category<const SinglePassRange1>::type(),
+                typename range_category<const SinglePassRange2>::type()));
 
         return std::inner_product( boost::begin(rng1), boost::end(rng1),
                                    boost::begin(rng2), init, op1, op2 );
