@@ -107,12 +107,15 @@ template<typename Rng>
 void test_random_algorithms(Rng & rng, std::random_access_iterator_tag)
 {
     typedef BOOST_DEDUCED_TYPENAME boost::range_iterator<Rng>::type iterator;
-    typedef BOOST_DEDUCED_TYPENAME boost::range_value<Rng>::type value_type;
-    typedef BOOST_DEDUCED_TYPENAME boost::range_size<Rng>::type size_type BOOST_RANGE_UNUSED;
-    typedef BOOST_DEDUCED_TYPENAME boost::iterator_category<iterator>::type iterator_category;
 
-    
-    
+    typedef BOOST_DEDUCED_TYPENAME boost::range_value<Rng>::type value_type;
+
+    typedef BOOST_DEDUCED_TYPENAME boost::range_size<Rng>::type
+                                        size_type BOOST_RANGE_UNUSED;
+
+    typedef BOOST_DEDUCED_TYPENAME boost::iterator_category<iterator>::type
+                                        iterator_category BOOST_RANGE_UNUSED;
+
     // just make sure these compile (for now)
     if(0)
     {
