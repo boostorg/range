@@ -30,6 +30,7 @@
 #include <boost/range/functions.hpp>
 #include <boost/range/iterator.hpp>
 #include <boost/range/difference_type.hpp>
+#include <boost/range/has_range_iterator.hpp>
 #include <boost/range/algorithm/equal.hpp>
 #include <boost/range/detail/safe_bool.hpp>
 #include <boost/utility/enable_if.hpp>
@@ -380,6 +381,19 @@ public:
                     BOOST_DEDUCED_TYPENAME iterator_traversal<IteratorT>::type
             > base_type;
 
+            template<class Source>
+            struct is_compatible_range
+                : is_convertible<
+                    BOOST_DEDUCED_TYPENAME mpl::eval_if<
+                        has_range_iterator<Source>,
+                        range_iterator<Source>,
+                        mpl::identity<void>
+                    >::type,
+                    BOOST_DEDUCED_TYPENAME base_type::iterator
+                >
+            {
+            };
+
         protected:
             typedef iterator_range_detail::iterator_range_impl<IteratorT> impl;
 
@@ -397,13 +411,23 @@ public:
             }
 
             template<class SinglePassRange>
-            iterator_range(const SinglePassRange& r)
+            iterator_range(
+                const SinglePassRange& r,
+                BOOST_DEDUCED_TYPENAME enable_if<
+                    is_compatible_range<const SinglePassRange>
+                >::type* = 0
+            )
                 : base_type(impl::adl_begin(r), impl::adl_end(r))
             {
             }
 
             template<class SinglePassRange>
-            iterator_range(SinglePassRange& r)
+            iterator_range(
+                SinglePassRange& r,
+                BOOST_DEDUCED_TYPENAME enable_if<
+                    is_compatible_range<SinglePassRange>
+                >::type* = 0
+            )
                 : base_type(impl::adl_begin(r), impl::adl_end(r))
             {
             }
