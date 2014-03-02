@@ -19,6 +19,17 @@ namespace boost
 {
     namespace range_detail
     {
+        template<class Reference, class T>
+        Reference dereference_cast(T& x)
+        {
+            return static_cast<Reference>(x);
+        }
+        template<class Reference, class T>
+        Reference dereference_cast(const T& x)
+        {
+            return static_cast<Reference>(const_cast<T&>(x));
+        }
+
         template<
             class WrappedIterator
           , class Reference
@@ -114,7 +125,13 @@ namespace boost
         {
             struct disabler {};
             BOOST_RANGE_CONCEPT_ASSERT(( SinglePassIteratorConcept<WrappedIterator> ));
+            typedef any_single_pass_iterator_interface<
+                Reference,
+                Buffer
+            > base_type;
+
         public:
+            typedef typename base_type::reference reference;
 
             any_single_pass_iterator_wrapper()
                 : m_it()
@@ -178,9 +195,9 @@ namespace boost
                 return m_it == boost::polymorphic_downcast<const any_single_pass_iterator_wrapper*>(&other)->m_it;
             }
 
-            virtual Reference dereference() const
+            virtual reference dereference() const
             {
-                return *m_it;
+                return dereference_cast<reference>(*m_it);
             }
 
         private:
@@ -199,7 +216,14 @@ namespace boost
                     >
         {
             BOOST_RANGE_CONCEPT_ASSERT(( ForwardIteratorConcept<WrappedIterator> ));
+            typedef any_forward_iterator_interface<
+                Reference,
+                Buffer
+            > base_type;
+
         public:
+            typedef typename base_type::reference reference;
+
             any_forward_iterator_wrapper()
                 : m_it()
             {}
@@ -263,9 +287,9 @@ namespace boost
                 return m_it == boost::polymorphic_downcast<const any_forward_iterator_wrapper*>(&other)->m_it;
             }
 
-            virtual Reference dereference() const
+            virtual reference dereference() const
             {
-                return *m_it;
+                return dereference_cast<reference>(*m_it);
             }
         private:
             WrappedIterator m_it;
@@ -283,7 +307,14 @@ namespace boost
                     >
         {
             BOOST_RANGE_CONCEPT_ASSERT(( BidirectionalIteratorConcept<WrappedIterator> ));
+            typedef any_bidirectional_iterator_interface<
+                Reference,
+                Buffer
+            > base_type;
+
         public:
+            typedef typename base_type::reference reference;
+
             any_bidirectional_iterator_wrapper()
                 : m_it()
             {
@@ -353,9 +384,9 @@ namespace boost
                 return m_it == boost::polymorphic_downcast<const any_bidirectional_iterator_wrapper*>(&other)->m_it;
             }
 
-            virtual Reference dereference() const
+            virtual reference dereference() const
             {
-                return *m_it;
+                return dereference_cast<reference>(*m_it);
             }
 
         private:
@@ -376,7 +407,14 @@ namespace boost
                         >
         {
             BOOST_RANGE_CONCEPT_ASSERT(( RandomAccessIteratorConcept<WrappedIterator> ));
+            typedef any_random_access_iterator_interface<
+                Reference,
+                Difference,
+                Buffer
+            > base_type;
+
         public:
+            typedef typename base_type::reference reference;
             typedef Difference difference_type;
 
             any_random_access_iterator_wrapper()
@@ -457,9 +495,9 @@ namespace boost
                 m_it += offset;
             }
 
-            virtual Reference dereference() const
+            virtual reference dereference() const
             {
-                return *m_it;
+                return dereference_cast<reference>(*m_it);
             }
 
             virtual Difference distance_to(const any_random_access_iterator_interface<Reference, Difference, Buffer>& other) const

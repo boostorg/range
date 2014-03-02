@@ -476,6 +476,60 @@ namespace boost_range_adaptor_type_erased_test
             BOOST_CHECK_EQUAL( rng[i], i );
         }
     }
+
+    class dummy_interface
+    {
+    public:
+        virtual ~dummy_interface() { }
+        virtual void test() = 0;
+    protected:
+        dummy_interface() { }
+    private:
+        dummy_interface(const dummy_interface&);
+        void operator=(const dummy_interface&);
+    };
+
+    class dummy_impl
+        : public dummy_interface
+    {
+    public:
+        dummy_impl() { }
+        dummy_impl(const dummy_impl&) { }
+        dummy_impl& operator=(const dummy_impl&) { return *this; }
+        virtual void test() { }
+    };
+
+    typedef boost::any_range<
+        dummy_interface,
+        boost::random_access_traversal_tag,
+        dummy_interface&,
+        std::ptrdiff_t
+    > any_interface_range;
+
+    struct foo_dummy_interface_fn
+    {
+        void operator()(dummy_interface& iface)
+        {
+            iface.test();
+        }
+    };
+
+    void foo_test_dummy_interface_range(any_interface_range rng)
+    {
+        std::for_each(boost::begin(rng), boost::end(rng),
+                      foo_dummy_interface_fn());
+    }
+
+    void test_type_erased_abstract()
+    {
+        std::vector<dummy_impl> v(10);
+
+        any_interface_range r(v);
+
+        foo_test_dummy_interface_range(r);
+        
+        foo_test_dummy_interface_range(any_interface_range(v));
+    }
 }
 
 boost::unit_test::test_suite*
@@ -492,6 +546,7 @@ init_unit_test_suite(int argc, char* argv[])
     test->add( BOOST_TEST_CASE( &boost_range_adaptor_type_erased_test::test_type_erased_multiple_different_template_parameter_conversion ) );
     test->add( BOOST_TEST_CASE( &boost_range_adaptor_type_erased_test::test_type_erased_mix_values ) );
     test->add( BOOST_TEST_CASE( &boost_range_adaptor_type_erased_test::test_type_erased_operator_brackets ) );
+    test->add( BOOST_TEST_CASE( &boost_range_adaptor_type_erased_test::test_type_erased_abstract ) );
 
     return test;
 }
