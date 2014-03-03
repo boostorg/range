@@ -31,7 +31,7 @@ namespace boost
                                 IteratorCategoryTag1,
                                 IteratorCategoryTag2 )
         {
-            while (true)
+            for (;;)
             {
                 // If we have reached the end of the left range then this is
                 // the end of the loop. They are equal if and only if we have
@@ -71,7 +71,7 @@ namespace boost
                                 IteratorCategoryTag1,
                                 IteratorCategoryTag2 )
         {
-            while (true)
+            for (;;)
             {
                 // If we have reached the end of the left range then this is
                 // the end of the loop. They are equal if and only if we have
