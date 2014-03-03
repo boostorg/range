@@ -12,6 +12,7 @@
 
 #include <boost/test/test_tools.hpp>
 #include <boost/test/unit_test.hpp>
+#include <string>
 
 namespace boost
 {
@@ -19,12 +20,18 @@ namespace boost
     {
         class str_ref : public boost::iterator_range<const char*>
         {
+        public:
+            explicit str_ref(const std::string& str)
+                : boost::iterator_range<const char*>(
+                    str.c_str(), str.c_str() + str.size())
+            {
+            }
         };
-        
+
         void test_ticket_6715_iterator_range_equality()
         {
-            str_ref a;
-            str_ref b;
+            str_ref a("test");
+            str_ref b("test");
             BOOST_CHECK(a == b);
         }
     }
