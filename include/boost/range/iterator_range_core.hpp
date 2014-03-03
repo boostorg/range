@@ -708,7 +708,6 @@ public:
                     BOOST_DEDUCED_TYPENAME range_difference<Range>::type advance_begin,
                     BOOST_DEDUCED_TYPENAME range_difference<Range>::type advance_end )
         {
-            //BOOST_ASSERT( advance_begin - advance_end <= size(r) && "creating invalid range" );
             return iterator_range_detail::make_range_impl( r, advance_begin, advance_end );
         }
 
@@ -720,7 +719,6 @@ public:
                     BOOST_DEDUCED_TYPENAME range_difference<Range>::type advance_begin,
                     BOOST_DEDUCED_TYPENAME range_difference<Range>::type advance_end )
         {
-            //BOOST_ASSERT( advance_begin - advance_end <= size(r) && "creating invalid range" );
             return iterator_range_detail::make_range_impl( r, advance_begin, advance_end );
         }
 
@@ -730,7 +728,6 @@ public:
                     BOOST_DEDUCED_TYPENAME range_difference<Range>::type advance_begin,
                     BOOST_DEDUCED_TYPENAME range_difference<Range>::type advance_end )
         {
-            //BOOST_ASSERT( advance_begin - advance_end <= size(r) && "creating invalid range" );
             return iterator_range_detail::make_range_impl( r, advance_begin, advance_end );
         }
 

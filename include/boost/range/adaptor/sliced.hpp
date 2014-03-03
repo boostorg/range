@@ -34,7 +34,8 @@ namespace boost
         public:
             template<typename Rng, typename T, typename U>
             sliced_range(Rng& rng, T t, U u)
-                : base_t(boost::make_iterator_range(rng, t, u - boost::size(rng)))
+                : base_t(boost::next(boost::begin(rng), t),
+                         boost::next(boost::begin(rng), u))
             {
             }
         };
