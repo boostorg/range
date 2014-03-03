@@ -10,6 +10,7 @@
 //
 #include <boost/range/adaptor/indirected.hpp>
 #include <boost/optional.hpp>
+#include <boost/optional/optional_io.hpp>
 
 #include <boost/test/test_tools.hpp>
 #include <boost/test/unit_test.hpp>
