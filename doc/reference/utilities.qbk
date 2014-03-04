@@ -61,11 +61,14 @@ namespace boost
         operator    unspecified_bool_type() const;
         bool        equal( const iterator_range& ) const;
         value_type& front() const;
-        value_type& back() const;
-        iterator_range& advance_begin(difference_type n);
-        iterator_range& advance_end(difference_type n);
+        void        drop_front();
+        void        drop_front(difference_type n);
         bool      empty() const;
-        // for Random Access Range only:
+        // for Bidirectional:
+        value_type& back() const;
+        void drop_back();
+        void drop_back(difference_type n);
+        // for Random Access only:
         reference operator[]( difference_type at ) const;
         value_type operator()( difference_type at ) const;
         size_type size() const;
@@ -229,21 +232,6 @@ namespace boost
 
         template< class ForwardRange2 >
         sub_range& operator=( const ForwardRange2& r );
-
-    public:  // Forward Range functions
-        iterator        begin();
-        const_iterator  begin() const;
-        iterator        end();
-        const_iterator  end() const;
-
-    public: // convenience
-        value_type&       front();
-        const value_type& front() const;
-        value_type&       back();
-        const value_type& back() const;
-        // for Random Access Range only:
-        value_type&       operator[]( size_type at );
-        const value_type& operator[]( size_type at ) const;
 
     public:
         // rest of interface inherited from iterator_range
