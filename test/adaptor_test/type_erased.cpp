@@ -116,47 +116,6 @@ void test_type_erased_multiple_different_template_parameter_conversion()
     t4 = source;
 }
 
-template<
-    class Traversal
-  , class ValueType
-  , class SourceValueType
-  , class SourceReference
-  , class TargetValueType
-  , class TargetReference
->
-void test_type_erased_mix_values_impl()
-{
-    typedef std::vector< ValueType > Container;
-
-    typedef typename boost::any_range_type_generator<
-        Container
-      , SourceValueType
-      , Traversal
-      , SourceReference
-    >::type source_type;
-
-    typedef typename boost::any_range_type_generator<
-        Container
-      , TargetValueType
-      , Traversal
-      , TargetReference
-    >::type target_type;
-
-    Container test_data;
-    for (int i = 0; i < 10; ++i)
-        test_data.push_back(i);
-
-    const source_type source_data(test_data);
-    target_type t1(source_data);
-    BOOST_CHECK_EQUAL_COLLECTIONS( source_data.begin(), source_data.end(),
-                                   t1.begin(), t1.end() );
-
-    target_type t2;
-    t2 = source_data;
-    BOOST_CHECK_EQUAL_COLLECTIONS( source_data.begin(), source_data.end(),
-                                   t2.begin(), t2.end() );
-}
-
     } // anonymous namespace
 } // namespace boost_range_adaptor_type_erased_test
 
