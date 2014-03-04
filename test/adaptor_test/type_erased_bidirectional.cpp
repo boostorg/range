@@ -26,13 +26,23 @@ namespace boost_range_adaptor_type_erased_test
 
 void test_bidirectional()
 {
-    test_type_erased_exercise_buffer_types< std::list<int>, boost::bidirectional_traversal_tag >();
-    test_type_erased_exercise_buffer_types< std::deque<int>, boost::bidirectional_traversal_tag >();
-    test_type_erased_exercise_buffer_types< std::vector<int>, boost::bidirectional_traversal_tag >();
+    test_type_erased_exercise_buffer_types<
+            std::list<int>, boost::bidirectional_traversal_tag >();
 
-    test_type_erased_exercise_buffer_types< std::list<MockType>, boost::bidirectional_traversal_tag >();
-    test_type_erased_exercise_buffer_types< std::deque<MockType>, boost::bidirectional_traversal_tag >();
-    test_type_erased_exercise_buffer_types< std::vector<MockType>, boost::bidirectional_traversal_tag >();
+    test_type_erased_exercise_buffer_types<
+            std::deque<int>, boost::bidirectional_traversal_tag >();
+
+    test_type_erased_exercise_buffer_types<
+            std::vector<int>, boost::bidirectional_traversal_tag >();
+
+    test_type_erased_exercise_buffer_types<
+            std::list<MockType>, boost::bidirectional_traversal_tag >();
+
+    test_type_erased_exercise_buffer_types<
+            std::deque<MockType>, boost::bidirectional_traversal_tag >();
+
+    test_type_erased_exercise_buffer_types<
+            std::vector<MockType>, boost::bidirectional_traversal_tag >();
 }
 
     } // anonymous namespace
