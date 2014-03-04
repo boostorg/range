@@ -10,13 +10,6 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include <boost/range/value_type.hpp>
-#include <boost/array.hpp>
-#include <boost/cstdint.hpp>
-
-#include <algorithm>
-#include <list>
-#include <set>
 #include <vector>
 
 namespace boost_range_adaptor_type_erased_test
@@ -24,7 +17,7 @@ namespace boost_range_adaptor_type_erased_test
     namespace
     {
 
-void test_type_erased_operator_brackets()
+void test_operator_brackets()
 {
     typedef boost::adaptors::type_erased<> type_erased_t;
 
@@ -55,7 +48,7 @@ void test_type_erased_operator_brackets()
 
     for (int i = 0; i < 10; ++i)
     {
-        BOOST_CHECK_EQUAL( rng[i], i );
+        BOOST_CHECK_EQUAL(rng[i], i);
     }
 }
 
@@ -63,12 +56,14 @@ void test_type_erased_operator_brackets()
 } // namespace boost_range_adaptor_type_erased_test
 
 boost::unit_test::test_suite*
-init_unit_test_suite(int argc, char* argv[])
+init_unit_test_suite(int, char*[])
 {
     boost::unit_test::test_suite* test
-        = BOOST_TEST_SUITE( "RangeTestSuite.adaptor.type_erased" );
+        = BOOST_TEST_SUITE("RangeTestSuite.adaptor.type_erased_brackets");
 
-    test->add( BOOST_TEST_CASE( &boost_range_adaptor_type_erased_test::test_type_erased_operator_brackets ) );
+    test->add(
+        BOOST_TEST_CASE(
+            &boost_range_adaptor_type_erased_test::test_operator_brackets));
 
     return test;
 }

@@ -10,13 +10,6 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include <boost/range/value_type.hpp>
-#include <boost/array.hpp>
-#include <boost/cstdint.hpp>
-
-#include <algorithm>
-#include <list>
-#include <set>
 #include <vector>
 
 namespace boost_range_adaptor_type_erased_test
@@ -34,7 +27,7 @@ template<
 >
 void mix_values_impl()
 {
-    typedef std::vector< ValueType > Container;
+    typedef std::vector<ValueType> Container;
 
     typedef typename boost::any_range_type_generator<
         Container
@@ -56,13 +49,13 @@ void mix_values_impl()
 
     const source_type source_data(test_data);
     target_type t1(source_data);
-    BOOST_CHECK_EQUAL_COLLECTIONS( source_data.begin(), source_data.end(),
-                                   t1.begin(), t1.end() );
+    BOOST_CHECK_EQUAL_COLLECTIONS(source_data.begin(), source_data.end(),
+                                  t1.begin(), t1.end());
 
     target_type t2;
     t2 = source_data;
-    BOOST_CHECK_EQUAL_COLLECTIONS( source_data.begin(), source_data.end(),
-                                   t2.begin(), t2.end() );
+    BOOST_CHECK_EQUAL_COLLECTIONS(source_data.begin(), source_data.end(),
+                                  t2.begin(), t2.end());
 }
 
 template<class Traversal>
@@ -78,17 +71,17 @@ void mix_values_driver()
 
 void mix_values()
 {
-    mix_values_driver< boost::single_pass_traversal_tag >();
-    mix_values_driver< boost::forward_traversal_tag >();
-    mix_values_driver< boost::bidirectional_traversal_tag >();
-    mix_values_driver< boost::random_access_traversal_tag >();
+    mix_values_driver<boost::single_pass_traversal_tag >();
+    mix_values_driver<boost::forward_traversal_tag >();
+    mix_values_driver<boost::bidirectional_traversal_tag >();
+    mix_values_driver<boost::random_access_traversal_tag >();
 }
 
     } // anonymous namespace
 } // namespace boost_range_adaptor_type_erased_test
 
 boost::unit_test::test_suite*
-init_unit_test_suite(int argc, char* argv[])
+init_unit_test_suite(int, char*[])
 {
     boost::unit_test::test_suite* test =
         BOOST_TEST_SUITE("RangeTestSuite.adaptor.type_erased_mix_values");

@@ -10,11 +10,6 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include <boost/range/value_type.hpp>
-#include <boost/array.hpp>
-#include <boost/cstdint.hpp>
-
-#include <algorithm>
 #include <deque>
 #include <vector>
 
