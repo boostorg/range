@@ -20,6 +20,7 @@
 #include <boost/test/test_tools.hpp>
 #include <boost/test/unit_test.hpp>
 #include <boost/static_assert.hpp>
+#include <boost/cstdint.hpp>
 #include <list>
 #include <vector>
 
