@@ -77,45 +77,6 @@ void test_type_erased_random_access()
     test_type_erased_exercise_buffer_types< std::vector<MockType>, boost::random_access_traversal_tag >();
 }
 
-void test_type_erased_multiple_different_template_parameter_conversion()
-{
-    typedef boost::any_range<
-                int
-              , boost::random_access_traversal_tag
-              , int&
-              , std::ptrdiff_t
-    > source_range_type;
-
-    typedef boost::any_range<
-                int
-              , boost::single_pass_traversal_tag
-              , const int&
-              , std::ptrdiff_t
-    > target_range_type;
-
-    source_range_type source;
-
-    // Converting via construction
-    target_range_type t1(source);
-
-    // Converting via assignment
-    target_range_type t2;
-    t2 = source;
-
-    // Converting via construction to a type with a reference type
-    // that is a value
-    typedef boost::any_range<
-                int
-              , boost::single_pass_traversal_tag
-              , int
-              , std::ptrdiff_t
-            > target_range2_type;
-
-    target_range2_type t3(source);
-    target_range2_type t4;
-    t4 = source;
-}
-
     } // anonymous namespace
 } // namespace boost_range_adaptor_type_erased_test
 
@@ -130,7 +91,6 @@ init_unit_test_suite(int argc, char* argv[])
     test->add( BOOST_TEST_CASE( &boost_range_adaptor_type_erased_test::test_type_erased_forward ) );
     test->add( BOOST_TEST_CASE( &boost_range_adaptor_type_erased_test::test_type_erased_bidirectional ) );
     test->add( BOOST_TEST_CASE( &boost_range_adaptor_type_erased_test::test_type_erased_random_access ) );
-    test->add( BOOST_TEST_CASE( &boost_range_adaptor_type_erased_test::test_type_erased_multiple_different_template_parameter_conversion ) );
 
     return test;
 }
