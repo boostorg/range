@@ -35,17 +35,6 @@ void test_type_erased()
     test_driver< std::vector<MockType> >();
 }
 
-void test_type_erased_single_pass()
-{
-    test_type_erased_exercise_buffer_types< std::list<int>, boost::single_pass_traversal_tag >();
-    test_type_erased_exercise_buffer_types< std::deque<int>, boost::single_pass_traversal_tag >();
-    test_type_erased_exercise_buffer_types< std::vector<int>, boost::single_pass_traversal_tag >();
-
-    test_type_erased_exercise_buffer_types< std::list<MockType>, boost::single_pass_traversal_tag >();
-    test_type_erased_exercise_buffer_types< std::deque<MockType>, boost::single_pass_traversal_tag >();
-    test_type_erased_exercise_buffer_types< std::vector<MockType>, boost::single_pass_traversal_tag >();
-}
-
 void test_type_erased_forward()
 {
     test_type_erased_exercise_buffer_types< std::list<int>, boost::forward_traversal_tag >();
@@ -87,7 +76,6 @@ init_unit_test_suite(int argc, char* argv[])
         = BOOST_TEST_SUITE( "RangeTestSuite.adaptor.type_erased" );
 
     test->add( BOOST_TEST_CASE( &boost_range_adaptor_type_erased_test::test_type_erased ) );
-    test->add( BOOST_TEST_CASE( &boost_range_adaptor_type_erased_test::test_type_erased_single_pass ) );
     test->add( BOOST_TEST_CASE( &boost_range_adaptor_type_erased_test::test_type_erased_forward ) );
     test->add( BOOST_TEST_CASE( &boost_range_adaptor_type_erased_test::test_type_erased_bidirectional ) );
     test->add( BOOST_TEST_CASE( &boost_range_adaptor_type_erased_test::test_type_erased_random_access ) );
