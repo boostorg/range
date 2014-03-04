@@ -213,11 +213,17 @@ namespace boost
     class sub_range : public iterator_range< typename range_iterator<ForwardRange>::type >
     {
     public:
+        typedef typename range_value<ForwardRange>::type value_type;
         typedef typename range_iterator<ForwardRange>::type iterator;
         typedef typename range_iterator<const ForwardRange>::type  const_iterator;
-        typedef typename iterator_difference<iterator>::type difference_type;
+        typedef typename range_difference<ForwardRange>::type difference_type;
+        typedef typename range_size<ForwardRange>::type size_type;
+        typedef typename range_reference<ForwardRange>::type reference;
+        typedef typename range_reference<const ForwardRange>::type const_reference;
 
     public: // construction, assignment
+        sub_range();
+
         template< class ForwardTraversalIterator >
         sub_range( ForwardTraversalIterator Begin, ForwardTraversalIterator End );
 
@@ -232,6 +238,23 @@ namespace boost
 
         template< class ForwardRange2 >
         sub_range& operator=( const ForwardRange2& r );
+
+        // iterator accessors
+        const_iterator begin() const;
+        iterator begin();
+        const_iterator end() const;
+        iterator end();
+
+        reference front();
+        const_reference front() const;
+
+        // If traversal >= bidirectional:
+        reference back();
+        const_reference back();
+
+        // If traversal >= random-access:
+        reference operator[](difference_type n);
+        const_reference operator[](difference_type n) const;
 
     public:
         // rest of interface inherited from iterator_range
