@@ -30,8 +30,9 @@ namespace boost
 
         void test_ticket_6715_iterator_range_equality()
         {
-            str_ref a("test");
-            str_ref b("test");
+            std::string src("test");
+            str_ref a(src);
+            str_ref b(src);
             BOOST_CHECK(a == b);
         }
     }

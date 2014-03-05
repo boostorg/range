@@ -206,10 +206,16 @@ public:
        return *m_Begin;
    }
 
-   void pop_front()
+   void drop_front()
    {
        BOOST_ASSERT(!empty());
        ++m_Begin;
+   }
+
+   void drop_front(difference_type n)
+   {
+       BOOST_ASSERT(n >= difference_type());
+       std::advance(this->m_Begin, n);
    }
 
 protected:
@@ -256,16 +262,25 @@ protected:
     }
 
 public:
-    BOOST_DEDUCED_TYPENAME base_type::reference back() const
+    typedef BOOST_DEDUCED_TYPENAME base_type::difference_type difference_type;
+    typedef BOOST_DEDUCED_TYPENAME base_type::reference reference;
+
+    reference back() const
     {
         BOOST_ASSERT(!this->empty());
         return *boost::prior(this->m_End);
     }
 
-    void pop_back()
+    void drop_back()
     {
         BOOST_ASSERT(!this->empty());
         --this->m_End;
+    }
+
+    void drop_back(difference_type n)
+    {
+        BOOST_ASSERT(n >= difference_type());
+        std::advance(this->m_End, -n);
     }
 };
 
@@ -326,20 +341,6 @@ public:
     {
         BOOST_ASSERT(at >= 0 && at < size());
         return this->m_Begin[at];
-    }
-
-    void pop_front(difference_type n)
-    {
-        BOOST_ASSERT(n >= difference_type());
-        BOOST_ASSERT(size() >= static_cast<size_type>(n));
-        std::advance(this->m_Begin, n);
-    }
-
-    void pop_back(difference_type n)
-    {
-        BOOST_ASSERT(n >= difference_type());
-        BOOST_ASSERT(size() >= static_cast<size_type>(n));
-        std::advance(this->m_End, -n);
     }
 
     BOOST_DEDUCED_TYPENAME base_type::size_type size() const

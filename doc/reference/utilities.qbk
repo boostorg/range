@@ -61,11 +61,14 @@ namespace boost
         operator    unspecified_bool_type() const;
         bool        equal( const iterator_range& ) const;
         value_type& front() const;
-        value_type& back() const;
-        iterator_range& advance_begin(difference_type n);
-        iterator_range& advance_end(difference_type n);
+        void        drop_front();
+        void        drop_front(difference_type n);
         bool      empty() const;
-        // for Random Access Range only:
+        // for Bidirectional:
+        value_type& back() const;
+        void drop_back();
+        void drop_back(difference_type n);
+        // for Random Access only:
         reference operator[]( difference_type at ) const;
         value_type operator()( difference_type at ) const;
         size_type size() const;
@@ -210,11 +213,17 @@ namespace boost
     class sub_range : public iterator_range< typename range_iterator<ForwardRange>::type >
     {
     public:
+        typedef typename range_value<ForwardRange>::type value_type;
         typedef typename range_iterator<ForwardRange>::type iterator;
         typedef typename range_iterator<const ForwardRange>::type  const_iterator;
-        typedef typename iterator_difference<iterator>::type difference_type;
+        typedef typename range_difference<ForwardRange>::type difference_type;
+        typedef typename range_size<ForwardRange>::type size_type;
+        typedef typename range_reference<ForwardRange>::type reference;
+        typedef typename range_reference<const ForwardRange>::type const_reference;
 
     public: // construction, assignment
+        sub_range();
+
         template< class ForwardTraversalIterator >
         sub_range( ForwardTraversalIterator Begin, ForwardTraversalIterator End );
 
@@ -230,20 +239,22 @@ namespace boost
         template< class ForwardRange2 >
         sub_range& operator=( const ForwardRange2& r );
 
-    public:  // Forward Range functions
-        iterator        begin();
-        const_iterator  begin() const;
-        iterator        end();
-        const_iterator  end() const;
+        // iterator accessors
+        const_iterator begin() const;
+        iterator begin();
+        const_iterator end() const;
+        iterator end();
 
-    public: // convenience
-        value_type&       front();
-        const value_type& front() const;
-        value_type&       back();
-        const value_type& back() const;
-        // for Random Access Range only:
-        value_type&       operator[]( size_type at );
-        const value_type& operator[]( size_type at ) const;
+        reference front();
+        const_reference front() const;
+
+        // If traversal >= bidirectional:
+        reference back();
+        const_reference back();
+
+        // If traversal >= random-access:
+        reference operator[](difference_type n);
+        const_reference operator[](difference_type n) const;
 
     public:
         // rest of interface inherited from iterator_range
