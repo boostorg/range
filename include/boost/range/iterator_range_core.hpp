@@ -7,6 +7,10 @@
 //
 // For more information, see http://www.boost.org/libs/range/
 //
+// Credits:
+// 'michel' reported Trac 9072 which included a patch for allowing references
+// to function types.
+//
 #ifndef BOOST_RANGE_ITERATOR_RANGE_CORE_HPP_INCLUDED
 #define BOOST_RANGE_ITERATOR_RANGE_CORE_HPP_INCLUDED
 
@@ -25,6 +29,7 @@
 #include <boost/type_traits/is_abstract.hpp>
 #include <boost/type_traits/is_array.hpp>
 #include <boost/type_traits/is_convertible.hpp>
+#include <boost/type_traits/is_function.hpp>
 #include <boost/type_traits/is_pointer.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/range/functions.hpp>
@@ -299,6 +304,9 @@ public:
                     BOOST_DEDUCED_TYPENAME base_type::value_type
                 >,
                 boost::is_array<
+                    BOOST_DEDUCED_TYPENAME base_type::value_type
+                >,
+                boost::is_function<
                     BOOST_DEDUCED_TYPENAME base_type::value_type
                 >
             >,
