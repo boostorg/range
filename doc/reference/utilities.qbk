@@ -9,6 +9,7 @@ Having an abstraction that encapsulates a pair of iterators is very useful. The 
 
 * Class `iterator_range`
 * Class `sub_range`
+* Function `combine`
 * Function `join`
 
 The `iterator_range` class is templated on an __forward_traversal_iterator__ and should be used whenever fairly general code is needed. The `sub_range` class is templated on an __forward_range__ and it is less general, but a bit easier to use since its template argument is easier to specify. The biggest difference is, however, that a `sub_range` can propagate constness because it knows what a corresponding `const_iterator` is.
@@ -25,6 +26,14 @@ Recall that many default constructed iterators are [*/singular/] and hence can o
 
 
 [h4 Synopsis]
+
+The core functionality is in the header file
+`<boost/range/iterator_range_core.hpp>` this includes all of the functionality
+except the `boost::hash_value` and `std::iostream` support.
+
+The `std::iostream` support is in the header `<boost/range/iterator_core.hpp>`
+while the `boost::hash_value` support is in
+`<boost/range/iterator_range_hash.hpp>`
 
 ``
 namespace boost
