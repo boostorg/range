@@ -75,8 +75,8 @@ namespace boost
         template<
             class Value
           , class Traversal
-          , class Reference
-          , class Difference
+          , class Reference = Value&
+          , class Difference = std::ptrdiff_t
           , class Buffer = use_default
         >
         class any_range
