@@ -273,6 +273,83 @@ sub_range<std::string>               sub = find_first( str, "ll" );
 
 [endsect]
 
+[section:combine Function combine]
+
+The `combine` function is used to make one range from multiple ranges. The
+`combine` function returns a `combined_range` which is an `iterator_range` of
+a `zip_iterator` from the Boost.Iterator library.
+
+[h4 Synopsis]
+
+``
+namespace boost
+{
+    namespace range
+    {
+
+template<typename IterTuple>
+class combined_range
+    : public iterator_range<zip_iterator<IterTuple> >
+{
+public:
+    combined_range(IterTuple first, IterTuple last);
+};
+
+template<typename... Ranges>
+auto combine(Ranges&&... rngs) ->
+    combined_range<decltype(boost::make_tuple(boost::begin(rngs)...))>
+
+    } // namespace range
+} // namespace boost
+``
+
+* [*Precondition:] For each type `r` in `Ranges`, `r` is a model of
+__single_pass_range__ or better.
+* [*Return Type:] `combined_range<tuple<typename range_iterator<Ranges>::type...> >`
+* [*Returned Range Category:] The minimum of the range category of every range
+`r` in `Ranges`.
+
+[h4 Example]
+
+``
+#include <boost/range/combine.hpp>
+#include <boost/foreach.hpp>
+#include <iostream>
+#include <vector>
+#include <list>
+
+int main(int, const char*[])
+{
+    std::vector<int> v;
+    std::list<char> l;
+    for (int i = 0; i < 5; ++i)
+    {
+        v.push_back(i);
+        l.push_back(static_cast<char>(i) + 'a');
+    }
+
+    int ti;
+    char tc;
+    BOOST_FOREACH(boost::tie(ti, tc), boost::combine(v, l))
+    {
+        std::cout << '(' << ti << ',' << tv << ')' << '\n';
+    }
+
+    return 0;
+}
+``
+
+This produces the output:
+``
+(0,a)
+(1,b)
+(2,c)
+(3,d)
+(4,e)
+``
+
+[endsect]
+
 [section:join Function join]
 
 The intention of the `join` function is to join two ranges into one longer range.
