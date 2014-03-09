@@ -285,8 +285,8 @@ namespace boost {
             iterator i1 = boost::begin(*m_range);
             iterator i2 = boost::end(*m_range);
 
-            ignore_unused_variable_warning(i1);
-            ignore_unused_variable_warning(i2);
+            boost::ignore_unused_variable_warning(i1);
+            boost::ignore_unused_variable_warning(i2);
 
             const_constraints(*m_range);
         }
@@ -297,8 +297,8 @@ namespace boost {
             const_iterator ci1 = boost::begin(const_range);
             const_iterator ci2 = boost::end(const_range);
 
-            ignore_unused_variable_warning(ci1);
-            ignore_unused_variable_warning(ci2);
+            boost::ignore_unused_variable_warning(ci1);
+            boost::ignore_unused_variable_warning(ci2);
         }
 
        // Rationale:
