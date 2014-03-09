@@ -53,7 +53,7 @@ private:
         return m_it == other.m_it;
     }
 
-    boost::int32_t dereference() const
+    reference dereference() const
     {
         return *m_it;
     }
@@ -97,7 +97,7 @@ private:
         return m_it == other.m_it;
     }
 
-    boost::int32_t dereference() const
+    reference dereference() const
     {
         return *m_it;
     }
