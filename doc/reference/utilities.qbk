@@ -132,6 +132,12 @@ namespace boost
     make_iterator_range( ForwardTraversalIterator Begin,
                          ForwardTraversalIterator End );
 
+    // Make an iterator_range [first, boost::next(first, n) )
+    template< class ForwardTraversalIterator, class Integer >
+    iterator_range< ForwardTraversalIterator >
+    make_iterator_range_n( ForwardTraversalIterator first, Integer n );
+
+
     template< class ForwardRange >
     iterator_range< typename range_iterator<ForwardRange>::type >
     make_iterator_range( ForwardRange& r );

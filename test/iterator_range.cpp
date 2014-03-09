@@ -213,7 +213,30 @@ namespace iterator_range_test_detail
         BOOST_CHECK_EQUAL_COLLECTIONS( rng.begin(), rng.end(),
                                        source, source + 6 );
     }
-    
+
+    void check_make_iterator_range_n()
+    {
+        std::vector<uint32_t> input;
+        for (uint32_t i = 0; i < 10u; ++i)
+            input.push_back(i);
+
+        boost::iterator_range<std::vector<uint32_t>::iterator> rng =
+                boost::make_iterator_range_n(boost::begin(input), 8u);
+
+        BOOST_CHECK(rng.begin() == input.begin());
+        BOOST_CHECK(rng.end() == input.begin() + 8);
+        BOOST_CHECK_EQUAL(rng.size(), 8u);
+
+        const std::vector<uint32_t>& cinput = input;
+
+        boost::iterator_range<std::vector<uint32_t>::const_iterator> crng =
+                boost::make_iterator_range_n(boost::begin(cinput), 8u);
+
+        BOOST_CHECK(crng.begin() == cinput.begin());
+        BOOST_CHECK(crng.end() == cinput.begin() + 8);
+        BOOST_CHECK_EQUAL(crng.size(), 8u);
+    }
+
 } // namespace iterator_range_test_detail
 
 template<typename Pred>
@@ -234,6 +257,7 @@ boost::unit_test::test_suite* init_unit_test_suite( int argc, char* argv[] )
     test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::greater_or_equal>));
     test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::equal_to>));
     test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::not_equal_to>));
+    test->add(BOOST_TEST_CASE(&iterator_range_test_detail::check_make_iterator_range_n));
 
     return test;
 }

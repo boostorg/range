@@ -651,6 +651,13 @@ public:
             return iterator_range<IteratorT>( Begin, End );
         }
 
+        template<typename IteratorT, typename IntegerT>
+        inline iterator_range<IteratorT>
+        make_iterator_range_n(IteratorT first, IntegerT n)
+        {
+            return iterator_range<IteratorT>(first, boost::next(first, n));
+        }
+
 #ifdef BOOST_NO_FUNCTION_TEMPLATE_ORDERING
 
         template< typename Range >
