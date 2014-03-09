@@ -17,6 +17,7 @@
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/has_xxx.hpp>
 #include <boost/range/iterator.hpp>
+#include <boost/type_traits/remove_reference.hpp>
 #include <boost/utility/enable_if.hpp>
 
 namespace boost
@@ -67,12 +68,14 @@ namespace boost
 
     template<class T>
     struct has_range_iterator
-        : range_detail::has_range_iterator_impl<T>
+        : range_detail::has_range_iterator_impl<
+            BOOST_DEDUCED_TYPENAME remove_reference<T>::type>
     {};
 
     template<class T>
     struct has_range_const_iterator
-        : range_detail::has_range_const_iterator_impl<T>
+        : range_detail::has_range_const_iterator_impl<
+            BOOST_DEDUCED_TYPENAME remove_reference<T>::type>
     {};
 } // namespace boost
 

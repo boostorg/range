@@ -26,7 +26,8 @@ namespace boost
     
     template< typename C >
     struct range_const_reverse_iterator
-            : range_reverse_iterator<const typename remove_reference<C>::type>
+            : range_reverse_iterator<
+                const BOOST_DEDUCED_TYPENAME remove_reference<C>::type>
     { };
     
 } // namespace boost

@@ -65,7 +65,7 @@ struct range_const_iterator< T[sz] >
 template<typename C>
 struct range_const_iterator
         : range_detail::range_const_iterator<
-            typename remove_reference<C>::type
+            BOOST_DEDUCED_TYPENAME remove_reference<C>::type
         >
 {
 };
