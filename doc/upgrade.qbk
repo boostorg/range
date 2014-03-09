@@ -16,6 +16,8 @@ been noted that some calling code was relying on member functions such as
 due to `iterator_reference<Iter>::type` not being a reference. The suggested
 refactoring is to use `boost::size(rng)`.
 
+[endsect]
+
 [section:upgrade_from_1_49 Upgrade from version 1.49]
 
 # __size__ now returns the type Rng::size_type if the range has size_type;

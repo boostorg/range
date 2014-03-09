@@ -57,10 +57,15 @@ namespace boost
            
 #else  
 
-        typedef BOOST_RANGE_DEDUCED_TYPENAME 
-            mpl::eval_if_c< is_const<C>::value, 
-                            range_const_iterator< typename remove_const<C>::type >,
-                            range_mutable_iterator<C> >::type type;
+    private:
+        typedef typename remove_reference<C>::type param_t;
+
+    public:
+        typedef typename mpl::eval_if_c<
+            is_const<param_t>::value,
+            range_const_iterator<typename remove_const<param_t>::type>,
+            range_mutable_iterator<param_t>
+        >::type type;
         
 #endif         
     };

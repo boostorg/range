@@ -72,6 +72,13 @@ namespace boost {
         #endif
     #endif
 
+    #ifdef __GCCXML__
+        // GCC XML, unsurprisingly, has the same issues
+        #if __GCCXML_GNUC__ == 4 && __GCCXML_GNUC_MINOR__ == 2
+            #define BOOST_RANGE_ENABLE_CONCEPT_ASSERT 0
+        #endif
+    #endif
+
     #ifdef __BORLANDC__
         #define BOOST_RANGE_ENABLE_CONCEPT_ASSERT 0
     #endif

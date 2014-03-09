@@ -9,6 +9,7 @@ Having an abstraction that encapsulates a pair of iterators is very useful. The 
 
 * Class `iterator_range`
 * Class `sub_range`
+* Function `combine`
 * Function `join`
 
 The `iterator_range` class is templated on an __forward_traversal_iterator__ and should be used whenever fairly general code is needed. The `sub_range` class is templated on an __forward_range__ and it is less general, but a bit easier to use since its template argument is easier to specify. The biggest difference is, however, that a `sub_range` can propagate constness because it knows what a corresponding `const_iterator` is.
@@ -25,6 +26,14 @@ Recall that many default constructed iterators are [*/singular/] and hence can o
 
 
 [h4 Synopsis]
+
+The core functionality is in the header file
+`<boost/range/iterator_range_core.hpp>` this includes all of the functionality
+except the `boost::hash_value` and `std::iostream` support.
+
+The `std::iostream` support is in the header `<boost/range/iterator_core.hpp>`
+while the `boost::hash_value` support is in
+`<boost/range/iterator_range_hash.hpp>`
 
 ``
 namespace boost
@@ -269,6 +278,83 @@ The class should be trivial to use as seen below. Imagine that we have an algori
 std::string str("hello");
 iterator_range<std::string::iterator> ir = find_first( str, "ll" );
 sub_range<std::string>               sub = find_first( str, "ll" );
+``
+
+[endsect]
+
+[section:combine Function combine]
+
+The `combine` function is used to make one range from multiple ranges. The
+`combine` function returns a `combined_range` which is an `iterator_range` of
+a `zip_iterator` from the Boost.Iterator library.
+
+[h4 Synopsis]
+
+``
+namespace boost
+{
+    namespace range
+    {
+
+template<typename IterTuple>
+class combined_range
+    : public iterator_range<zip_iterator<IterTuple> >
+{
+public:
+    combined_range(IterTuple first, IterTuple last);
+};
+
+template<typename... Ranges>
+auto combine(Ranges&&... rngs) ->
+    combined_range<decltype(boost::make_tuple(boost::begin(rngs)...))>
+
+    } // namespace range
+} // namespace boost
+``
+
+* [*Precondition:] For each type `r` in `Ranges`, `r` is a model of
+__single_pass_range__ or better.
+* [*Return Type:] `combined_range<tuple<typename range_iterator<Ranges>::type...> >`
+* [*Returned Range Category:] The minimum of the range category of every range
+`r` in `Ranges`.
+
+[h4 Example]
+
+``
+#include <boost/range/combine.hpp>
+#include <boost/foreach.hpp>
+#include <iostream>
+#include <vector>
+#include <list>
+
+int main(int, const char*[])
+{
+    std::vector<int> v;
+    std::list<char> l;
+    for (int i = 0; i < 5; ++i)
+    {
+        v.push_back(i);
+        l.push_back(static_cast<char>(i) + 'a');
+    }
+
+    int ti;
+    char tc;
+    BOOST_FOREACH(boost::tie(ti, tc), boost::combine(v, l))
+    {
+        std::cout << '(' << ti << ',' << tv << ')' << '\n';
+    }
+
+    return 0;
+}
+``
+
+This produces the output:
+``
+(0,a)
+(1,b)
+(2,c)
+(3,d)
+(4,e)
 ``
 
 [endsect]

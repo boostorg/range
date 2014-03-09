@@ -19,12 +19,14 @@
 
 
 #include <boost/range/detail/extract_optional_type.hpp>
+#include <boost/type_traits/remove_reference.hpp>
 #include <boost/iterator/iterator_traits.hpp>
 #include <cstddef>
 #include <utility>
 
 namespace boost
 {
+
     //////////////////////////////////////////////////////////////////////////
     // default
     //////////////////////////////////////////////////////////////////////////
@@ -34,7 +36,9 @@ namespace boost
     }
 
     template< typename C >
-    struct range_mutable_iterator : range_detail::extract_iterator<C>
+    struct range_mutable_iterator
+            : range_detail::extract_iterator<
+                BOOST_DEDUCED_TYPENAME remove_reference<C>::type>
     {};
     
     //////////////////////////////////////////////////////////////////////////
