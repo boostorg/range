@@ -41,21 +41,12 @@ namespace boost
             typedef F transform_fn_type;
             typedef R source_range_type;
 
-#ifdef BOOST_NO_CXX11_RVALUE_REFERENCES
             transformed_range( F f, R& r )
                 : base( boost::make_transform_iterator( boost::begin(r), f ),
                         boost::make_transform_iterator( boost::end(r), f ) )
 
             {
             }
-#else
-            transformed_range(F&& f, R&& r)
-                : base(typename base::iterator(boost::begin(r), std::forward(f),
-                       typename base::iterator(boost::end(r), std::forward(f))))
-            {
-            }
-
-#endif
         };
 
         template< class T >
@@ -66,7 +57,6 @@ namespace boost
             }
         };
 
-#ifdef BOOST_NO_CXX11_RVALUE_REFERENCES
         template< class InputRng, class UnaryFunction >
         inline transformed_range<UnaryFunction,InputRng>
         operator|( InputRng& r,
@@ -82,16 +72,6 @@ namespace boost
         {
            return transformed_range<UnaryFunction, const InputRng>( f.val, r );
         }
-#else
-        template<class InputRng, class UnaryFunction>
-        inline transformed_range<UnaryFunction,InputRng>
-        operator|(InputRng&& r,
-                  transform_holder<UnaryFunction>&& f)
-        {
-            return transformed_range<UnaryFunction, InputRng>(
-                        f.val, std::forward(r));
-        }
-#endif
 
     } // 'range_detail'
 
@@ -106,7 +86,6 @@ namespace boost
                       range_detail::forwarder<range_detail::transform_holder>();
         }
 
-#ifdef BOOST_NO_CXX11_RVALUE_REFERENCES
         template<class UnaryFunction, class InputRange>
         inline transformed_range<UnaryFunction, InputRange>
         transform(InputRange& rng, UnaryFunction fn)
@@ -120,16 +99,6 @@ namespace boost
         {
             return transformed_range<UnaryFunction, const InputRange>(fn, rng);
         }
-#else
-    template<typename UnaryFunction, typename InputRange>
-    inline transformed_range<UnaryFunction, InputRange>
-    transform(InputRange&& rng, UnaryFunction&& fn)
-    {
-        return transformed_range<UnaryFunction, InputRange>(
-                    std::forward(fn), std::forward(rng));
-    }
-
-#endif
     } // 'adaptors'
 
 }
