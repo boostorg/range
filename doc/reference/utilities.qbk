@@ -10,6 +10,7 @@ Having an abstraction that encapsulates a pair of iterators is very useful. The 
 * Class `iterator_range`
 * Class `sub_range`
 * Function `combine`
+* Function `separated`
 * Function `join`
 
 The `iterator_range` class is templated on an __forward_traversal_iterator__ and should be used whenever fairly general code is needed. The `sub_range` class is templated on an __forward_range__ and it is less general, but a bit easier to use since its template argument is easier to specify. The biggest difference is, however, that a `sub_range` can propagate constness because it knows what a corresponding `const_iterator` is.
@@ -131,6 +132,12 @@ namespace boost
     iterator_range< ForwardTraversalIterator >
     make_iterator_range( ForwardTraversalIterator Begin,
                          ForwardTraversalIterator End );
+
+    // Make an iterator_range [first, boost::next(first, n) )
+    template< class ForwardTraversalIterator, class Integer >
+    iterator_range< ForwardTraversalIterator >
+    make_iterator_range_n( ForwardTraversalIterator first, Integer n );
+
 
     template< class ForwardRange >
     iterator_range< typename range_iterator<ForwardRange>::type >
@@ -397,6 +404,55 @@ For the mutable version:
 
 The expression `join(irange(0,5), irange(5,10))` would evaluate to a range representing an integer range `[0,10)`
 
+
+[endsect]
+
+[section:separated Function separated]
+
+The separated function allows output streaming a range while writing a separator
+between each element.
+
+[h4 Synopsis]
+
+``
+template<typename Iterator, typename Separator>
+class output_stream_writer
+{
+    // ... unspecified
+};
+
+template<typename Char, typename Traits>
+std::basic_ostream<Char,Traits>& operator<<(
+    std::basic_ostream<Char,Traits>& out,
+    const output_stream_writer<Iterator, Separator>& writer);
+
+template<typename Range, typename Separator>
+boost::range::output_stream_writer<
+    typename boost::range_iterator<const Range>::type,
+    Separator
+> separated(const Range& rng, Separator separator);
+``
+
+[h4 Example]
+
+``
+#include <boost/range/separated.hpp>
+#include <iostream>
+#include <vector>
+
+int main(int, const char*[])
+{
+    std::vector<int> v;
+    for (int i = 0; i < 5; ++i)
+        v.push_back(v);
+
+    std::cout << '{' << boost::range::separated(v, ',') << '}' << std::endl;
+
+    return 0;
+}
+``
+
+Produces the output: `{0,1,2,3,4}`
 
 [endsect]
 

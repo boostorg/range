@@ -63,6 +63,8 @@
 [def __counting_range__         [link range.reference.ranges.counting_range `counting_range`]]
 [def __irange__                 [link range.reference.ranges.irange `irange`]]
 [def __istream_range__          [link range.reference.ranges.istream_range `istream_range`]]
+[def __combine__                [link range.reference.utilities.combine `combine`]]
+[def __separated__              [link range.reference.utilities.separated `separated`]]
 [def __join__                   [link range.reference.utilities.join `join`]]
 
 [def __range_adaptors__                   [link range.reference.adaptors Range adaptors]]
