@@ -190,7 +190,7 @@ public:
         template< class ForwardRange2 >
         sub_range(
             ForwardRange2& r,
-            BOOST_DEDUCED_TYPENAME enable_if<
+            BOOST_DEDUCED_TYPENAME ::boost::enable_if<
                 is_compatible_range<ForwardRange2>
             >::type* = 0
         )
@@ -201,7 +201,7 @@ public:
         template< class ForwardRange2 >
         sub_range(
             const ForwardRange2& r,
-            BOOST_DEDUCED_TYPENAME enable_if<
+            BOOST_DEDUCED_TYPENAME ::boost::enable_if<
                 is_compatible_range<const ForwardRange2>
             >::type* = 0
         )
@@ -235,7 +235,7 @@ public:
         { }
 
         template<class ForwardRange2>
-        BOOST_DEDUCED_TYPENAME enable_if<
+        BOOST_DEDUCED_TYPENAME ::boost::enable_if<
             is_compatible_range<ForwardRange2>,
             sub_range&
         >::type
@@ -246,7 +246,7 @@ public:
         }
 
         template<class ForwardRange2>
-        BOOST_DEDUCED_TYPENAME enable_if<
+        BOOST_DEDUCED_TYPENAME ::boost::enable_if<
             is_compatible_range<const ForwardRange2>,
             sub_range&
         >::type

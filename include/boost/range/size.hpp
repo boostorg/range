@@ -30,7 +30,7 @@ namespace boost
     {
 
         template<class SinglePassRange>
-        inline typename enable_if<
+        inline typename ::boost::enable_if<
             has_member_size<SinglePassRange>,
             typename range_size<const SinglePassRange>::type
         >::type

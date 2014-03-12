@@ -356,7 +356,7 @@ namespace boost
                                 OtherDifference,
                                 Buffer
                             >& other,
-                         typename enable_if<
+                         typename ::boost::enable_if<
                             typename mpl::and_<
                                 typename is_mutable_reference<OtherReference>::type,
                                 typename is_const_reference<Reference>::type
@@ -387,7 +387,7 @@ namespace boost
                               , OtherDifference
                               , Buffer
                             >& other,
-                         typename enable_if<
+                         typename ::boost::enable_if<
                             typename mpl::or_<
                                 typename mpl::and_<
                                     typename is_mutable_reference<OtherReference>::type,
@@ -423,7 +423,7 @@ namespace boost
                               , OtherDifference
                               , Buffer
                             >& other,
-                        typename enable_if<
+                        typename ::boost::enable_if<
                             typename is_convertible_to_value_as_reference<
                                         OtherReference
                                       , Reference

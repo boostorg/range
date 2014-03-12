@@ -422,7 +422,7 @@ public:
             template<class SinglePassRange>
             iterator_range(
                 const SinglePassRange& r,
-                BOOST_DEDUCED_TYPENAME enable_if<
+                BOOST_DEDUCED_TYPENAME ::boost::enable_if<
                     is_compatible_range<const SinglePassRange>
                 >::type* = 0
             )
@@ -433,7 +433,7 @@ public:
             template<class SinglePassRange>
             iterator_range(
                 SinglePassRange& r,
-                BOOST_DEDUCED_TYPENAME enable_if<
+                BOOST_DEDUCED_TYPENAME ::boost::enable_if<
                     is_compatible_range<SinglePassRange>
                 >::type* = 0
             )
@@ -497,7 +497,7 @@ public:
         // comparison operators
         /////////////////////////////////////////////////////////////////////
         template<class SinglePassRange1, class SinglePassRange2>
-        inline BOOST_DEDUCED_TYPENAME enable_if<
+        inline BOOST_DEDUCED_TYPENAME ::boost::enable_if<
             mpl::or_<
                 is_convertible<
                     const SinglePassRange1&,
@@ -520,7 +520,7 @@ public:
         }
     
         template<class SinglePassRange1, class SinglePassRange2>
-        inline BOOST_DEDUCED_TYPENAME enable_if<
+        inline BOOST_DEDUCED_TYPENAME ::boost::enable_if<
             mpl::or_<
                 is_convertible<
                     const SinglePassRange1&,
@@ -543,7 +543,7 @@ public:
         }
 
         template<class SinglePassRange1, class SinglePassRange2>
-        inline BOOST_DEDUCED_TYPENAME enable_if<
+        inline BOOST_DEDUCED_TYPENAME ::boost::enable_if<
             mpl::or_<
                 is_convertible<
                     const SinglePassRange1&,
@@ -566,7 +566,7 @@ public:
         }
     
         template<class SinglePassRange1, class SinglePassRange2>
-        inline BOOST_DEDUCED_TYPENAME enable_if<
+        inline BOOST_DEDUCED_TYPENAME ::boost::enable_if<
             mpl::or_<
                 is_convertible<
                     const SinglePassRange1&,
@@ -589,7 +589,7 @@ public:
         }
         
         template<class SinglePassRange1, class SinglePassRange2>
-        inline BOOST_DEDUCED_TYPENAME enable_if<
+        inline BOOST_DEDUCED_TYPENAME ::boost::enable_if<
             mpl::or_<
                 is_convertible<
                     const SinglePassRange1&,
@@ -612,7 +612,7 @@ public:
         }
         
         template<class SinglePassRange1, class SinglePassRange2>
-        inline BOOST_DEDUCED_TYPENAME enable_if<
+        inline BOOST_DEDUCED_TYPENAME ::boost::enable_if<
             mpl::or_<
                 is_convertible<
                     const SinglePassRange1&,
