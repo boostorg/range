@@ -91,7 +91,7 @@ namespace range
 
 #define BOOST_RANGE_combined_seq(z, n, data) boost::data(BOOST_PP_CAT(r,n))
 
-#ifdef BOOST_NO_RVALUE_REFERENCES
+#ifdef BOOST_NO_CXX11_RVALUE_REFERENCES
 
 #include <boost/range/detail/combine_no_rvalue.hpp>
 
