@@ -374,7 +374,7 @@ The resultant range will have the lowest common traversal of the two ranges supp
 
 Note that the joined range incurs a performance cost due to the need to check if the end of a range has been reached internally during traversal.
 
-[h4 Synposis]
+[h4 Synopsis]
 
 ``
 template<typename SinglePassRange1, typename SinglePassRange2>
