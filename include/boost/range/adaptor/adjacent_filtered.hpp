@@ -21,6 +21,7 @@
 #include <boost/range/iterator_range.hpp>
 #include <boost/range/begin.hpp>
 #include <boost/range/end.hpp>
+#include <boost/range/concepts.hpp>
 #include <boost/iterator/iterator_adaptor.hpp>
 #include <boost/next_prior.hpp>
 
@@ -154,6 +155,8 @@ namespace boost
         operator|( ForwardRng& r,
                    const adjacent_holder<BinPredicate>& f )
         {
+            BOOST_RANGE_CONCEPT_ASSERT((ForwardRangeConcept<ForwardRng>));
+
             return adjacent_filtered_range<BinPredicate, ForwardRng, true>( f.val, r );
         }
 
@@ -162,6 +165,8 @@ namespace boost
         operator|( const ForwardRng& r,
                    const adjacent_holder<BinPredicate>& f )
         {
+            BOOST_RANGE_CONCEPT_ASSERT((ForwardRangeConcept<const ForwardRng>));
+
             return adjacent_filtered_range<BinPredicate,
                                            const ForwardRng, true>( f.val, r );
         }
@@ -171,6 +176,7 @@ namespace boost
         operator|( ForwardRng& r,
                    const adjacent_excl_holder<BinPredicate>& f )
         {
+            BOOST_RANGE_CONCEPT_ASSERT((ForwardRangeConcept<ForwardRng>));
             return adjacent_filtered_range<BinPredicate, ForwardRng, false>( f.val, r );
         }
 
@@ -179,6 +185,7 @@ namespace boost
         operator|( const ForwardRng& r,
                    const adjacent_excl_holder<BinPredicate>& f )
         {
+            BOOST_RANGE_CONCEPT_ASSERT((ForwardRangeConcept<const ForwardRng>));
             return adjacent_filtered_range<BinPredicate,
                                            const ForwardRng, false>( f.val, r );
         }
@@ -207,6 +214,7 @@ namespace boost
         inline adjacent_filtered_range<BinPredicate, ForwardRng, true>
         adjacent_filter(ForwardRng& rng, BinPredicate filter_pred)
         {
+            BOOST_RANGE_CONCEPT_ASSERT((ForwardRangeConcept<ForwardRng>));
             return adjacent_filtered_range<BinPredicate, ForwardRng, true>(filter_pred, rng);
         }
 
@@ -214,6 +222,7 @@ namespace boost
         inline adjacent_filtered_range<BinPredicate, const ForwardRng, true>
         adjacent_filter(const ForwardRng& rng, BinPredicate filter_pred)
         {
+            BOOST_RANGE_CONCEPT_ASSERT((ForwardRangeConcept<const ForwardRng>));
             return adjacent_filtered_range<BinPredicate, const ForwardRng, true>(filter_pred, rng);
         }
 

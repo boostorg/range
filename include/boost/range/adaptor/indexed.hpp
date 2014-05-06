@@ -21,6 +21,7 @@
 #include <boost/range/iterator_range.hpp>
 #include <boost/range/begin.hpp>
 #include <boost/range/end.hpp>
+#include <boost/range/concepts.hpp>
 #include <boost/iterator/iterator_adaptor.hpp>
 
 
@@ -124,6 +125,9 @@ namespace boost
         operator|( SinglePassRange& r,
                    const indexed& f )
         {
+            BOOST_RANGE_CONCEPT_ASSERT((
+                    SinglePassRangeConcept<SinglePassRange>));
+
             return indexed_range<SinglePassRange>( f.val, r );
         }
 
@@ -132,6 +136,9 @@ namespace boost
         operator|( const SinglePassRange& r,
                    const indexed& f )
         {
+            BOOST_RANGE_CONCEPT_ASSERT((
+                    SinglePassRangeConcept<const SinglePassRange>));
+
             return indexed_range<const SinglePassRange>( f.val, r );
         }
 
@@ -139,6 +146,9 @@ namespace boost
         inline indexed_range<SinglePassRange>
         index(SinglePassRange& rng, Index index_value)
         {
+            BOOST_RANGE_CONCEPT_ASSERT((
+                    SinglePassRangeConcept<SinglePassRange>));
+
             return indexed_range<SinglePassRange>(index_value, rng);
         }
 
@@ -146,6 +156,9 @@ namespace boost
         inline indexed_range<const SinglePassRange>
         index(const SinglePassRange& rng, Index index_value)
         {
+            BOOST_RANGE_CONCEPT_ASSERT((
+                    SinglePassRangeConcept<const SinglePassRange>));
+
             return indexed_range<const SinglePassRange>(index_value, rng);
         }
     } // 'adaptors'

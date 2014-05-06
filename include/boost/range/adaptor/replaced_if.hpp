@@ -17,6 +17,7 @@
 #include <boost/range/begin.hpp>
 #include <boost/range/end.hpp>
 #include <boost/range/value_type.hpp>
+#include <boost/range/concepts.hpp>
 #include <boost/iterator/iterator_adaptor.hpp>
 #include <boost/iterator/transform_iterator.hpp>
 
@@ -86,20 +87,34 @@ namespace boost
             T m_to;
         };
 
-        template< class Pred, class InputRng >
-        inline replaced_if_range<Pred, InputRng>
-        operator|( InputRng& r,
-                   const replace_if_holder<Pred, BOOST_DEDUCED_TYPENAME range_value<InputRng>::type>& f )
+        template< class Pred, class SinglePassRange >
+        inline replaced_if_range<Pred, SinglePassRange>
+        operator|(
+            SinglePassRange& r,
+            const replace_if_holder<
+                Pred,
+                BOOST_DEDUCED_TYPENAME range_value<SinglePassRange>::type>& f)
         {
-            return replaced_if_range<Pred, InputRng>(r, f.pred(), f.to());
+            BOOST_RANGE_CONCEPT_ASSERT((
+                SinglePassRangeConcept<SinglePassRange>));
+
+            return replaced_if_range<Pred, SinglePassRange>(
+                r, f.pred(), f.to());
         }
 
-        template< class Pred, class InputRng >
-        inline replaced_if_range<Pred, const InputRng>
-        operator|( const InputRng& r,
-                   const replace_if_holder<Pred, BOOST_DEDUCED_TYPENAME range_value<InputRng>::type>& f )
+        template< class Pred, class SinglePassRange >
+        inline replaced_if_range<Pred, const SinglePassRange>
+        operator|(
+            const SinglePassRange& r,
+            const replace_if_holder<
+                Pred,
+                BOOST_DEDUCED_TYPENAME range_value<SinglePassRange>::type>& f)
         {
-            return replaced_if_range<Pred, const InputRng>(r, f.pred(), f.to());
+            BOOST_RANGE_CONCEPT_ASSERT((
+                SinglePassRangeConcept<const SinglePassRange>));
+
+            return replaced_if_range<Pred, const SinglePassRange>(
+                r, f.pred(), f.to());
         }
     } // 'range_detail'
 
@@ -113,24 +128,34 @@ namespace boost
                 replaced_if =
                     range_detail::forwarder2TU<range_detail::replace_if_holder>();
         }
-        
-        template<class Pred, class InputRange>
-        inline replaced_if_range<Pred, InputRange>
-        replace_if(InputRange& rng, Pred pred,
-                   BOOST_DEDUCED_TYPENAME range_value<InputRange>::type to)
+
+        template<class Pred, class SinglePassRange>
+        inline replaced_if_range<Pred, SinglePassRange>
+        replace_if(SinglePassRange& rng, Pred pred,
+                   BOOST_DEDUCED_TYPENAME range_value<SinglePassRange>::type to)
         {
-            return range_detail::replaced_if_range<Pred, InputRange>(rng, pred, to);
+            BOOST_RANGE_CONCEPT_ASSERT((
+                SinglePassRangeConcept<SinglePassRange>));
+
+            return range_detail::replaced_if_range<Pred, SinglePassRange>(
+                rng, pred, to);
         }
 
-        template<class Pred, class InputRange>
-        inline replaced_if_range<Pred, const InputRange>
-        replace_if(const InputRange& rng, Pred pred,
-                   BOOST_DEDUCED_TYPENAME range_value<const InputRange>::type to)
+        template<class Pred, class SinglePassRange>
+        inline replaced_if_range<Pred, const SinglePassRange>
+        replace_if(
+            const SinglePassRange& rng,
+            Pred pred,
+            BOOST_DEDUCED_TYPENAME range_value<const SinglePassRange>::type to)
         {
-            return range_detail::replaced_if_range<Pred, const InputRange>(rng, pred, to);
+            BOOST_RANGE_CONCEPT_ASSERT((
+                SinglePassRangeConcept<const SinglePassRange>));
+
+            return range_detail::replaced_if_range<Pred, const SinglePassRange>(
+                rng, pred, to);
         }
     } // 'adaptors'
-    
+
 } // 'boost'
 
 #endif // include guard
