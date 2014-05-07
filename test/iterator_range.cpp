@@ -20,6 +20,7 @@
 #include <boost/range/iterator_range.hpp>
 #include <boost/range/functions.hpp>
 #include <boost/range/as_literal.hpp>
+#include <boost/cstdint.hpp>
 #include <boost/test/test_tools.hpp>
 #include <boost/test/unit_test.hpp>
 #include <iostream>
@@ -216,6 +217,8 @@ namespace iterator_range_test_detail
 
     void check_make_iterator_range_n()
     {
+        using boost::uint32_t;
+
         std::vector<uint32_t> input;
         for (uint32_t i = 0; i < 10u; ++i)
             input.push_back(i);
