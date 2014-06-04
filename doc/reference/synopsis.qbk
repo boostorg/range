@@ -12,7 +12,7 @@ namespace boost
     // Single Pass Range metafunctions
     //
 
-    template< class T >
+    template< class T, class Enabler=void >
     struct range_iterator;
 
     template< class T >

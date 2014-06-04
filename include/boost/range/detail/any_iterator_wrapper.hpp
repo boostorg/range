@@ -19,6 +19,16 @@ namespace boost
 {
     namespace range_detail
     {
+        template<typename TargetT, typename SourceT>
+        TargetT& polymorphic_ref_downcast(SourceT& source)
+        {
+#ifdef BOOST_NO_RTTI
+            return static_cast<TargetT&>(source);
+#else
+            return *boost::polymorphic_downcast<TargetT*>(&source);
+#endif
+        }
+
         template<class Reference, class T>
         Reference dereference_cast(T& x)
         {
@@ -192,7 +202,7 @@ namespace boost
 
             virtual bool equal(const any_single_pass_iterator_interface<Reference, Buffer>& other) const
             {
-                return m_it == boost::polymorphic_downcast<const any_single_pass_iterator_wrapper*>(&other)->m_it;
+                return m_it == range_detail::polymorphic_ref_downcast<const any_single_pass_iterator_wrapper>(other).m_it;
             }
 
             virtual reference dereference() const
@@ -284,7 +294,7 @@ namespace boost
 
             virtual bool equal(const any_single_pass_iterator_interface<Reference, Buffer>& other) const
             {
-                return m_it == boost::polymorphic_downcast<const any_forward_iterator_wrapper*>(&other)->m_it;
+                return m_it == range_detail::polymorphic_ref_downcast<const any_forward_iterator_wrapper>(other).m_it;
             }
 
             virtual reference dereference() const
@@ -381,7 +391,7 @@ namespace boost
 
             virtual bool equal(const any_single_pass_iterator_interface<Reference, Buffer>& other) const
             {
-                return m_it == boost::polymorphic_downcast<const any_bidirectional_iterator_wrapper*>(&other)->m_it;
+                return m_it == range_detail::polymorphic_ref_downcast<const any_bidirectional_iterator_wrapper>(other).m_it;
             }
 
             virtual reference dereference() const
@@ -482,7 +492,7 @@ namespace boost
 
             virtual bool equal(const any_single_pass_iterator_interface<Reference, Buffer>& other) const
             {
-                return m_it == boost::polymorphic_downcast<const any_random_access_iterator_wrapper*>(&other)->m_it;
+                return m_it == range_detail::polymorphic_ref_downcast<const any_random_access_iterator_wrapper>(other).m_it;
             }
 
             virtual void decrement()
@@ -502,7 +512,7 @@ namespace boost
 
             virtual Difference distance_to(const any_random_access_iterator_interface<Reference, Difference, Buffer>& other) const
             {
-                return boost::polymorphic_downcast<const any_random_access_iterator_wrapper*>(&other)->m_it - m_it;
+                return range_detail::polymorphic_ref_downcast<const any_random_access_iterator_wrapper>(other).m_it - m_it;
             }
 
         private:

@@ -14,6 +14,7 @@
 #include <boost/range/value_type.hpp>
 #include <boost/range/iterator_range_core.hpp>
 #include <boost/range/any_range.hpp>
+#include <boost/range/concepts.hpp>
 #include <boost/cast.hpp>
 
 namespace boost
@@ -56,6 +57,9 @@ namespace boost
                       , Buffer
                     >)
         {
+            BOOST_RANGE_CONCEPT_ASSERT((
+                SinglePassRangeConcept<SinglePassRange>));
+
             typedef typename any_range_type_generator<
                 SinglePassRange
               , Value
@@ -92,6 +96,9 @@ namespace boost
                           , Buffer
                     >)
         {
+            BOOST_RANGE_CONCEPT_ASSERT((
+                SinglePassRangeConcept<const SinglePassRange>));
+
             typedef typename any_range_type_generator<
                 const SinglePassRange
               , Value
@@ -129,6 +136,9 @@ namespace boost
                     > = type_erased<>()
                 )
         {
+            BOOST_RANGE_CONCEPT_ASSERT((
+                SinglePassRangeConcept<SinglePassRange>));
+
             typedef typename any_range_type_generator<
                 SinglePassRange
               , Value
@@ -167,6 +177,9 @@ namespace boost
                     > = type_erased<>()
                 )
         {
+            BOOST_RANGE_CONCEPT_ASSERT((
+                SinglePassRangeConcept<const SinglePassRange>));
+
             typedef typename any_range_type_generator<
                 const SinglePassRange
               , Value

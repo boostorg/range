@@ -31,37 +31,47 @@ namespace boost
     // default
     //////////////////////////////////////////////////////////////////////////
     
-    namespace range_detail {
-        BOOST_RANGE_EXTRACT_OPTIONAL_TYPE( iterator )
-    }
-
-    template< typename C >
-    struct range_mutable_iterator
-            : range_detail::extract_iterator<
-                BOOST_DEDUCED_TYPENAME remove_reference<C>::type>
-    {};
-    
-    //////////////////////////////////////////////////////////////////////////
-    // pair
-    //////////////////////////////////////////////////////////////////////////
-
-    template< typename Iterator >
-    struct range_mutable_iterator< std::pair<Iterator,Iterator> >
+    namespace range_detail
     {
-        typedef Iterator type;
-    };
 
-    //////////////////////////////////////////////////////////////////////////
-    // array
-    //////////////////////////////////////////////////////////////////////////
+BOOST_RANGE_EXTRACT_OPTIONAL_TYPE( iterator )
 
-    template< typename T, std::size_t sz >
-    struct range_mutable_iterator< T[sz] >
-    {
-        typedef T* type;
-    };
+template< typename C >
+struct range_mutable_iterator
+        : range_detail::extract_iterator<
+            BOOST_DEDUCED_TYPENAME remove_reference<C>::type>
+{};
+
+//////////////////////////////////////////////////////////////////////////
+// pair
+//////////////////////////////////////////////////////////////////////////
+
+template< typename Iterator >
+struct range_mutable_iterator< std::pair<Iterator,Iterator> >
+{
+    typedef Iterator type;
+};
+
+//////////////////////////////////////////////////////////////////////////
+// array
+//////////////////////////////////////////////////////////////////////////
+
+template< typename T, std::size_t sz >
+struct range_mutable_iterator< T[sz] >
+{
+    typedef T* type;
+};
+
+    } // namespace range_detail
+
+template<typename C, typename Enabler=void>
+struct range_mutable_iterator
+        : range_detail::range_mutable_iterator<
+            BOOST_DEDUCED_TYPENAME remove_reference<C>::type
+        >
+{
+};
 
 } // namespace boost
-
 
 #endif

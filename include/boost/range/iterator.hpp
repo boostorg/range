@@ -47,7 +47,7 @@ namespace boost
     
 #endif  
 
-    template< typename C >
+    template< typename C, typename Enabler=void >
     struct range_iterator
     {
 #if BOOST_WORKAROUND(BOOST_MSVC, == 1310)
