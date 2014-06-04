@@ -62,7 +62,7 @@ struct range_const_iterator< T[sz] >
 
     } // namespace range_detail
 
-template<typename C>
+template<typename C, typename Enabler=void>
 struct range_const_iterator
         : range_detail::range_const_iterator<
             BOOST_DEDUCED_TYPENAME remove_reference<C>::type
