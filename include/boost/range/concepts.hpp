@@ -64,6 +64,7 @@ namespace boost {
 #ifndef BOOST_RANGE_ENABLE_CONCEPT_ASSERT
 
 // List broken compiler versions here:
+#ifndef __clang__
     #ifdef __GNUC__
         // GNUC 4.2 has strange issues correctly detecting compliance with the Concepts
         // hence the least disruptive approach is to turn-off the concept checking for
@@ -79,6 +80,7 @@ namespace boost {
             #define BOOST_RANGE_ENABLE_CONCEPT_ASSERT 0
         #endif
     #endif
+#endif
 
     #ifdef __BORLANDC__
         #define BOOST_RANGE_ENABLE_CONCEPT_ASSERT 0
