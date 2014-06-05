@@ -16,6 +16,7 @@
 #endif
 
 #include <boost/range/config.hpp>
+#include <boost/range/range_fwd.hpp>
 #include <boost/range/mutable_iterator.hpp>
 #include <boost/range/const_iterator.hpp>
 #include <boost/type_traits/is_const.hpp>
