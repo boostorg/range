@@ -219,6 +219,11 @@ format(const SinglePassRange& rng)
 }
 
     } // namespace adaptors
+
+    namespace range
+    {
+        using boost::range_detail::formatted_range;
+    } // namespace range
 } // namespace boost
 
 #endif // include guard
