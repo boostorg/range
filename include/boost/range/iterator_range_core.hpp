@@ -336,7 +336,8 @@ protected:
 public:
     reference operator[](difference_type at) const
     {
-        BOOST_ASSERT(at >= 0 && at < size());
+        BOOST_ASSERT(at >= 0);
+        BOOST_ASSERT(static_cast<typename base_type::size_type>(at) < size());
         return this->m_Begin[at];
     }
 
@@ -347,7 +348,8 @@ public:
     //
     abstract_value_type operator()(difference_type at) const
     {
-        BOOST_ASSERT(at >= 0 && at < size());
+        BOOST_ASSERT(at >= 0);
+        BOOST_ASSERT(static_cast<typename base_type::size_type>(at) < size());
         return this->m_Begin[at];
     }
 
