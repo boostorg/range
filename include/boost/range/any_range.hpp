@@ -19,7 +19,6 @@
 #include <boost/range/reference.hpp>
 #include <boost/range/value_type.hpp>
 #include <boost/range/iterator_range_core.hpp>
-#include <boost/cast.hpp>
 
 namespace boost
 {
