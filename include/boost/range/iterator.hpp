@@ -16,6 +16,7 @@
 #endif
 
 #include <boost/range/config.hpp>
+#include <boost/range/range_fwd.hpp>
 #include <boost/range/mutable_iterator.hpp>
 #include <boost/range/const_iterator.hpp>
 #include <boost/type_traits/is_const.hpp>
@@ -47,7 +48,7 @@ namespace boost
     
 #endif  
 
-    template< typename C >
+    template< typename C, typename Enabler=void >
     struct range_iterator
     {
 #if BOOST_WORKAROUND(BOOST_MSVC, == 1310)
@@ -57,10 +58,15 @@ namespace boost
            
 #else  
 
-        typedef BOOST_RANGE_DEDUCED_TYPENAME 
-            mpl::eval_if_c< is_const<C>::value, 
-                            range_const_iterator< typename remove_const<C>::type >,
-                            range_mutable_iterator<C> >::type type;
+    private:
+        typedef typename remove_reference<C>::type param_t;
+
+    public:
+        typedef typename mpl::eval_if_c<
+            is_const<param_t>::value,
+            range_const_iterator<typename remove_const<param_t>::type>,
+            range_mutable_iterator<param_t>
+        >::type type;
         
 #endif         
     };

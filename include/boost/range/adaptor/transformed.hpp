@@ -13,6 +13,7 @@
 
 #include <boost/range/adaptor/argument_fwd.hpp>
 #include <boost/range/iterator_range.hpp>
+#include <boost/range/concepts.hpp>
 #include <boost/iterator/transform_iterator.hpp>
 #include <boost/utility/result_of.hpp>
 
@@ -45,30 +46,39 @@ namespace boost
                 : base( boost::make_transform_iterator( boost::begin(r), f ),
                         boost::make_transform_iterator( boost::end(r), f ) )
 
-            { }
+            {
+            }
         };
 
         template< class T >
         struct transform_holder : holder<T>
         {
             transform_holder( T r ) : holder<T>(r)
-            { }
+            {
+            }
         };
 
-        template< class InputRng, class UnaryFunction >
-        inline transformed_range<UnaryFunction,InputRng>
-        operator|( InputRng& r,
+        template< class SinglePassRange, class UnaryFunction >
+        inline transformed_range<UnaryFunction,SinglePassRange>
+        operator|( SinglePassRange& r,
                    const transform_holder<UnaryFunction>& f )
         {
-            return transformed_range<UnaryFunction,InputRng>( f.val, r );
+            BOOST_RANGE_CONCEPT_ASSERT((
+                SinglePassRangeConcept<SinglePassRange>));
+
+            return transformed_range<UnaryFunction,SinglePassRange>( f.val, r );
         }
 
-        template< class InputRng, class UnaryFunction >
-        inline transformed_range<UnaryFunction, const InputRng>
-        operator|( const InputRng& r,
+        template< class SinglePassRange, class UnaryFunction >
+        inline transformed_range<UnaryFunction, const SinglePassRange>
+        operator|( const SinglePassRange& r,
                    const transform_holder<UnaryFunction>& f )
         {
-           return transformed_range<UnaryFunction, const InputRng>( f.val, r );
+            BOOST_RANGE_CONCEPT_ASSERT((
+                SinglePassRangeConcept<const SinglePassRange>));
+
+           return transformed_range<UnaryFunction, const SinglePassRange>(
+               f.val, r);
         }
 
     } // 'range_detail'
@@ -84,18 +94,25 @@ namespace boost
                       range_detail::forwarder<range_detail::transform_holder>();
         }
 
-        template<class UnaryFunction, class InputRange>
-        inline transformed_range<UnaryFunction, InputRange>
-        transform(InputRange& rng, UnaryFunction fn)
+        template<class UnaryFunction, class SinglePassRange>
+        inline transformed_range<UnaryFunction, SinglePassRange>
+        transform(SinglePassRange& rng, UnaryFunction fn)
         {
-            return transformed_range<UnaryFunction, InputRange>(fn, rng);
+            BOOST_RANGE_CONCEPT_ASSERT((
+                SinglePassRangeConcept<SinglePassRange>));
+
+            return transformed_range<UnaryFunction, SinglePassRange>(fn, rng);
         }
 
-        template<class UnaryFunction, class InputRange>
-        inline transformed_range<UnaryFunction, const InputRange>
-        transform(const InputRange& rng, UnaryFunction fn)
+        template<class UnaryFunction, class SinglePassRange>
+        inline transformed_range<UnaryFunction, const SinglePassRange>
+        transform(const SinglePassRange& rng, UnaryFunction fn)
         {
-            return transformed_range<UnaryFunction, const InputRange>(fn, rng);
+            BOOST_RANGE_CONCEPT_ASSERT((
+                SinglePassRangeConcept<const SinglePassRange>));
+
+            return transformed_range<UnaryFunction, const SinglePassRange>(
+                fn, rng);
         }
     } // 'adaptors'
 

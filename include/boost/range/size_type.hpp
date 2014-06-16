@@ -61,7 +61,7 @@ namespace boost
         template<typename C>
         struct range_size<
             C,
-            BOOST_DEDUCED_TYPENAME enable_if<has_size_type<C>, void>::type
+            BOOST_DEDUCED_TYPENAME ::boost::enable_if<has_size_type<C>, void>::type
         >
         {
             typedef BOOST_DEDUCED_TYPENAME C::size_type type;
