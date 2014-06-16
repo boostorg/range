@@ -10,7 +10,6 @@
 #ifndef BOOST_RANGE_DETAIL_ANY_ITERATOR_HPP_INCLUDED
 #define BOOST_RANGE_DETAIL_ANY_ITERATOR_HPP_INCLUDED
 
-#include <boost/cast.hpp>
 #include <boost/mpl/and.hpp>
 #include <boost/mpl/or.hpp>
 #include <boost/mpl/not.hpp>
