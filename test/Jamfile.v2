@@ -57,6 +57,7 @@ test-suite range :
     [ compile-fail compile_fail/adaptor/uniqued_concept3.cpp ]
     [ compile-fail compile_fail/adaptor/uniqued_concept4.cpp ]
     [ range-test adaptor_test/adjacent_filtered ]
+    [ range-test adaptor_test/chained ]
     [ range-test adaptor_test/copied ]
     [ range-test adaptor_test/filtered ]
     [ range-test adaptor_test/indexed ]

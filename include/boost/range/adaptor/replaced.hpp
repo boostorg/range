@@ -20,6 +20,7 @@
 #include <boost/range/concepts.hpp>
 #include <boost/iterator/iterator_adaptor.hpp>
 #include <boost/iterator/transform_iterator.hpp>
+#include <boost/optional/optional.hpp>
 
 namespace boost
 {
@@ -32,19 +33,36 @@ namespace boost
             typedef const Value& result_type;
             typedef const Value& first_argument_type;
 
+            // Rationale:
+            // The default constructor is required to allow the transform
+            // iterator to properly model the iterator concept.
+            replace_value()
+            {
+            }
+
             replace_value(const Value& from, const Value& to)
-                :   m_from(from), m_to(to)
+                :   m_impl(data(from, to))
             {
             }
 
             const Value& operator()(const Value& x) const
             {
-                return (x == m_from) ? m_to : x;
+                return (x == m_impl->m_from) ? m_impl->m_to : x;
             }
 
         private:
-            Value m_from;
-            Value m_to;
+            struct data
+            {
+                data(const Value& from, const Value& to)
+                    : m_from(from)
+                    , m_to(to)
+                {
+                }
+
+                Value m_from;
+                Value m_to;
+            };
+            boost::optional<data> m_impl;
         };
 
         template< class R >

@@ -20,6 +20,7 @@
 #include <boost/range/concepts.hpp>
 #include <boost/iterator/iterator_adaptor.hpp>
 #include <boost/iterator/transform_iterator.hpp>
+#include <boost/optional/optional.hpp>
 
 namespace boost
 {
@@ -32,19 +33,34 @@ namespace boost
             typedef const Value& result_type;
             typedef const Value& first_argument_type;
 
+            // Rationale:
+            // required to allow the iterator to be default constructible.
+            replace_value_if()
+            {
+            }
+
             replace_value_if(const Pred& pred, const Value& to)
-                :   m_pred(pred), m_to(to)
+                : m_impl(data(pred, to))
             {
             }
 
             const Value& operator()(const Value& x) const
             {
-                return m_pred(x) ? m_to : x;
+                return m_impl->m_pred(x) ? m_impl->m_to : x;
             }
 
         private:
-            Pred  m_pred;
-            Value m_to;
+            struct data
+            {
+                data(const Pred& p, const Value& t)
+                    : m_pred(p), m_to(t)
+                {
+                }
+
+                Pred  m_pred;
+                Value m_to;
+            };
+            boost::optional<data> m_impl;
         };
 
         template< class Pred, class R >
