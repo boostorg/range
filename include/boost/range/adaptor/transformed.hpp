@@ -12,6 +12,7 @@
 #define BOOST_RANGE_ADAPTOR_TRANSFORMED_HPP
 
 #include <boost/range/adaptor/argument_fwd.hpp>
+#include <boost/range/detail/default_constructible_unary_fn.hpp>
 #include <boost/range/iterator_range.hpp>
 #include <boost/range/concepts.hpp>
 #include <boost/iterator/transform_iterator.hpp>
@@ -21,31 +22,46 @@ namespace boost
 {
     namespace range_detail
     {
+        // A type generator to produce the transform_iterator type conditionally
+        // including a wrapped predicate as appropriate.
+        template<typename P, typename It>
+        struct transform_iterator_gen
+        {
+            typedef transform_iterator<
+                typename default_constructible_unary_fn_gen<
+                    P,
+                    typename transform_iterator<P, It>::reference
+                >::type,
+                It
+            > type;
+        };
 
         template< class F, class R >
         struct transformed_range :
             public boost::iterator_range<
-                      boost::transform_iterator< F,
-                          BOOST_DEDUCED_TYPENAME range_iterator<R>::type
-                                              >
-                                         >
+                typename transform_iterator_gen<
+                    F, typename range_iterator<R>::type>::type>
         {
         private:
-            typedef boost::iterator_range<
-                      boost::transform_iterator< F,
-                        BOOST_DEDUCED_TYPENAME range_iterator<R>::type
-                                              >
-                                         >
-                base;
+            typedef typename transform_iterator_gen<
+                F, typename range_iterator<R>::type>::type transform_iter_t;
+
+            typedef boost::iterator_range<transform_iter_t> base;
 
         public:
-            typedef F transform_fn_type;
+            typedef typename default_constructible_unary_fn_gen<
+                F,
+                typename transform_iterator<
+                    F,
+                    typename range_iterator<R>::type
+                >::reference
+            >::type transform_fn_type;
+
             typedef R source_range_type;
 
-            transformed_range( F f, R& r )
-                : base( boost::make_transform_iterator( boost::begin(r), f ),
-                        boost::make_transform_iterator( boost::end(r), f ) )
-
+            transformed_range(transform_fn_type f, R& r)
+                : base(transform_iter_t(boost::begin(r), f),
+                       transform_iter_t(boost::end(r), f))
             {
             }
         };

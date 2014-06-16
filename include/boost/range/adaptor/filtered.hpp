@@ -12,6 +12,7 @@
 #define BOOST_RANGE_ADAPTOR_FILTERED_HPP
 
 #include <boost/range/adaptor/argument_fwd.hpp>
+#include <boost/range/detail/default_constructible_unary_fn.hpp>
 #include <boost/range/iterator_range.hpp>
 #include <boost/range/concepts.hpp>
 #include <boost/iterator/filter_iterator.hpp>
@@ -23,21 +24,28 @@ namespace boost
         template< class P, class R >
         struct filtered_range :
             boost::iterator_range<
-                boost::filter_iterator< P,
-                    BOOST_DEDUCED_TYPENAME range_iterator<R>::type
+                boost::filter_iterator<
+                    typename default_constructible_unary_fn_gen<P, bool>::type,
+                    typename range_iterator<R>::type
                 >
             >
         {
         private:
             typedef boost::iterator_range<
-                        boost::filter_iterator< P,
-                            BOOST_DEDUCED_TYPENAME range_iterator<R>::type
-                        >
-                    > base;
+                boost::filter_iterator<
+                    typename default_constructible_unary_fn_gen<P, bool>::type,
+                    typename range_iterator<R>::type
+                >
+            > base;
         public:
-            filtered_range( P p, R& r )
-            : base( make_filter_iterator( p, boost::begin(r), boost::end(r) ),
-                    make_filter_iterator( p, boost::end(r), boost::end(r) ) )
+            typedef typename default_constructible_unary_fn_gen<P, bool>::type
+                pred_t;
+
+            filtered_range(P p, R& r)
+            : base(make_filter_iterator(pred_t(p),
+                                        boost::begin(r), boost::end(r)),
+                   make_filter_iterator(pred_t(p),
+                                        boost::end(r), boost::end(r)))
             { }
         };
 

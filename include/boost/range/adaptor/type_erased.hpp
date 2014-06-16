@@ -15,7 +15,6 @@
 #include <boost/range/iterator_range_core.hpp>
 #include <boost/range/any_range.hpp>
 #include <boost/range/concepts.hpp>
-#include <boost/cast.hpp>
 
 namespace boost
 {
