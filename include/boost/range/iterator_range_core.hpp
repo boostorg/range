@@ -25,6 +25,7 @@
 #include <boost/assert.hpp>
 #include <boost/iterator/iterator_traits.hpp>
 #include <boost/iterator/iterator_facade.hpp>
+#include <boost/mpl/if.hpp>
 #include <boost/mpl/or.hpp>
 #include <boost/type_traits/is_abstract.hpp>
 #include <boost/type_traits/is_array.hpp>
@@ -118,6 +119,47 @@ struct const_range_tag
 
 struct iterator_range_tag
 {
+};
+
+typedef char (&incrementable_t)[1];
+typedef char (&bidirectional_t)[2];
+typedef char (&random_access_t)[3];
+
+incrementable_t test_traversal_tag(boost::incrementable_traversal_tag);
+bidirectional_t test_traversal_tag(boost::bidirectional_traversal_tag);
+random_access_t test_traversal_tag(boost::random_access_traversal_tag);
+
+template<std::size_t S>
+struct pure_iterator_traversal_impl
+{
+    typedef boost::incrementable_traversal_tag type;
+};
+
+template<>
+struct pure_iterator_traversal_impl<sizeof(bidirectional_t)>
+{
+    typedef boost::bidirectional_traversal_tag type;
+};
+
+template<>
+struct pure_iterator_traversal_impl<sizeof(random_access_t)>
+{
+    typedef boost::random_access_traversal_tag type;
+};
+
+template<typename IteratorT>
+struct pure_iterator_traversal
+{
+    typedef
+        BOOST_DEDUCED_TYPENAME iterator_traversal<IteratorT>::type
+    traversal_t;
+    BOOST_STATIC_CONSTANT(
+        std::size_t,
+        traversal_i = sizeof(iterator_range_detail::test_traversal_tag((traversal_t())))
+    );
+    typedef
+        BOOST_DEDUCED_TYPENAME pure_iterator_traversal_impl<traversal_i>::type
+    type;
 };
 
 template<class IteratorT, class TraversalTag>
@@ -251,9 +293,9 @@ protected:
 
 template<class IteratorT>
 class iterator_range_base<IteratorT, bidirectional_traversal_tag>
-        : public iterator_range_base<IteratorT, forward_traversal_tag>
+        : public iterator_range_base<IteratorT, incrementable_traversal_tag>
 {
-    typedef iterator_range_base<IteratorT, forward_traversal_tag> base_type;
+    typedef iterator_range_base<IteratorT, incrementable_traversal_tag> base_type;
 
 protected:
     iterator_range_base()
@@ -262,7 +304,7 @@ protected:
 
     template<class Iterator>
     iterator_range_base(Iterator first, Iterator last)
-        : iterator_range_base<IteratorT, forward_traversal_tag>(first, last)
+        : base_type(first, last)
     {
     }
 
@@ -328,8 +370,7 @@ protected:
 
     template<class Iterator>
     iterator_range_base(Iterator first, Iterator last)
-        : iterator_range_base<IteratorT, bidirectional_traversal_tag>(
-              first, last)
+        : base_type(first, last)
     {
     }
 
@@ -384,12 +425,12 @@ public:
         class iterator_range
             : public iterator_range_detail::iterator_range_base<
                     IteratorT,
-                    BOOST_DEDUCED_TYPENAME iterator_traversal<IteratorT>::type
+                    BOOST_DEDUCED_TYPENAME iterator_range_detail::pure_iterator_traversal<IteratorT>::type
                 >
         {
             typedef iterator_range_detail::iterator_range_base<
                     IteratorT,
-                    BOOST_DEDUCED_TYPENAME iterator_traversal<IteratorT>::type
+                    BOOST_DEDUCED_TYPENAME iterator_range_detail::pure_iterator_traversal<IteratorT>::type
             > base_type;
 
             template<class Source>
