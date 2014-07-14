@@ -74,4 +74,6 @@ struct range_mutable_iterator
 
 } // namespace boost
 
+#include <boost/range/detail/msvc_has_iterator_workaround.hpp>
+
 #endif
