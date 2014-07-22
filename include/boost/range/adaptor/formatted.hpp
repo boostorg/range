@@ -151,7 +151,7 @@ formatted(const Sep& sep)
     return range_detail::formatted_holder<Sep, char, char>(sep, '{', '}');
 }
 
-range_detail::formatted_holder<char, char, char>
+inline range_detail::formatted_holder<char, char, char>
 formatted()
 {
     return range_detail::formatted_holder<char, char, char>(',', '{', '}');
