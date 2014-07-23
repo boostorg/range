@@ -114,139 +114,140 @@ namespace boost
         };
     } // namespace range_detail
 
-    namespace detail
+    namespace iterators
     {
-        // Rationale:
-        // These are specialized since the iterator_facade versions lack
-        // the requisite typedefs to allow wrapping to determine the types
-        // if a user copy constructs from a postfix increment.
-
-        template<
-            class Value
-          , class Traversal
-          , class Reference
-          , class Difference
-          , class Buffer
-        >
-        class postfix_increment_proxy<
-                    range_detail::any_iterator<
-                        Value
-                      , Traversal
-                      , Reference
-                      , Difference
-                      , Buffer
-                    >
-                >
+        namespace detail
         {
-            typedef range_detail::any_iterator<
-                Value
-              , Traversal
-              , Reference
-              , Difference
-              , Buffer
-            > any_iterator_type;
+            // Rationale:
+            // These are specialized since the iterator_facade versions lack
+            // the requisite typedefs to allow wrapping to determine the types
+            // if a user copy constructs from a postfix increment.
 
-        public:
-            typedef Value value_type;
-            typedef typename std::iterator_traits<any_iterator_type>::iterator_category iterator_category;
-            typedef Difference difference_type;
-            typedef typename iterator_pointer<any_iterator_type>::type pointer;
-            typedef Reference reference;
-
-            explicit postfix_increment_proxy(any_iterator_type const& x)
-                : stored_value(*x)
-            {}
-
-            value_type&
-            operator*() const
-            {
-                return this->stored_value;
-            }
-        private:
-            mutable value_type stored_value;
-        };
-
-        template<
-            class Value
-          , class Traversal
-          , class Reference
-          , class Difference
-          , class Buffer
-        >
-        class writable_postfix_increment_proxy<
-                    range_detail::any_iterator<
-                        Value
-                      , Traversal
-                      , Reference
-                      , Difference
-                      , Buffer
+            template<
+                class Value
+              , class Traversal
+              , class Reference
+              , class Difference
+              , class Buffer
+            >
+            class postfix_increment_proxy<
+                        range_detail::any_iterator<
+                            Value
+                          , Traversal
+                          , Reference
+                          , Difference
+                          , Buffer
+                        >
                     >
-                >
-        {
-            typedef range_detail::any_iterator<
-                        Value
-                      , Traversal
-                      , Reference
-                      , Difference
-                      , Buffer
-                    > any_iterator_type;
-         public:
-            typedef Value value_type;
-            typedef typename std::iterator_traits<any_iterator_type>::iterator_category iterator_category;
-            typedef Difference difference_type;
-            typedef typename iterator_pointer<any_iterator_type>::type pointer;
-            typedef Reference reference;
-
-            explicit writable_postfix_increment_proxy(any_iterator_type const& x)
-              : stored_value(*x)
-              , stored_iterator(x)
-            {}
-
-            // Dereferencing must return a proxy so that both *r++ = o and
-            // value_type(*r++) can work.  In this case, *r is the same as
-            // *r++, and the conversion operator below is used to ensure
-            // readability.
-            writable_postfix_increment_proxy const&
-            operator*() const
             {
-                return *this;
-            }
+                typedef range_detail::any_iterator<
+                    Value
+                  , Traversal
+                  , Reference
+                  , Difference
+                  , Buffer
+                > any_iterator_type;
 
-            // Provides readability of *r++
-            operator value_type&() const
+            public:
+                typedef Value value_type;
+                typedef typename std::iterator_traits<any_iterator_type>::iterator_category iterator_category;
+                typedef Difference difference_type;
+                typedef typename iterator_pointer<any_iterator_type>::type pointer;
+                typedef Reference reference;
+
+                explicit postfix_increment_proxy(any_iterator_type const& x)
+                    : stored_value(*x)
+                {}
+
+                value_type&
+                operator*() const
+                {
+                    return this->stored_value;
+                }
+            private:
+                mutable value_type stored_value;
+            };
+
+            template<
+                class Value
+              , class Traversal
+              , class Reference
+              , class Difference
+              , class Buffer
+            >
+            class writable_postfix_increment_proxy<
+                        range_detail::any_iterator<
+                            Value
+                          , Traversal
+                          , Reference
+                          , Difference
+                          , Buffer
+                        >
+                    >
             {
-                return stored_value;
-            }
+                typedef range_detail::any_iterator<
+                            Value
+                          , Traversal
+                          , Reference
+                          , Difference
+                          , Buffer
+                        > any_iterator_type;
+            public:
+                typedef Value value_type;
+                typedef typename std::iterator_traits<any_iterator_type>::iterator_category iterator_category;
+                typedef Difference difference_type;
+                typedef typename iterator_pointer<any_iterator_type>::type pointer;
+                typedef Reference reference;
 
-            // Provides writability of *r++
-            template <class T>
-            T const& operator=(T const& x) const
-            {
-                *this->stored_iterator = x;
-                return x;
-            }
+                explicit writable_postfix_increment_proxy(any_iterator_type const& x)
+                  : stored_value(*x)
+                  , stored_iterator(x)
+                {}
 
-            // This overload just in case only non-const objects are writable
-            template <class T>
-            T& operator=(T& x) const
-            {
-                *this->stored_iterator = x;
-                return x;
-            }
+                // Dereferencing must return a proxy so that both *r++ = o and
+                // value_type(*r++) can work.  In this case, *r is the same as
+                // *r++, and the conversion operator below is used to ensure
+                // readability.
+                writable_postfix_increment_proxy const&
+                operator*() const
+                {
+                    return *this;
+                }
 
-            // Provides X(r++)
-            operator any_iterator_type const&() const
-            {
-                return stored_iterator;
-            }
+                // Provides readability of *r++
+                operator value_type&() const
+                {
+                    return stored_value;
+                }
 
-         private:
-            mutable value_type stored_value;
-            any_iterator_type stored_iterator;
-        };
+                // Provides writability of *r++
+                template <class T>
+                T const& operator=(T const& x) const
+                {
+                    *this->stored_iterator = x;
+                    return x;
+                }
 
+                // This overload just in case only non-const objects are writable
+                template <class T>
+                T& operator=(T& x) const
+                {
+                    *this->stored_iterator = x;
+                    return x;
+                }
 
-    }
+                // Provides X(r++)
+                operator any_iterator_type const&() const
+                {
+                    return stored_iterator;
+                }
+
+            private:
+                mutable value_type stored_value;
+                any_iterator_type stored_iterator;
+            };
+        } // namespace detail
+    } // namespace iterators
 
     namespace range_detail
     {
