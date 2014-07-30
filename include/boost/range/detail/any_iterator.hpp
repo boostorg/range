@@ -114,6 +114,8 @@ namespace boost
         };
     } // namespace range_detail
 
+    namespace iterators
+    {
     namespace detail
     {
         // Rationale:
@@ -246,6 +248,7 @@ namespace boost
         };
 
 
+    }
     }
 
     namespace range_detail
