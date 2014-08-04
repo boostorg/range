@@ -73,6 +73,10 @@ namespace boost
         void        drop_front();
         void        drop_front(difference_type n);
         bool      empty() const;
+
+        iterator_range& advance_begin(difference_type n);
+        iterator_range& advance_end(difference_type n);
+
         // for Bidirectional:
         value_type& back() const;
         void drop_back();
@@ -262,6 +266,9 @@ namespace boost
 
         reference front();
         const_reference front() const;
+
+        sub_range& advance_begin(difference_type n);
+        sub_range& advance_end(difference_type n);
 
         // If traversal >= bidirectional:
         reference back();

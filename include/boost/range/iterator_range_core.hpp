@@ -266,6 +266,9 @@ public:
        BOOST_ASSERT(n >= difference_type());
        std::advance(this->m_Begin, n);
    }
+   
+   // Deprecated
+   void pop_front() { drop_front(); }
 
 protected:
     template<class Iterator>
@@ -331,6 +334,9 @@ public:
         BOOST_ASSERT(n >= difference_type());
         std::advance(this->m_End, -n);
     }
+    
+    // Deprecated
+    void pop_back() { drop_back(); }
 };
 
 template<class IteratorT>
@@ -525,6 +531,20 @@ public:
             iterator_range& operator=(const SinglePassRange& r)
             {
                 this->assign(r);
+                return *this;
+            }
+
+            iterator_range& advance_begin(
+                BOOST_DEDUCED_TYPENAME base_type::difference_type n)
+            {
+                std::advance(this->m_Begin, n);
+                return *this;
+            }
+
+            iterator_range& advance_end(
+                BOOST_DEDUCED_TYPENAME base_type::difference_type n)
+            {
+                std::advance(this->m_End, n);
                 return *this;
             }
 

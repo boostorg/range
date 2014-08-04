@@ -249,6 +249,23 @@ inline void check_iterator_range_operator()
         Pred());
 }
 
+inline void test_advance()
+{
+    std::vector<int> l;
+    l.push_back(1);
+    l.push_back(2);
+    typedef boost::iterator_range<std::vector<int>::iterator> rng_t;
+
+    rng_t r1(l.begin(), l.end());
+    BOOST_CHECK(r1.advance_begin(1).advance_end(-1).empty());
+    
+    rng_t r2(l.begin(), l.end());
+    BOOST_CHECK_EQUAL(r2.advance_begin(1).size(), 1u);
+
+    rng_t r3(l.begin(), l.end());
+    BOOST_CHECK_EQUAL(r3.advance_end(-1).size(), 1u);
+}
+
 boost::unit_test::test_suite* init_unit_test_suite( int argc, char* argv[] )
 {
     boost::unit_test::test_suite* test = BOOST_TEST_SUITE( "Range Test Suite" );
@@ -261,6 +278,7 @@ boost::unit_test::test_suite* init_unit_test_suite( int argc, char* argv[] )
     test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::equal_to>));
     test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::not_equal_to>));
     test->add(BOOST_TEST_CASE(&iterator_range_test_detail::check_make_iterator_range_n));
+    test->add(BOOST_TEST_CASE(&test_advance));
 
     return test;
 }
