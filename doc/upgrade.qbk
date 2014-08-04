@@ -15,6 +15,9 @@ been noted that some calling code was relying on member functions such as
 `size()` being present despite the underlying iterators not being random-access
 due to `iterator_reference<Iter>::type` not being a reference. The suggested
 refactoring is to use `boost::size(rng)`.
+# The undocumented __iterator_range__ `pop_front()` has been deprecated and is
+replaced by `drop_front(). Similarly `pop_back()` has been replaced by
+`drop_back()`.
 
 [endsect]
 
