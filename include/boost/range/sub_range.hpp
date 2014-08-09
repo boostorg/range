@@ -261,6 +261,20 @@ public:
             iterator_range_::operator=( static_cast<const iterator_range_&>(r) );
             return *this;            
         }
+        
+        sub_range& advance_begin(
+            BOOST_DEDUCED_TYPENAME base::difference_type n)
+        {
+            std::advance(this->m_Begin, n);
+            return *this;
+        }
+        
+        sub_range& advance_end(
+            BOOST_DEDUCED_TYPENAME base::difference_type n)
+        {
+            std::advance(this->m_End, n);
+            return *this;
+        }
     };
 
 } // namespace 'boost'

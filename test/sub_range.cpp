@@ -228,6 +228,22 @@ void const_propagation_const_collection(void)
     check_constant_type(crng.back());
 }
 
+inline void test_advance()
+{
+    std::vector<int> l;
+    l.push_back(1);
+    l.push_back(2);
+    typedef boost::sub_range<std::vector<int> > rng_t;
+    rng_t r1(l.begin(), l.end());
+    BOOST_CHECK(r1.advance_begin(1).advance_end(-1).empty());
+    
+    rng_t r2(l.begin(), l.end());
+    BOOST_CHECK_EQUAL(r2.advance_begin(1).size(), 1u);
+    
+    rng_t r3(l.begin(), l.end());
+    BOOST_CHECK_EQUAL(r3.advance_end(-1).size(), 1u);
+}
+
     } // anonymous namespace
 } // namespace boost_range_test
 
@@ -243,6 +259,8 @@ boost::unit_test::test_suite* init_unit_test_suite(int, char*[])
 
     test->add(BOOST_TEST_CASE(
                   &boost_range_test::const_propagation_mutable_collection));
+
+    test->add(BOOST_TEST_CASE(&boost_range_test::test_advance));
 
     return test;
 }
