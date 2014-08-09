@@ -266,6 +266,20 @@ inline void test_advance()
     BOOST_CHECK_EQUAL(r3.advance_end(-1).size(), 1u);
 }
 
+struct ptr_iterator
+  : boost::iterator_adaptor<ptr_iterator, int *>
+{
+    ptr_iterator() = default;
+    ptr_iterator(int *p) : boost::iterator_adaptor<ptr_iterator, int *>(p) {}
+private:
+    typedef void iterator; // To throw off the SFINAE mechanism in iterator_range
+};
+
+void test_sfinae()
+{
+    boost::iterator_range<ptr_iterator> r(ptr_iterator(0), ptr_iterator(0));
+}
+
 boost::unit_test::test_suite* init_unit_test_suite( int argc, char* argv[] )
 {
     boost::unit_test::test_suite* test = BOOST_TEST_SUITE( "Range Test Suite" );
