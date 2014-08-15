@@ -269,7 +269,7 @@ inline void test_advance()
 struct ptr_iterator
   : boost::iterator_adaptor<ptr_iterator, int *>
 {
-    ptr_iterator() = default;
+    ptr_iterator() {}
     ptr_iterator(int *p) : boost::iterator_adaptor<ptr_iterator, int *>(p) {}
 private:
     typedef void iterator; // To throw off the SFINAE mechanism in iterator_range
