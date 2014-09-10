@@ -10,7 +10,6 @@
 #ifndef BOOST_RANGE_STRING_DETAIL_COLLECTION_TRAITS_HPP
 #define BOOST_RANGE_STRING_DETAIL_COLLECTION_TRAITS_HPP
 
-#include <boost/algorithm/string/config.hpp>
 #include <cstddef>
 #include <string>
 #include <boost/type_traits/is_array.hpp>
@@ -41,16 +40,16 @@ namespace boost {
             template< typename ContainerT >     
             struct default_container_traits
             {
-                typedef BOOST_STRING_TYPENAME ContainerT::value_type value_type;
-                typedef BOOST_STRING_TYPENAME ContainerT::iterator iterator;
-                typedef BOOST_STRING_TYPENAME ContainerT::const_iterator const_iterator;
-                typedef BOOST_STRING_TYPENAME 
+                typedef typename ContainerT::value_type value_type;
+                typedef typename ContainerT::iterator iterator;
+                typedef typename ContainerT::const_iterator const_iterator;
+                typedef typename
                     ::boost::mpl::if_< ::boost::is_const<ContainerT>,
                         const_iterator,
                         iterator 
                     >::type result_iterator;
-                typedef BOOST_STRING_TYPENAME ContainerT::difference_type difference_type;
-                typedef BOOST_STRING_TYPENAME ContainerT::size_type size_type;
+                typedef typename ContainerT::difference_type difference_type;
+                typedef typename ContainerT::size_type size_type;
                 
                 // static operations
                 template< typename C >
@@ -135,12 +134,12 @@ namespace boost {
             template< typename PairT >
             struct pair_container_traits
             {
-                typedef BOOST_STRING_TYPENAME PairT::first_type element_type;
+                typedef typename PairT::first_type element_type;
 
-                typedef BOOST_STRING_TYPENAME ::boost::detail::
+                typedef typename ::boost::detail::
                     iterator_traits<element_type>::value_type value_type;
                 typedef std::size_t size_type;
-                typedef BOOST_STRING_TYPENAME ::boost::detail::
+                typedef typename ::boost::detail::
                     iterator_traits<element_type>::difference_type difference_type;
 
                 typedef element_type iterator;
@@ -221,7 +220,7 @@ namespace boost {
                 template< typename TraitsT >
                 struct array_length
                 {
-                    typedef BOOST_STRING_TYPENAME 
+                    typedef typename
                         TraitsT::size_type size_type;
 
                     BOOST_STATIC_CONSTANT(
@@ -249,7 +248,7 @@ namespace boost {
                 template< typename TraitsT >
                 struct array_length
                 {
-                    typedef BOOST_STRING_TYPENAME 
+                    typedef typename
                         TraitsT::size_type size_type;
 
                     template< typename A >
@@ -276,7 +275,7 @@ namespace boost {
                 template< typename TraitsT >
                 struct array_length
                 {
-                    typedef BOOST_STRING_TYPENAME 
+                    typedef typename
                         TraitsT::size_type size_type;
 
                     template< typename A >
@@ -304,18 +303,18 @@ namespace boost {
                 typedef array_traits<T> traits_type;
 
             public:
-                typedef BOOST_STRING_TYPENAME
+                typedef typename
                     traits_type::value_type value_type;
-                typedef BOOST_STRING_TYPENAME
+                typedef typename
                     traits_type::iterator iterator;
-                typedef BOOST_STRING_TYPENAME
+                typedef typename
                     traits_type::const_iterator const_iterator;
-                typedef BOOST_STRING_TYPENAME
+                typedef typename
                     traits_type::size_type size_type;
-                typedef BOOST_STRING_TYPENAME
+                typedef typename
                     traits_type::difference_type difference_type;
 
-                typedef BOOST_STRING_TYPENAME
+                typedef typename
                     ::boost::mpl::if_< ::boost::is_const<T>,
                         const_iterator,
                         iterator 
@@ -323,9 +322,9 @@ namespace boost {
                 
             private:
                 // resolve array size
-                typedef BOOST_STRING_TYPENAME
+                typedef typename
                     ::boost::remove_cv<value_type>::type char_type;
-                typedef BOOST_STRING_TYPENAME
+                typedef typename
                     array_length_selector<char_type>::
                         BOOST_NESTED_TEMPLATE array_length<traits_type> array_length_type;
 
@@ -401,10 +400,10 @@ namespace boost {
             template<typename T>
             struct pointer_container_traits
             {
-                typedef BOOST_STRING_TYPENAME
+                typedef typename
                     ::boost::remove_pointer<T>::type value_type;
 
-                typedef BOOST_STRING_TYPENAME
+                typedef typename
                     ::boost::remove_cv<value_type>::type char_type;
                 typedef ::std::char_traits<char_type> char_traits;
 
@@ -413,7 +412,7 @@ namespace boost {
                 typedef std::ptrdiff_t difference_type;
                 typedef std::size_t size_type;
 
-                typedef BOOST_STRING_TYPENAME
+                typedef typename
                     ::boost::mpl::if_< ::boost::is_const<T>,
                         const_iterator,
                         iterator 
