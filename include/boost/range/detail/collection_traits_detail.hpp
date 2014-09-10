@@ -23,7 +23,6 @@
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/fold.hpp>
 #include <boost/detail/iterator.hpp>
-#include <boost/algorithm/string/yes_no_type.hpp>
 
 // Container traits implementation ---------------------------------------------------------
 
@@ -115,7 +114,10 @@ namespace boost {
             };
 
 // Pair container traits ---------------------------------------------------------------------
-                    
+
+            typedef double yes_type;
+            typedef char no_type;
+
             // pair selector
             template< typename T, typename U >
             yes_type is_pair_impl( const std::pair<T,U>* );
