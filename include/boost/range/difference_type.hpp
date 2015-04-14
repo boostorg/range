@@ -15,20 +15,37 @@
 # pragma once
 #endif
 
+#include <boost/mpl/and.hpp>
 #include <boost/range/config.hpp>
 #include <boost/range/iterator.hpp>
+#include <boost/range/has_range_iterator.hpp>
 #include <boost/iterator/iterator_traits.hpp>
 #include <boost/type_traits/remove_reference.hpp>
 
 namespace boost
 {
+    namespace range_detail
+    {
+        template< class T, class Enabler=void >
+        struct range_difference
+        { };
+
+        template< class T >
+        struct range_difference<
+            T,
+            BOOST_DEDUCED_TYPENAME ::boost::enable_if_c<
+                has_type<range_iterator<T> >::value
+            >::type
+        >
+          : iterator_difference<
+                BOOST_DEDUCED_TYPENAME range_iterator<T>::type
+            >
+        { };
+    }
+
     template< class T >
     struct range_difference
-            : iterator_difference<
-                BOOST_DEDUCED_TYPENAME range_iterator<
-                    BOOST_DEDUCED_TYPENAME remove_reference<T>::type
-                >::type
-            >
+      : range_detail::range_difference<BOOST_DEDUCED_TYPENAME remove_reference<T>::type>
     { };
 }
 
