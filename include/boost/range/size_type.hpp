@@ -68,27 +68,14 @@ namespace boost
             typedef BOOST_DEDUCED_TYPENAME C::size_type type;
         };
 
-        template<typename C, typename Enabler=void>
+        template<typename C, bool B = range_detail::has_type< range_iterator<C> >::value>
         struct range_size
         { };
 
         template<typename C>
-        struct range_size<
-            C,
-            BOOST_DEDUCED_TYPENAME ::boost::enable_if_c<
-                range_detail::has_type< range_iterator<C> >::value
-            >::type
-        >
+        struct range_size<C, true>
           : range_size_<C>
-        {
-// Very strange things happen on some compilers that have the range concept
-// asserts disabled. This preprocessor condition is clearly redundant on a
-// working compiler but is vital for at least some compilers such as clang 4.2
-// but only on the Mac!
-#if BOOST_RANGE_ENABLE_CONCEPT_ASSERT == 1
-            BOOST_RANGE_CONCEPT_ASSERT((boost::SinglePassRangeConcept<C>));
-#endif
-        };
+        { };
     }
 
     template< class T >

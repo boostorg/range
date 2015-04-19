@@ -26,17 +26,12 @@ namespace boost
 {
     namespace range_detail
     {
-        template< class T, class Enabler=void >
+        template< class T, bool B = has_type<range_iterator<T> >::value >
         struct range_difference
         { };
 
         template< class T >
-        struct range_difference<
-            T,
-            BOOST_DEDUCED_TYPENAME ::boost::enable_if_c<
-                has_type<range_iterator<T> >::value
-            >::type
-        >
+        struct range_difference<T, true>
           : iterator_difference<
                 BOOST_DEDUCED_TYPENAME range_iterator<T>::type
             >
