@@ -69,7 +69,7 @@ namespace boost
             BOOST_STATIC_CONSTANT( bool, is_const_wchar_t_ptr_   = sizeof( boost::range_detail::is_const_wchar_t_ptr_impl( ptr ) ) == sizeof( yes_type ) );
             BOOST_STATIC_CONSTANT( bool, is_char_array_          = sizeof( boost::range_detail::is_char_array_impl( ptr ) ) == sizeof( yes_type ) );
             BOOST_STATIC_CONSTANT( bool, is_wchar_t_array_       = sizeof( boost::range_detail::is_wchar_t_array_impl( ptr ) ) == sizeof( yes_type ) );
-            BOOST_STATIC_CONSTANT( bool, is_string_              = (is_const_char_ptr_ || is_const_wchar_t_ptr_);
+            BOOST_STATIC_CONSTANT( bool, is_string_              = (is_const_char_ptr_ || is_const_wchar_t_ptr_));
             BOOST_STATIC_CONSTANT( bool, is_array_               = boost::is_array<C>::value );
             
         };
