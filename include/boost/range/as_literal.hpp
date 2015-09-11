@@ -26,7 +26,7 @@
 
 #include <cstring>
 
-#if !defined(BOOST_NO_CHAR16_T) || !defined(BOOST_NO_CHAR32_T)
+#if !defined(BOOST_NO_CXX11_CHAR16_T) || !defined(BOOST_NO_CXX11_CHAR32_T)
 #include <string>  // for std::char_traits
 #endif
 
@@ -43,14 +43,14 @@ namespace boost
             return strlen( s );
         }
 
-#ifndef BOOST_NO_CHAR16_T
+#ifndef BOOST_NO_CXX11_CHAR16_T
         inline std::size_t length( const char16_t* s )
         {
             return std::char_traits<char16_t>::length( s );
         }
 #endif
 
-#ifndef BOOST_NO_CHAR32_T
+#ifndef BOOST_NO_CXX11_CHAR32_T
         inline std::size_t length( const char32_t* s )
         {
             return std::char_traits<char32_t>::length( s );
@@ -80,7 +80,7 @@ namespace boost
             return true;
         }
 
-#ifndef BOOST_NO_CHAR16_T
+#ifndef BOOST_NO_CXX11_CHAR16_T
         inline bool is_char_ptr( char16_t* )
         {
             return true;
@@ -92,7 +92,7 @@ namespace boost
         }
 #endif
 
-#ifndef BOOST_NO_CHAR32_T
+#ifndef BOOST_NO_CXX11_CHAR32_T
         inline bool is_char_ptr( char32_t* )
         {
             return true;
