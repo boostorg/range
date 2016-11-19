@@ -247,9 +247,8 @@ namespace boost
             any_iterator_type stored_iterator;
         };
 
-
-    }
-    }
+    } //namespace detail
+    } //namespace iterators
 
     namespace range_detail
     {

@@ -280,23 +280,6 @@ void test_sfinae()
     boost::iterator_range<ptr_iterator> r(ptr_iterator(0), ptr_iterator(0));
 }
 
-boost::unit_test::test_suite* init_unit_test_suite( int argc, char* argv[] )
-{
-    boost::unit_test::test_suite* test = BOOST_TEST_SUITE( "Range Test Suite" );
-
-    test->add(BOOST_TEST_CASE(&check_iterator_range));
-    test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::less>));
-    test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::less_or_equal>));
-    test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::greater>));
-    test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::greater_or_equal>));
-    test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::equal_to>));
-    test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::not_equal_to>));
-    test->add(BOOST_TEST_CASE(&iterator_range_test_detail::check_make_iterator_range_n));
-    test->add(BOOST_TEST_CASE(&test_advance));
-
-    return test;
-}
-
 //
 //
 // Check that constness is propagated correct from
@@ -327,3 +310,21 @@ void check_reference_type()
     test_iter_range<veci_type>(a_vec);
     test_iter_range<veci_type const>(a_vec);
 }
+
+boost::unit_test::test_suite* init_unit_test_suite( int argc, char* argv[] )
+{
+    boost::unit_test::test_suite* test = BOOST_TEST_SUITE( "Range Test Suite" );
+    
+    test->add(BOOST_TEST_CASE(&check_iterator_range));
+    test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::less>));
+    test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::less_or_equal>));
+    test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::greater>));
+    test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::greater_or_equal>));
+    test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::equal_to>));
+    test->add(BOOST_TEST_CASE(&check_iterator_range_operator<iterator_range_test_detail::not_equal_to>));
+    test->add(BOOST_TEST_CASE(&iterator_range_test_detail::check_make_iterator_range_n));
+    test->add(BOOST_TEST_CASE(&test_advance));
+    
+    return test;
+}
+
