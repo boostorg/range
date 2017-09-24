@@ -44,6 +44,8 @@ namespace boost
 
         struct lambda
         {
+            typedef int result_type;
+
             lambda(const lambda_init& init) {}
             lambda(const lambda& rhs) {}
 
