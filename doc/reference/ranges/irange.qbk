@@ -10,11 +10,7 @@
 ``
 template<class Integer>
 iterator_range< range_detail::integer_iterator<Integer> >
-irange(Integer last);
-
-template<class Integer>
-iterator_range< range_detail::integer_iterator<Integer> >
-irange(Integer first, Integer last);
+irange(Integer first, Integer  last);
 
 template<class Integer, class StepSize>
 iterator_range< range_detail::integer_iterator_with_step<Integer, StepSize> >
@@ -41,3 +37,4 @@ Defined in the header file `boost/range/irange.hpp`
 Constant. Since this function generates a new range the most significant performance cost is incurred through the iteration of the generated range.
 
 [endsect]
+
