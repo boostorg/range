@@ -205,22 +205,6 @@ namespace boost
 
     template<typename Integer>
     integer_range<Integer>
-    irange(int last)
-    {
-        BOOST_ASSERT( 0 <= last );
-        return integer_range<Integer>(0, last);
-    }
-
-    template<typename Integer>
-    integer_range<Integer>
-    irange(int first, int last)
-    {
-        BOOST_ASSERT( first <= last );
-        return integer_range<Integer>(first, last);
-    }
-
-    template<typename Integer>
-    integer_range<Integer>
     irange(Integer first, Integer last)
     {
         BOOST_ASSERT( first <= last );
