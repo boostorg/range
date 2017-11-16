@@ -19,6 +19,7 @@
 #include <list>
 #include <vector>
 
+#include "noncopyable_int.h"
 
 namespace
 {
@@ -61,25 +62,6 @@ namespace
     }
 
 #if !defined( BOOST_NO_CXX11_RVALUE_REFERENCES )
-    // test type which is not copyable by moveable.
-    class noncopyable_int : boost::noncopyable {
-      private:
-        int i;
-      public:
-        noncopyable_int(int x) : i(x) {}
-        noncopyable_int(const noncopyable_int&) = delete;
-        noncopyable_int& operator=(const noncopyable_int&) = delete;
-        noncopyable_int(noncopyable_int&& o) : i(o.i) {}
-        noncopyable_int& operator=(noncopyable_int&& o) { return o; }
-        bool operator!=(const noncopyable_int &rhs) { return i != rhs.i; }
-        friend std::ostream &operator<<(std::ostream &os, const noncopyable_int& x);
-    };
-
-    std::ostream & operator<<(std::ostream &os, const noncopyable_int& x)
-    {
-       return os << x.i;
-    }
-
     template< class Container >
     void test_push_back_move_impl(std::size_t n)
     {
