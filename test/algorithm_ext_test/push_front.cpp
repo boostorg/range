@@ -19,12 +19,16 @@
 #include <list>
 #include <vector>
 
+#include "noncopyable_int.h"
+
+#include <iostream>
+
 namespace
 {
     struct DoubleValue
     {
         template< class Value >
-        Value operator()(Value x)
+        Value operator()(const Value& x)
         {
             return x * 2;
         }
@@ -70,6 +74,60 @@ namespace
         test_push_front_impl< std::vector<std::size_t> >();
         test_push_front_impl< std::list<std::size_t> >();
     }
+
+#if !defined( BOOST_NO_CXX11_RVALUE_REFERENCES )
+    template< class Container >
+    void test_push_front_move_impl(std::size_t n)
+    {
+        Container test;
+        {
+        Container reference;
+        for (std::size_t i = 0; i < n; ++i)
+            reference.push_back(noncopyable_int(i));
+
+          Container to_push;
+          for (std::size_t i = 0; i < n; ++i)
+            to_push.push_back(noncopyable_int(i));
+
+          boost::push_front(test, std::move(to_push));
+
+          BOOST_CHECK_EQUAL_COLLECTIONS( reference.begin(), reference.end(),
+              test.begin(), test.end() );
+        }
+
+        {
+          Container reference;
+          for (std::size_t i = 0; i < n; ++i)
+              reference.push_back(noncopyable_int(i * 2));
+          for (std::size_t i = 0; i < n; ++i)
+              reference.push_back(noncopyable_int(i));
+
+          Container to_push;
+          for (std::size_t i = 0; i < n; ++i)
+            to_push.push_back(noncopyable_int(2*i));
+
+          boost::push_front(test, std::move(to_push));
+
+          BOOST_CHECK_EQUAL_COLLECTIONS( reference.begin(), reference.end(),
+              test.begin(), test.end() );
+        }
+    }
+
+    template< class Container >
+    void test_push_front_move_impl()
+    {
+        test_push_front_move_impl< Container >(0);
+        test_push_front_move_impl< Container >(1);
+        test_push_front_move_impl< Container >(2);
+        test_push_front_move_impl< Container >(100);
+    }
+
+    void test_push_front_move()
+    {
+        test_push_front_move_impl< std::vector<noncopyable_int> >();
+        test_push_front_move_impl< std::list<noncopyable_int> >();
+    }
+#endif
 }
 
 boost::unit_test::test_suite*
@@ -80,5 +138,8 @@ init_unit_test_suite(int argc, char* argv[])
 
     test->add( BOOST_TEST_CASE( &test_push_front ) );
 
+#if !defined( BOOST_NO_CXX11_RVALUE_REFERENCES )
+    test->add( BOOST_TEST_CASE( &test_push_front_move ) );
+#endif
     return test;
 }
