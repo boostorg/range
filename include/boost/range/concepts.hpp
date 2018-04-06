@@ -252,7 +252,12 @@ namespace boost {
                  n = i - j;
              }
          private:
+ // MSVC 14.1 - avoid C4596: 'difference_type': illegal qualified name in member declaration
+ #if defined(_MSC_VER) && _MSC_VER >= 1912 
+             BOOST_DEDUCED_TYPENAME difference_type n;
+ #else
              BOOST_DEDUCED_TYPENAME RandomAccessIteratorConcept::difference_type n;
+ #endif
              Iterator i;
              Iterator j;
  #endif
