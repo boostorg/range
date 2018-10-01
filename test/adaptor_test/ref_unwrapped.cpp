@@ -17,7 +17,7 @@
 
 #include <vector>
 
-#if !defined(BOOST_NO_CXX11_AUTO_DECLARATIONS) && !defined(BOOST_NO_CXX11_RANGE_BASED_FOR)
+#if !defined(BOOST_NO_CXX11_AUTO_DECLARATIONS) && !defined(BOOST_NO_CXX11_RANGE_BASED_FOR) && !defined(BOOST_NO_CXX11_UNIFIED_INITIALIZATION_SYNTAX)
 
 namespace boost
 {
