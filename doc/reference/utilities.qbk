@@ -354,7 +354,7 @@ int main(int, const char*[])
     char tc;
     BOOST_FOREACH(boost::tie(ti, tc), boost::combine(v, l))
     {
-        std::cout << '(' << ti << ',' << tv << ')' << '\n';
+        std::cout << '(' << ti << ',' << tc << ')' << '\n';
     }
 
     return 0;
