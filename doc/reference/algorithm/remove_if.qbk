@@ -13,14 +13,14 @@ template<
     class UnaryPredicate
     >
 typename range_iterator<ForwardRange>::type
-remove(ForwardRange& rng, UnaryPredicate pred);
+remove_if(ForwardRange& rng, UnaryPredicate pred);
 
 template<
     class ForwardRange,
     class UnaryPredicate
     >
 typename range_iterator<const ForwardRange>::type
-remove(const ForwardRange& rng, UnaryPredicate pred);
+remove_if(const ForwardRange& rng, UnaryPredicate pred);
 
 template<
     range_return_value re,
@@ -28,7 +28,7 @@ template<
     class UnaryPredicate
     >
 typename range_return<ForwardRange,re>::type
-remove(ForwardRange& rng, UnaryPredicate pred);
+remove_if(ForwardRange& rng, UnaryPredicate pred);
 
 template<
     range_return_value re,
@@ -36,7 +36,7 @@ template<
     class UnaryPredicate
     >
 typename range_return<const ForwardRange,re>::type
-remove(const ForwardRange& rng, UnaryPredicate pred);
+remove_if(const ForwardRange& rng, UnaryPredicate pred);
 ``
 
 [heading Description]
