@@ -14,7 +14,7 @@
 #include <boost/iterator/iterator_categories.hpp>
 #include <boost/type_traits/add_const.hpp>
 #include <boost/type_traits/add_reference.hpp>
-#include <boost/type_traits/is_copy_constructible.hpp>
+#include <boost/type_traits/is_abstract.hpp>
 #include <boost/type_traits/is_reference.hpp>
 #include <boost/type_traits/remove_const.hpp>
 #include <boost/type_traits/remove_reference.hpp>
@@ -39,15 +39,15 @@ namespace boost
         struct reference_as_value_type_generator
         {
             typedef typename mpl::if_<
-                typename is_copy_constructible<
+                typename is_abstract<
                     typename remove_const<
                         typename remove_reference<T>::type
                     >::type
                 >::type,
+                T,
                 typename remove_const<
                     typename remove_reference<T>::type
-                >::type,
-                T
+                >::type
             >::type type;
         };
 
