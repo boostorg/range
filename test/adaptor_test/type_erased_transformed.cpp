@@ -41,7 +41,7 @@ int accumulate_any_integer_value_range(any_integer_value_range rng)
 
 void test_type_erased_transformed()
 {
-    std::vector<MockType> v{1,2,3,4,5};
+    std::vector<MockType> v(5, MockType(3));
 
     const int sum = accumulate_any_integer_value_range(
         v | boost::adaptors::transformed(get_fn()));
