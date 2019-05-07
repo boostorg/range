@@ -28,6 +28,7 @@ typedef boost::any_range<
 
 struct get_fn
 {
+    typedef boost::int32_t result_type;
     boost::int32_t operator()(const MockType& val) const
     {
         return val.get();
