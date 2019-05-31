@@ -13,9 +13,9 @@
 #include <boost/range/detail/any_iterator_buffer.hpp>
 #include <boost/iterator/iterator_categories.hpp>
 #include <boost/mpl/not.hpp>
-#include <boost/type_traits/decay.hpp>
 #include <boost/type_traits/is_convertible.hpp>
 #include <boost/type_traits/is_reference.hpp>
+#include <boost/type_traits/remove_const.hpp>
 #include <boost/type_traits/remove_reference.hpp>
 
 namespace boost
@@ -37,11 +37,13 @@ namespace boost
         template<class T>
         struct reference_as_value_type_generator
         {
-            typedef typename decay<T>::type decayed_type;
+            typedef typename remove_reference<
+                typename remove_const<T>::type
+            >::type value_type;
 
             typedef typename mpl::if_<
-                typename is_convertible<const decayed_type&, decayed_type>::type,
-                decayed_type,
+                typename is_convertible<const value_type&, value_type>::type,
+                value_type,
                 T
             >::type type;
         };
