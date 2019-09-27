@@ -17,10 +17,6 @@
 
 #include <boost/range/config.hpp>
 
-#ifdef BOOST_NO_FUNCTION_TEMPLATE_ORDERING
-#include <boost/range/detail/end.hpp>
-#else
-
 #include <boost/range/detail/implementation_help.hpp>
 #include <boost/range/iterator.hpp>
 #include <boost/range/const_iterator.hpp>
@@ -115,8 +111,6 @@ inline BOOST_DEDUCED_TYPENAME range_iterator<const T>::type end( const T& r )
 
     } // namespace range_adl_barrier
 } // namespace 'boost'
-
-#endif // BOOST_NO_FUNCTION_TEMPLATE_ORDERING
 
 namespace boost
 {
