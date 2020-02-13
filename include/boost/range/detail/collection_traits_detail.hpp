@@ -63,8 +63,6 @@ namespace boost {
                     return c.empty();
                 }
 
-#ifndef BOOST_NO_FUNCTION_TEMPLATE_ORDERING
-
                 template< typename C >
                 static iterator begin( C& c )
                 {
@@ -88,22 +86,6 @@ namespace boost {
                 {
                     return c.end();
                 }
-
-#else // BOOST_NO_FUNCTION_TEMPLATE_ORDERING
-
-                template< typename C >
-                static result_iterator begin( C& c )
-                {
-                    return c.begin();
-                }
-
-                template< typename C >
-                static result_iterator end( C& c )
-                {
-                    return c.end();
-                }
-
-#endif // BOOST_NO_FUNCTION_TEMPLATE_ORDERING    
 
             }; 
 
@@ -347,8 +329,6 @@ namespace boost {
                 }
                 
 
-#ifndef BOOST_NO_FUNCTION_TEMPLATE_ORDERING
-
                 template< typename A >
                 static iterator begin( A& a )
                 {
@@ -372,22 +352,6 @@ namespace boost {
                 {
                     return a+array_length_type::length(a);
                 }
-
-#else // BOOST_NO_FUNCTION_TEMPLATE_ORDERING
-
-                template< typename A >
-                static result_iterator begin( A& a )
-                {
-                    return a;
-                }
-
-                template< typename A >
-                static result_iterator end( A& a )
-                {
-                    return a+array_length_type::length(a);
-                }
-
-#endif // BOOST_NO_FUNCTION_TEMPLATE_ORDERING    
 
             }; 
 
@@ -436,8 +400,6 @@ namespace boost {
                     return p==0 || p[0]==0;
                 }
 
-#ifndef BOOST_NO_FUNCTION_TEMPLATE_ORDERING
-
                 template< typename P >
                 static iterator begin( P& p )
                 {
@@ -468,24 +430,6 @@ namespace boost {
                         return p+char_traits::length(p);
                 }
 
-#else // BOOST_NO_FUNCTION_TEMPLATE_ORDERING
-
-                template< typename P >
-                static result_iterator begin( P& p )
-                {
-                    return p;
-                }
-
-                template< typename P >
-                static result_iterator end( P& p )
-                {
-                    if ( p==0 )
-                        return p;
-                    else
-                        return p+char_traits::length(p);
-                }
-
-#endif // BOOST_NO_FUNCTION_TEMPLATE_ORDERING    
             }; 
 
             template<typename T>
