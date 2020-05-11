@@ -12,6 +12,8 @@
 
 #include <cstddef>
 #include <string>
+#include <utility>
+#include <iterator>
 #include <boost/type_traits/is_array.hpp>
 #include <boost/type_traits/is_pointer.hpp>
 #include <boost/type_traits/is_const.hpp>
@@ -22,7 +24,6 @@
 #include <boost/mpl/identity.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/fold.hpp>
-#include <boost/detail/iterator.hpp>
 
 // Container traits implementation ---------------------------------------------------------
 
@@ -36,7 +37,7 @@ namespace boost {
             /*
                 Wraps std::container compliant containers
             */
-            template< typename ContainerT >     
+            template< typename ContainerT >
             struct default_container_traits
             {
                 typedef typename ContainerT::value_type value_type;
@@ -49,7 +50,7 @@ namespace boost {
                     >::type result_iterator;
                 typedef typename ContainerT::difference_type difference_type;
                 typedef typename ContainerT::size_type size_type;
-                
+
                 // static operations
                 template< typename C >
                 static size_type size( const C& c )
@@ -120,11 +121,11 @@ namespace boost {
             {
                 typedef typename PairT::first_type element_type;
 
-                typedef typename ::boost::detail::
-                    iterator_traits<element_type>::value_type value_type;
+                typedef typename
+                    std::iterator_traits<element_type>::value_type value_type;
                 typedef std::size_t size_type;
-                typedef typename ::boost::detail::
-                    iterator_traits<element_type>::difference_type difference_type;
+                typedef typename
+                    std::iterator_traits<element_type>::difference_type difference_type;
 
                 typedef element_type iterator;
                 typedef element_type const_iterator;
@@ -186,7 +187,7 @@ namespace boost {
                 BOOST_STATIC_CONSTANT( size_type, array_size = sz );
             };
 
-            
+
             // array length resolving
             /*
                 Lenght of string contained in a static array could
@@ -243,7 +244,7 @@ namespace boost {
                         else
                             return std::char_traits<char>::length(a);
                     }
-                    
+
                     template< typename A >
                     static bool empty( const A& a )
                     {
@@ -303,7 +304,7 @@ namespace boost {
                         const_iterator,
                         iterator 
                     >::type result_iterator;
-                
+
             private:
                 // resolve array size
                 typedef typename
@@ -327,7 +328,7 @@ namespace boost {
                 {
                     return array_length_type::empty(a);
                 }
-                
+
 
                 template< typename A >
                 static iterator begin( A& a )
