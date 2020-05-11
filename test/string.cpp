@@ -28,6 +28,7 @@
 #include <boost/config.hpp>
 #include <vector>
 #include <fstream>
+#include <iterator>
 #include <algorithm>
 
 namespace
@@ -146,7 +147,7 @@ void check_char()
     char*            char_s2 = a_string.mutable_sz();
 
     BOOST_STATIC_ASSERT(( is_same<  range_value<char_iterator_t>::type,
-                                    detail::iterator_traits<char_iterator_t>::value_type>::value ));
+                                    std::iterator_traits<char_iterator_t>::value_type>::value ));
     BOOST_STATIC_ASSERT(( is_same<  range_iterator<char_iterator_t>::type, char_iterator_t >::value ));
 
     BOOST_STATIC_ASSERT(( is_same<  range_difference<char_iterator_t>::type,
@@ -225,11 +226,11 @@ void check_string()
     wchar_t*        char_ws2     = a_wide_string.mutable_sz();
 
     BOOST_STATIC_ASSERT(( is_same< range_value<wchar_iterator_t>::type,
-                                   detail::iterator_traits<wchar_iterator_t>::value_type>::value ));
+                                   std::iterator_traits<wchar_iterator_t>::value_type>::value ));
     BOOST_STATIC_ASSERT(( is_same< range_iterator<wchar_iterator_t>::type, wchar_iterator_t >::value ));
     BOOST_STATIC_ASSERT(( is_same< range_iterator<const wchar_t*>::type, const wchar_t* >::value ));
     BOOST_STATIC_ASSERT(( is_same< range_difference<wchar_iterator_t>::type,
-                                   detail::iterator_traits<wchar_iterator_t>::difference_type >::value ));
+                                   std::iterator_traits<wchar_iterator_t>::difference_type >::value ));
     BOOST_STATIC_ASSERT(( is_same< range_size<wchar_iterator_t>::type, std::size_t >::value ));
     BOOST_STATIC_ASSERT(( is_same< range_iterator<wchar_iterator_t>::type, wchar_iterator_t >::value ));
     BOOST_STATIC_ASSERT(( is_same< range_iterator<const wchar_t*>::type, const wchar_t* >::value ));
