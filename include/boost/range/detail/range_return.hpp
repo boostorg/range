@@ -17,7 +17,6 @@
 
 namespace boost
 {
-
     enum range_return_value
     {
         // (*) indicates the most common values
