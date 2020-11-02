@@ -193,7 +193,7 @@ namespace boost
         typedef BOOST_DEDUCED_TYPENAME range_iterator<SinglePassRange>::type iterator;
         typedef BOOST_DEDUCED_TYPENAME root_iterator_of<iterator>::type root_iterator;
         // range return type
-        typedef BOOST_DEDUCED_TYPENAME root_iterator type;
+        typedef root_iterator type;
 
         static type pack(iterator found, SinglePassRange&)
         {
@@ -207,7 +207,7 @@ namespace boost
         typedef BOOST_DEDUCED_TYPENAME range_iterator<SinglePassRange>::type iterator;
         typedef BOOST_DEDUCED_TYPENAME root_iterator_of<iterator>::type root_iterator;
         // range return type
-        typedef BOOST_DEDUCED_TYPENAME root_iterator type;
+        typedef root_iterator type;
 
         static type pack(iterator found, SinglePassRange& rng)
         {
@@ -223,7 +223,7 @@ namespace boost
         typedef BOOST_DEDUCED_TYPENAME range_iterator<BidirectionalRange>::type iterator;
         typedef BOOST_DEDUCED_TYPENAME root_iterator_of<iterator>::type root_iterator;
         // range return type
-        typedef BOOST_DEDUCED_TYPENAME root_iterator type;
+        typedef root_iterator type;
 
         static type pack(iterator found, BidirectionalRange& rng)
         {
