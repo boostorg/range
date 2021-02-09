@@ -23,6 +23,10 @@
 #include <boost/config.hpp>
 #include <boost/config/workaround.hpp>
 
+#if __cpp_lib_span >= 201902L
+#   include <span>
+#endif
+
 namespace boost
 {
 
@@ -77,6 +81,21 @@ namespace range_detail
         {
             return range_detail::array_end<T,sz>( a );
         }
+
+    //////////////////////////////////////////////////////////////////////////
+    // span
+    //////////////////////////////////////////////////////////////////////////
+
+#if __cpp_lib_span >= 201902L
+
+    template< typename T, std::size_t sz >
+    BOOST_CONSTEXPR inline BOOST_DEDUCED_TYPENAME std::span<T const, sz>::iterator
+    range_end( std::span<T, sz> const& s )
+    {
+        return std::span<T const, sz>(s).end();
+    }
+
+#endif
 
 #if !BOOST_WORKAROUND(BOOST_BORLANDC, BOOST_TESTED_AT(0x564))
 } // namespace 'range_detail'
