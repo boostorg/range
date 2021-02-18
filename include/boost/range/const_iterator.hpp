@@ -23,6 +23,9 @@
 #include <boost/type_traits/remove_reference.hpp>
 #include <cstddef>
 #include <utility>
+#if __cpp_lib_ranges >= 201911L
+#   include <ranges>
+#endif
 
 namespace boost
 {
@@ -39,6 +42,20 @@ template< typename C >
 struct range_const_iterator_helper
         : extract_const_iterator<C>
 {};
+
+//////////////////////////////////////////////////////////////////////////
+// common_range
+//////////////////////////////////////////////////////////////////////////
+
+#if __cpp_lib_ranges >= 201902L
+
+template< std::ranges::common_range C >
+struct range_const_iterator_helper< C >
+{
+    typedef std::ranges::iterator_t< C const > type;
+};
+
+#endif
 
 //////////////////////////////////////////////////////////////////////////
 // pair
