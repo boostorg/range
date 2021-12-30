@@ -33,17 +33,15 @@ void check_std_span()
     using span_t = std::span<int, 3>;
     span_t sp = arr;
     using cspan_t = std::span<int const, 3>;
-    cspan_t = sp;
+    cspan_t csp = sp;
 
     BOOST_STATIC_ASSERT(( boost::is_same< boost::range_value<span_t>::type, span_t::value_type >::value ));
     BOOST_STATIC_ASSERT(( boost::is_same< boost::range_iterator<span_t>::type, span_t::iterator >::value ));
-    BOOST_STATIC_ASSERT(( boost::is_same< boost::range_iterator<const span_t>::type, span_t::const_iterator >::value ));
     BOOST_STATIC_ASSERT(( boost::is_same< boost::range_difference<span_t>::type, span_t::difference_type >::value ));
     BOOST_STATIC_ASSERT(( boost::is_same< boost::range_size<span_t>::type, span_t::size_type >::value ));
-    BOOST_STATIC_ASSERT(( boost::is_same< boost::range_iterator<span_t>::type, span_t::iterator >::value ));
-    BOOST_STATIC_ASSERT(( boost::is_same< boost::range_iterator<const span_t>::type, span_t::const_iterator >::value ));
 
     BOOST_STATIC_ASSERT(( boost::is_same< boost::range_value<const span_t>::type, span_t::value_type >::value ));
+    BOOST_STATIC_ASSERT(( boost::is_same< boost::range_iterator<const span_t>::type, span_t::iterator >::value ));
     BOOST_STATIC_ASSERT(( boost::is_same< boost::range_difference<const span_t>::type, span_t::difference_type >::value ));
     BOOST_STATIC_ASSERT(( boost::is_same< boost::range_size<const span_t>::type, span_t::size_type >::value ));
 
@@ -54,13 +52,11 @@ void check_std_span()
 
     BOOST_STATIC_ASSERT(( boost::is_same< boost::range_value<cspan_t>::type, cspan_t::value_type >::value ));
     BOOST_STATIC_ASSERT(( boost::is_same< boost::range_iterator<cspan_t>::type, cspan_t::iterator >::value ));
-    BOOST_STATIC_ASSERT(( boost::is_same< boost::range_iterator<const cspan_t>::type, cspan_t::const_iterator >::value ));
     BOOST_STATIC_ASSERT(( boost::is_same< boost::range_difference<cspan_t>::type, cspan_t::difference_type >::value ));
     BOOST_STATIC_ASSERT(( boost::is_same< boost::range_size<cspan_t>::type, cspan_t::size_type >::value ));
-    BOOST_STATIC_ASSERT(( boost::is_same< boost::range_iterator<cspan_t>::type, cspan_t::iterator >::value ));
-    BOOST_STATIC_ASSERT(( boost::is_same< boost::range_iterator<const cspan_t>::type, cspan_t::const_iterator >::value ));
 
     BOOST_STATIC_ASSERT(( boost::is_same< boost::range_value<const cspan_t>::type, cspan_t::value_type >::value ));
+    BOOST_STATIC_ASSERT(( boost::is_same< boost::range_iterator<const cspan_t>::type, cspan_t::iterator >::value ));
     BOOST_STATIC_ASSERT(( boost::is_same< boost::range_difference<const cspan_t>::type, cspan_t::difference_type >::value ));
     BOOST_STATIC_ASSERT(( boost::is_same< boost::range_size<const cspan_t>::type, cspan_t::size_type >::value ));
 

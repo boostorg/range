@@ -24,7 +24,7 @@
 #include <cstddef>
 #include <utility>
 #if __cpp_lib_span >= 201902L
-#   include <span>
+# include <span>
 #endif
 
 namespace boost
@@ -72,7 +72,7 @@ struct range_const_iterator_helper< T[sz] >
 template< typename T, std::size_t sz >
 struct range_const_iterator_helper< std::span<T, sz> >
 {
-    typedef typename std::span<T const, sz>::iterator type;
+    typedef typename std::span<T, sz>::iterator type;
 };
 
 #endif
