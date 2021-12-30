@@ -22,11 +22,8 @@
 #include <boost/type_traits.hpp>
 #include <boost/test/unit_test.hpp>
 #include <boost/test/test_tools.hpp>
-#if __cpp_lib_span >= 201902L
-#  include <span>
-#endif
+#include <span>
 
-#if __cpp_lib_span >= 201902L
 void check_std_span()
 {
     // const_iterator was removed from std::span for C++20: https://cplusplus.github.io/LWG/issue3320
@@ -82,7 +79,6 @@ void check_std_span()
     BOOST_CHECK( boost::empty( cspc ) == cspc.empty() );
     BOOST_CHECK( static_cast<std::size_t>(boost::size( cspc )) == cspc.size() );
 }
-#endif
 
 #include <boost/test/unit_test.hpp>
 
@@ -90,9 +86,7 @@ boost::unit_test::test_suite* init_unit_test_suite( int argc, char* argv[] )
 {
     boost::unit_test::test_suite* test = BOOST_TEST_SUITE( "Range Test Suite" );
 
-#if __cpp_lib_span >= 201902L
     test->add( BOOST_TEST_CASE( &check_std_span ) );
-#endif
 
     return test;
 }
