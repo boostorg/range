@@ -188,6 +188,7 @@ public:
 #else
         sub_range(const sub_range& r) = default;
 #endif
+
         template< class ForwardRange2 >
         sub_range(
             ForwardRange2& r,
