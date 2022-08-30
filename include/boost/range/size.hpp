@@ -22,7 +22,7 @@
 #include <boost/range/detail/has_member_size.hpp>
 #include <boost/assert.hpp>
 #include <boost/cstdint.hpp>
-#include <boost/utility.hpp>
+#include <boost/core/enable_if.hpp>
 
 namespace boost
 {
