@@ -185,6 +185,8 @@ public:
             : base(impl::adl_begin(const_cast<base&>(static_cast<const base&>(r))),
                    impl::adl_end(const_cast<base&>(static_cast<const base&>(r))))
         { }  
+#elif !(defined(BOOST_NO_CXX11_DEFAULTED_FUNCTIONS) || defined(BOOST_NO_CXX11_NON_PUBLIC_DEFAULTED_FUNCTIONS))
+        sub_range(const sub_range& r) = default;
 #endif
 
         template< class ForwardRange2 >
