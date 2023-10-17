@@ -9,6 +9,8 @@
 // For more information, see http://www.boost.org/libs/range/
 //
 #include <boost/range/adaptor/replaced_if.hpp>
+#include <boost/range/adaptor/transformed.hpp>
+#include <boost/range/iterator_range.hpp>
 
 #include <boost/test/test_tools.hpp>
 #include <boost/test/unit_test.hpp>
@@ -28,6 +30,13 @@ namespace boost
         struct if_value_is_one
         {
             bool operator()(int x) const { return x == 1; }
+        };
+
+        struct minus_one
+        {
+            typedef int result_type;
+            typedef int argument_type;
+            int operator()(int x) const {return x - 1; }
         };
 
         template< class Container >
@@ -81,6 +90,33 @@ namespace boost
             replaced_if_test_impl< std::set< int > >();
             replaced_if_test_impl< std::multiset< int > >();
         }
+
+        void replaced_if_combined_with_transformed_test()
+        {
+            using namespace boost::adaptors;
+            using namespace boost::assign;
+
+            minus_one unary_fn;
+            if_value_is_one pred;
+
+            std::vector<int> input;
+
+            input += 4,3,2,1;
+
+            const int replacement_value = 7;
+
+            std::vector<int> reference;
+
+            std::vector<int> temp;
+            boost::push_back(temp, input | transformed(unary_fn));
+            boost::push_back(reference, temp | replaced_if(pred, replacement_value));
+
+            std::vector<int> test_result = boost::copy_range< std::vector<int> >(input | transformed(unary_fn)
+                                                                                     | replaced_if(pred, replacement_value));
+
+            BOOST_CHECK_EQUAL_COLLECTIONS( reference.begin(), reference.end(),
+                                           test_result.begin(), test_result.end() );
+        }
     }
 }
 
@@ -91,6 +127,7 @@ init_unit_test_suite(int argc, char* argv[])
         = BOOST_TEST_SUITE( "RangeTestSuite.adaptor.replaced_if" );
 
     test->add( BOOST_TEST_CASE( &boost::replaced_if_test ) );
+    test->add( BOOST_TEST_CASE( &boost::replaced_if_combined_with_transformed_test ) );
 
     return test;
 }
