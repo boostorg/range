@@ -30,7 +30,6 @@
 #endif
 #include <boost/iterator/counting_iterator.hpp>
 #ifdef _MSC_VER
-    template ::boost::counting_iterator<int>;
     #pragma warning(pop)
 #endif
 
