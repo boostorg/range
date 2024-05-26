@@ -12,7 +12,6 @@
 #define BOOST_RANGE_DETAIL_IMPLEMENTATION_HELP_HPP
 
 #include <boost/range/config.hpp>
-#include <boost/range/detail/common.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <cstddef>
 #include <string.h>
