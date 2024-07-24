@@ -5,32 +5,35 @@
 
 require-b2 5.2 ;
 
+constant boost_dependencies :
+    /boost/array//boost_array
+    /boost/assert//boost_assert
+    /boost/concept_check//boost_concept_check
+    /boost/config//boost_config
+    /boost/container_hash//boost_container_hash
+    /boost/conversion//boost_conversion
+    /boost/core//boost_core
+    /boost/detail//boost_detail
+    /boost/iterator//boost_iterator
+    /boost/mpl//boost_mpl
+    /boost/optional//boost_optional
+    /boost/preprocessor//boost_preprocessor
+    /boost/regex//boost_regex
+    /boost/static_assert//boost_static_assert
+    /boost/tuple//boost_tuple
+    /boost/type_traits//boost_type_traits
+    /boost/utility//boost_utility ;
+
 project /boost/range
     : common-requirements
-        <library>/boost/array//boost_array
-        <library>/boost/assert//boost_assert
-        <library>/boost/concept_check//boost_concept_check
-        <library>/boost/config//boost_config
-        <library>/boost/container_hash//boost_container_hash
-        <library>/boost/conversion//boost_conversion
-        <library>/boost/core//boost_core
-        <library>/boost/detail//boost_detail
-        <library>/boost/iterator//boost_iterator
-        <library>/boost/mpl//boost_mpl
-        <library>/boost/optional//boost_optional
-        <library>/boost/preprocessor//boost_preprocessor
-        <library>/boost/regex//boost_regex
-        <library>/boost/static_assert//boost_static_assert
-        <library>/boost/tuple//boost_tuple
-        <library>/boost/type_traits//boost_type_traits
-        <library>/boost/utility//boost_utility
         <include>include
     ;
 
 explicit
-    [ alias boost_range ]
+    [ alias boost_range : : : : <library>$(boost_dependencies) ]
     [ alias all : boost_range test ]
     ;
 
 call-if : boost-library range
     ;
+
