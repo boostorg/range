@@ -1,0 +1,40 @@
+[/
+    Copyright 2022 Denis Mikhailov
+    Distributed under the Boost Software License, Version 1.0.
+    (See accompanying file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+/]
+[section:addressed addressed]
+
+[table
+    [[Syntax] [Code]]
+    [[Pipe] [`rng | boost::adaptors::addressed`]]
+    [[Function] [`boost::adaptors::addressof(rng)`]]
+]
+
+This adaptor produces a range than applies `boost::addressof` on all values in
+the range.
+
+* [*Precondition:] For any `value_type` of the range.
+* [*Postcondition:] For all elements `x` in the returned range, `x` is the result of `boost::addressof(y)` where `y` is the corresponding element in the original range.
+* [*Range Category:] __single_pass_range__
+* [*Range Return Type:] `boost::addressof_range<decltype(rng)>`
+* [*Returned Range Category:] The range category of `rng`.
+
+[section:addressed_example addressed example]
+[import ../../../test/adaptor_test/addressed_example.cpp]
+[addressed_example]
+[endsect]
+
+This would produce the output:
+``
+Element = 10 Address = 0x1b83310
+Element = 20 Address = 0x1b83314
+Element = 30 Address = 0x1b83318
+Element = 40 Address = 0x1b8331c
+Element = 50 Address = 0x1b83320
+Element = 60 Address = 0x1b83324
+Element = 70 Address = 0x1b83328
+Element = 80 Address = 0x1b8332c
+Element = 90 Address = 0x1b83330
+``
+[endsect]
