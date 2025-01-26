@@ -24,6 +24,7 @@
 #include <boost/range/value_type.hpp>
 #include <boost/range/detail/misc_concept.hpp>
 #include <boost/type_traits/remove_reference.hpp>
+#include <boost/type_traits/is_integral.hpp>
 
 #include <iterator>
 
