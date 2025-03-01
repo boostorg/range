@@ -61,6 +61,8 @@ test-suite range :
     [ range-test adaptor_test/map ]
     [ range-test adaptor_test/ref_unwrapped ]
     [ range-test adaptor_test/ref_unwrapped_example ]
+    [ range-test adaptor_test/addressed ]
+    [ range-test adaptor_test/addressed_example ]
     [ range-test adaptor_test/replaced ]
     [ range-test adaptor_test/replaced_if ]
     [ range-test adaptor_test/reversed ]
