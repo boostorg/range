@@ -25,15 +25,13 @@ constant boost_dependencies :
     /boost/utility//boost_utility ;
 
 project /boost/range
-    : common-requirements
-        <include>include
     ;
 
 explicit
-    [ alias boost_range : : : : <library>$(boost_dependencies) ]
+    [ alias boost_range : : :
+        : <include>include <library>$(boost_dependencies) ]
     [ alias all : boost_range test ]
     ;
 
 call-if : boost-library range
     ;
-
