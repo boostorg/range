@@ -213,6 +213,7 @@ test-suite range :
     [ range-test reversible_range ]
     [ range-test size_type ]
     [ range-test std_container ]
+    [ run std_span.cpp /boost/test//boost_unit_test_framework : : : <cxxstd>20 ]
     [ range-test string ]
     [ range-test sub_range ]
     [ range-test ticket_5486 ]
