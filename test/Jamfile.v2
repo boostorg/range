@@ -14,19 +14,23 @@ import testing ;
 
 project
     : requirements
-        <library>/boost/test//boost_unit_test_framework/
-        <library>/boost/regex//boost_regex/
+        <library>/boost/assign//boost_assign
+        <library>/boost/foreach//boost_foreach
+        <library>/boost/lambda//boost_lambda
+        <library>/boost/regex//boost_regex/<link>static
+        <library>/boost/test//boost_unit_test_framework
+        <library>/boost/variant//boost_variant
         <link>static
         <threading>multi
     ;
 
-rule range-test ( name : includes * )
+rule range-test ( name : requirements * )
 {
     return [
-        run $(name).cpp /boost/test//boost_unit_test_framework /boost/regex//boost_regex/<link>static
+        run $(name).cpp
         :
         :
-        : <toolset>gcc:<cxxflags>"-Wall -Wunused "
+        : <toolset>gcc:<cxxflags>"-Wall -Wunused " $(requirements)
         ] ;
 }
 
@@ -67,7 +71,7 @@ test-suite range :
     [ range-test adaptor_test/sliced ]
     [ range-test adaptor_test/strided ]
     [ range-test adaptor_test/strided2 ]
-    [ range-test adaptor_test/ticket_6742_transformed_c4789_warning ]
+    [ range-test adaptor_test/ticket_6742_transformed_c4789_warning : <library>/boost/phoenix//boost_phoenix ]
     [ range-test adaptor_test/ticket_8676_sliced_transformed ]
     [ range-test adaptor_test/ticket_9519_strided_reversed ]
     [ range-test adaptor_test/tokenized ]
