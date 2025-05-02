@@ -12,6 +12,7 @@
 #ifndef BOOST_RANGE_ADAPTORS_HPP
 #define BOOST_RANGE_ADAPTORS_HPP
 
+#include <boost/range/adaptor/addressed.hpp>
 #include <boost/range/adaptor/adjacent_filtered.hpp>
 #include <boost/range/adaptor/copied.hpp>
 #include <boost/range/adaptor/filtered.hpp>
