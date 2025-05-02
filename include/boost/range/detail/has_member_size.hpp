@@ -16,6 +16,7 @@
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/and.hpp>
 #include <boost/mpl/bool.hpp>
+#include <boost/mpl/if.hpp>
 #include <boost/cstdint.hpp>
 
 namespace boost
