@@ -836,7 +836,7 @@ public:
             Construct a new sequence of the specified type from the elements
             in the given range
 
-            \param r Range An input range
+            \param r An input range
             \return New sequence
         */
         template< typename SeqT, typename Range >
