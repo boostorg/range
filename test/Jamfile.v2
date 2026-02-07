@@ -63,7 +63,7 @@ run adaptor_test/sliced.cpp ;
 run adaptor_test/strided.cpp ;
 run adaptor_test/strided2.cpp ;
 
-run adaptor_test/ticket_6742_transformed_c4789_warning.cpp : <library>/boost/phoenix//boost_phoenix
+run adaptor_test/ticket_6742_transformed_c4789_warning.cpp : : : <library>/boost/phoenix//boost_phoenix
   # copy assignment operator of 'transform_iterator<boost::phoenix::actor<...' is deleted
   <target-os>darwin:<build>no ;
 
