@@ -112,8 +112,11 @@ run algorithm_test/equal_range.cpp ;
 run algorithm_test/fill.cpp ;
 run algorithm_test/find.cpp ;
 run algorithm_test/find_if.cpp ;
-run algorithm_test/find_end.cpp ;
-run algorithm_test/find_first_of.cpp ;
+
+# these two tests require /bigobj in windows-cmake-test
+run algorithm_test/find_end.cpp : ;
+run algorithm_test/find_first_of.cpp : ;
+
 run algorithm_test/for_each.cpp ;
 run algorithm_test/generate.cpp ;
 run algorithm_test/heap.cpp ;
