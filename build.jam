@@ -19,7 +19,6 @@ constant boost_dependencies :
     /boost/optional//boost_optional
     /boost/preprocessor//boost_preprocessor
     /boost/regex//boost_regex
-    /boost/static_assert//boost_static_assert
     /boost/tuple//boost_tuple
     /boost/type_traits//boost_type_traits
     /boost/utility//boost_utility ;

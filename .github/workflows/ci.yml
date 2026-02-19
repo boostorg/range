@@ -90,7 +90,13 @@ jobs:
             install: g++-14-multilib
             address-model: 32,64
           - toolset: gcc-15
-            cxxstd: "11,14,17,20,23,2c"
+            cxxstd: "11,14,17"
+            container: ubuntu:25.10
+            os: ubuntu-latest
+            install: g++-15-multilib
+            address-model: 32,64
+          - toolset: gcc-15
+            cxxstd: "20,23,2c"
             container: ubuntu:25.10
             os: ubuntu-latest
             install: g++-15-multilib
