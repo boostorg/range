@@ -186,7 +186,9 @@ public:
         sub_range(const sub_range& r)
             : base(impl::adl_begin(const_cast<base&>(static_cast<const base&>(r))),
                    impl::adl_end(const_cast<base&>(static_cast<const base&>(r))))
-        { }  
+        { }
+#else
+        sub_range(const sub_range& r) = default;
 #endif
 
         template< class ForwardRange2 >
