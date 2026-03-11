@@ -16,22 +16,29 @@
 #include <boost/range/iterator_range.hpp>
 #include <boost/range/begin.hpp>
 #include <boost/range/end.hpp>
-#include <boost/range/value_type.hpp>
+#include <boost/range/reference.hpp>
 #include <boost/range/concepts.hpp>
 #include <boost/iterator/iterator_adaptor.hpp>
 #include <boost/iterator/transform_iterator.hpp>
 #include <boost/optional/optional.hpp>
+#include <boost/move/utility_core.hpp>
+#include <boost/type_traits/remove_reference.hpp>
+#include <boost/type_traits/remove_const.hpp>
+#include <boost/type_traits/is_reference.hpp>
+#include <boost/type_traits/conditional.hpp>
 
 namespace boost
 {
     namespace range_detail
     {
-        template< class Pred, class Value >
+        template< class Pred, class Reference >
         class replace_value_if
         {
         public:
-            typedef const Value& result_type;
-            typedef const Value& first_argument_type;
+            typedef BOOST_DEDUCED_TYPENAME boost::conditional<boost::is_reference<Reference>::value,
+                                                              const BOOST_DEDUCED_TYPENAME boost::remove_reference<Reference>::type&,
+                                                              Reference>::type result_type;
+            typedef Reference first_argument_type;
 
             // Rationale:
             // required to allow the iterator to be default constructible.
@@ -39,26 +46,32 @@ namespace boost
             {
             }
 
-            replace_value_if(const Pred& pred, const Value& to)
+            replace_value_if(const Pred& pred, const BOOST_DEDUCED_TYPENAME boost::remove_reference<Reference>::type& to)
                 : m_impl(data(pred, to))
             {
             }
 
-            const Value& operator()(const Value& x) const
+            result_type operator()(Reference x) const
             {
+            #if defined(BOOST_NO_CXX11_RVALUE_REFERENCES) 
                 return m_impl->m_pred(x) ? m_impl->m_to : x;
+            #else
+                return m_impl->m_pred(x) ? m_impl->m_to : boost::forward<Reference>(x);
+            #endif
             }
 
         private:
+            
+
             struct data
             {
-                data(const Pred& p, const Value& t)
+                data(const Pred& p, const BOOST_DEDUCED_TYPENAME boost::remove_reference<Reference>::type& t)
                     : m_pred(p), m_to(t)
                 {
                 }
 
                 Pred  m_pred;
-                Value m_to;
+                BOOST_DEDUCED_TYPENAME boost::remove_const<BOOST_DEDUCED_TYPENAME boost::remove_reference<Reference>::type>::type m_to;
             };
             boost::optional<data> m_impl;
         };
@@ -67,21 +80,21 @@ namespace boost
         class replaced_if_range :
             public boost::iterator_range<
                 boost::transform_iterator<
-                    replace_value_if< Pred, BOOST_DEDUCED_TYPENAME range_value<R>::type >,
+                    replace_value_if< Pred, BOOST_DEDUCED_TYPENAME range_reference<R>::type >,
                     BOOST_DEDUCED_TYPENAME range_iterator<R>::type > >
         {
         private:
-            typedef replace_value_if< Pred, BOOST_DEDUCED_TYPENAME range_value<R>::type > Fn;
+            typedef replace_value_if< Pred, BOOST_DEDUCED_TYPENAME range_reference<R>::type > Fn;
 
             typedef boost::iterator_range<
                 boost::transform_iterator<
-                    replace_value_if< Pred, BOOST_DEDUCED_TYPENAME range_value<R>::type >,
+                    replace_value_if< Pred, BOOST_DEDUCED_TYPENAME range_reference<R>::type >,
                     BOOST_DEDUCED_TYPENAME range_iterator<R>::type > > base_t;
 
         public:
-            typedef BOOST_DEDUCED_TYPENAME range_value<R>::type value_type;
+            typedef BOOST_DEDUCED_TYPENAME range_reference<R>::type reference_type;
 
-            replaced_if_range( R& r, const Pred& pred, value_type to )
+            replaced_if_range( R& r, const Pred& pred, const BOOST_DEDUCED_TYPENAME boost::remove_reference<reference_type>::type& to )
                 : base_t( make_transform_iterator( boost::begin(r), Fn(pred, to) ),
                           make_transform_iterator( boost::end(r), Fn(pred, to) ) )
             { }
